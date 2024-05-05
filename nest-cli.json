@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/manablox/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/manablox/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/manablox",
+  "projects": {
+    "manablox": {
+      "type": "application",
+      "root": "apps/manablox",
+      "entryFile": "main",
+      "sourceRoot": "apps/manablox/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/manablox/tsconfig.app.json"
+      }
+    }
+  }
+}
