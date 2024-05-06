@@ -1,0 +1,30 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    hostname: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    networks:
+      - manablox-network
+
+  manablox-api:
+    image: node:20
+    hostname: manablox-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    working_dir: /app
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+    networks:
+      - manablox-network
+    command: sh -c 'npm run start:dev manablox'
+
+networks:
+  manablox-network:
+    driver: bridge

@@ -1,26 +1,15 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { ContentRelationField } from './content-relation-field.model';
+import { CmsService } from '../../cms.service';
 
 @Resolver(() => ContentRelationField)
 export class ContentRelationFieldResolver {
-  constructor() {
+  constructor(private readonly cmsService: CmsService) {
     console.log('ContentRelationFieldResolver');
   }
 
   @ResolveField()
   async content(@Parent() parent: ContentRelationField) {
-    console.log(parent);
-    return {
-      id: '2',
-      parent: null,
-      locale: 'en',
-      fields: [
-        {
-          name: 'title',
-          type: 'string',
-          string: 'Hello relation World resolved!',
-        },
-      ],
-    };
+    return this.cmsService.findOne(parent.content);
   }
 }

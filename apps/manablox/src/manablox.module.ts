@@ -6,9 +6,13 @@ import { CommunicationModule } from './modules/communication/communication.modul
 import { CmsModule } from './modules/cms/cms.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
+    MongooseModule.forRoot(
+      process.env.MONGODB_URL || 'mongodb://mongodb:27017/manablox',
+    ),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,

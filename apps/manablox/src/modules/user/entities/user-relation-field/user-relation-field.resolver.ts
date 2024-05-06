@@ -1,19 +1,15 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { UserRelationField } from './user-relation-field.model';
+import { UserService } from '../../user.service';
 
 @Resolver(() => UserRelationField)
 export class UserRelationFieldResolver {
-  constructor() {
+  constructor(private readonly userService: UserService) {
     console.log('UserRelationFieldResolver');
   }
 
   @ResolveField()
   async user(@Parent() parent: UserRelationField) {
-    console.log(parent);
-    return {
-      id: '1',
-      username: 'admin',
-      email: 'daspetemail@gmail.com',
-    };
+    return this.userService.findOne(parent.user);
   }
 }
