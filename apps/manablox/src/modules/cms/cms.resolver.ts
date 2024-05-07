@@ -12,29 +12,41 @@ export class CmsResolver {
   }
 
   @Query(() => [Content])
-  async findContents() {
-    return this.cmsService.find({
-      $and: [
-        {
-          fields: {
-            $elemMatch: {
-              name: 'slug',
-              string: 'home',
-            },
-          },
-        },
-        {
-          fields: {
-            $elemMatch: {
-              name: 'title',
-              string: {
-                $regex: '^S',
-              },
-            },
-          },
-        },
-      ],
-    });
+  async findContents(
+    @Args('types', { type: () => [String], nullable: true })
+    types: string[] = [],
+  ) {
+    const query = {};
+
+    if (types.length > 0) {
+      query['type'] = {
+        $in: types,
+      };
+    }
+
+    return this.cmsService.find(query);
+    // return this.cmsService.find({
+    //   $and: [
+    //     {
+    //       fields: {
+    //         $elemMatch: {
+    //           name: 'slug',
+    //           string: 'home',
+    //         },
+    //       },
+    //     },
+    //     {
+    //       fields: {
+    //         $elemMatch: {
+    //           name: 'title',
+    //           string: {
+    //             $regex: '^S',
+    //           },
+    //         },
+    //       },
+    //     },
+    //   ],
+    // });
   }
 
   @ResolveField()
