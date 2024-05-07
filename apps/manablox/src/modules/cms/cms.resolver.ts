@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Content } from './entities/content/content.model';
 import { CmsService } from './cms.service';
 
@@ -35,5 +35,18 @@ export class CmsResolver {
         },
       ],
     });
+  }
+
+  @ResolveField()
+  async fields(
+    @Args('fields', { type: () => [String], nullable: true })
+    fields: string[] = [],
+    @Parent() content: Content,
+  ) {
+    if (fields.length === 0) {
+      return content.fields;
+    }
+
+    return content.fields.filter((field) => fields.includes(field.name));
   }
 }
