@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
 import { Field, ObjectType } from '@nestjs/graphql';
-import { User } from '../user/user.model';
+import { User } from '../../../../../../../user/entities/user/user.model';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 

@@ -1,13 +1,13 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import {
-  BooleanField,
   ContentFieldSchema,
   ContentFieldUnion,
-  NumberField,
-  StringField,
 } from '../content-field/content-field.model';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { StringField } from '../content-field/content-field-types/string-field/string-field.model';
+import { NumberField } from '../content-field/content-field-types/number-field/number-field.model';
+import { BooleanField } from '../content-field/content-field-types/boolean-field/boolean-field.model';
 
 const contentFieldTypes = [StringField, NumberField, BooleanField] as const;
 type ContentFieldUnionType = (typeof contentFieldTypes)[number];
@@ -32,7 +32,7 @@ export class Content {
     ref: 'Content',
     nullable: true,
   })
-  parent: Content;
+  parent: string;
 
   @Field()
   @Prop()

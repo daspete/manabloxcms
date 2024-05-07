@@ -1,6 +1,6 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { ContentRelationField } from './content-relation-field.model';
-import { CmsService } from '../../cms.service';
+import { CmsService } from '../../../../../../cms.service';
 
 @Resolver(() => ContentRelationField)
 export class ContentRelationFieldResolver {

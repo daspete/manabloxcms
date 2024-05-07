@@ -14,6 +14,11 @@ export class CmsService {
     return items.map((item) => item.toJSON());
   }
 
+  async find(query: any): Promise<Content[]> {
+    const items = await this.contentModel.find(query).exec();
+    return items.map((item) => item.toJSON());
+  }
+
   async findOne(id: string): Promise<Content> {
     return (await this.contentModel.findById(id).exec()).toJSON();
   }

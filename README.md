@@ -4,27 +4,13 @@
 - start the docker compose instance
 - open the playground on http://localhost:3000/graphql
 
-Example query:
+Example query 1:
 
 ```graphql
 fragment SimpleContentFields on ContentFieldUnion {
-  ... on StringField {
-    name
-    type
-    string
-  }
-
-  ... on NumberField {
-    name
-    type
-    number
-  }
-
-  ... on BooleanField {
-    name
-    type
-    boolean
-  }
+  ...on StringField { name type string }
+  ...on NumberField { name type number }
+  ...on BooleanField { name type boolean }
 }
 
 fragment UserRelation on UserRelationField {
@@ -54,11 +40,11 @@ fragment ContentRelation on ContentRelationField {
     locale
     fields {
       ...SimpleContentFields
-      ... on RelationField {
+      ...on RelationField {
         name
         type
         relation {
-          ...SubLevel1RelationContentFields
+          __typename
         }
       }
     }
@@ -68,55 +54,7 @@ fragment ContentRelation on ContentRelationField {
 fragment RelationContentFields on RelationTypeUnion {
   ...ContentRelation
   ...UserRelation
-  ...AssetRelation
-}
-
-fragment SubLevel1RelationContentFields on RelationTypeUnion {
-  ... on ContentRelationField {
-    type
-    content {
-      id
-      type
-      locale
-      fields {
-        ...SimpleContentFields
-        ... on RelationField {
-          name
-          type
-          relation {
-            ...SubLevel2RelationContentFields
-          }
-        }
-      }
-    }
-  }
-
-  ...UserRelation
-  ...AssetRelation
-}
-
-fragment SubLevel2RelationContentFields on RelationTypeUnion {
-  ... on ContentRelationField {
-    type
-    content {
-      id
-      type
-      locale
-      fields {
-        ...SimpleContentFields
-        ... on RelationField {
-          name
-          type
-          relation {
-            __typename
-          }
-        }
-      }
-    }
-  }
-
-  ...UserRelation
-  ...AssetRelation
+	...AssetRelation
 }
 
 query contents {
@@ -126,7 +64,7 @@ query contents {
     locale
     fields {
       ...SimpleContentFields
-      ... on RelationField {
+      ...on RelationField {
         name
         type
         relation {
@@ -242,12 +180,7 @@ Example response:
                     "name": "author",
                     "type": "RelationField",
                     "relation": {
-                      "type": "UserRelationField",
-                      "user": {
-                        "id": "6639322feb016cbb28d57cd9",
-                        "username": "daspete",
-                        "email": "daspetemail@gmail.com"
-                      }
+                      "__typename": "UserRelationField"
                     }
                   }
                 ]
@@ -273,3 +206,4 @@ Example response:
   }
 }
 ```
+
