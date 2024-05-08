@@ -9,6 +9,7 @@ import {
   MultiRelationField,
   RelationField,
 } from './content-field-types/relation-field/relation-field.model';
+import { DateField } from './content-field-types/date-field/date-field.model';
 
 @ObjectType()
 @Schema({ discriminatorKey: 'type', _id: false, autoCreate: false })
@@ -26,6 +27,7 @@ export const ContentFieldUnion = createUnionType({
     StringField,
     NumberField,
     BooleanField,
+    DateField,
     RelationField,
     MultiRelationField,
   ],
@@ -34,6 +36,7 @@ export const ContentFieldUnion = createUnionType({
       | StringField
       | NumberField
       | BooleanField
+      | DateField
       | RelationField
       | MultiRelationField,
   ) => {

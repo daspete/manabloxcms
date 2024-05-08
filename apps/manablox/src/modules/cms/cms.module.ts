@@ -18,6 +18,7 @@ import { RelationTypeSchema } from './entities/content-field/content-field-types
 import { ContentRelationFieldSchema } from './entities/content-field/content-field-types/relation-field/relation-field-types/content-relation-field/content-relation-field.model';
 import { AssetRelationFieldSchema } from './entities/content-field/content-field-types/relation-field/relation-field-types/asset-relation-field/asset-relation-field.model';
 import { ContentRelationFieldResolver } from './entities/content-field/content-field-types/relation-field/relation-field-types/content-relation-field/content-relation-field.resolver';
+import { DateFieldSchema } from './entities/content-field/content-field-types/date-field/date-field.model';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ContentRelationFieldResolver } from './entities/content-field/content-f
           { name: 'StringField', schema: StringFieldSchema },
           { name: 'NumberField', schema: NumberFieldSchema },
           { name: 'BooleanField', schema: BooleanFieldSchema },
+          { name: 'DateField', schema: DateFieldSchema },
           { name: 'RelationField', schema: RelationFieldSchema },
           { name: 'MultiRelationField', schema: MultiRelationFieldSchema },
         ],

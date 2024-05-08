@@ -43,7 +43,7 @@ export class MultiRelationField {
 
   @Field(() => [RelationTypeUnion])
   @Prop({ type: [RelationTypeSchema] })
-  relation: Array<RelationUnionType>;
+  relations: Array<RelationUnionType>;
 }
 
 export const RelationFieldSchema = SchemaFactory.createForClass(RelationField);
