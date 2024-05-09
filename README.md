@@ -7,71 +7,108 @@
 Example query 1:
 
 ```graphql
-fragment SimpleContentFields on ContentFieldUnion {
-  ...on StringField { name type string }
-  ...on NumberField { name type number }
-  ...on BooleanField { name type boolean }
+fragment UserFields on User {
+  id
+  username
+  email
 }
 
-fragment UserRelation on UserRelationField {
+fragment AssetFields on Asset {
+  id
+  name
+  url
+}
+
+fragment ContentFields on Content {
+  id
   type
+  locale
+  parent {
+    id
+  }
+  fields {
+    ...ContentFieldFields
+  }
+}
+
+fragment StringFieldFields on StringField {
+  type
+  name
+  string
+}
+
+fragment NumberFieldFields on NumberField {
+  type
+  name
+  number
+}
+
+fragment DateFieldFields on DateField {
+  type
+  name
+  date
+}
+
+fragment BooleanFieldFields on BooleanField {
+  type
+  name
+  boolean
+}
+
+fragment UserRelationFieldFields on UserRelationField {
+  type
+  name
   user {
-    id
-    username
-    email
+    ...UserFields
   }
 }
 
-fragment AssetRelation on AssetRelationField {
+fragment AssetRelationFieldFields on AssetRelationField {
   type
+  name
   asset {
-    id
-    name
-    type
-    url
+    ...AssetFields
   }
 }
 
-fragment ContentRelation on ContentRelationField {
+fragment ContentRelationFieldFields on ContentRelationField {
   type
+  name
   content {
     id
     type
     locale
     fields {
-      ...SimpleContentFields
-      ...on RelationField {
-        name
+      ...StringFieldFields
+      ...NumberFieldFields
+      ...DateFieldFields
+      ...BooleanFieldFields
+      ...AssetRelationFieldFields
+      ...UserRelationFieldFields
+      ... on ContentRelationField {
         type
-        relation {
-          __typename
+        name
+        content {
+          id
         }
       }
     }
   }
 }
 
-fragment RelationContentFields on RelationTypeUnion {
-  ...ContentRelation
-  ...UserRelation
-	...AssetRelation
+fragment ContentFieldFields on ContentFieldUnion {
+  ...StringFieldFields
+  ...NumberFieldFields
+  ...DateFieldFields
+  ...BooleanFieldFields
+  ...AssetRelationFieldFields
+  ...UserRelationFieldFields
+  ...ContentRelationFieldFields
 }
 
 query contents {
   contents {
-    id
-    type
-    locale
-    fields {
-      ...SimpleContentFields
-      ...on RelationField {
-        name
-        type
-        relation {
-          ...RelationContentFields
-        }
-      }
-    }
+    ...ContentFields
   }
 }
 ```
@@ -83,121 +120,67 @@ Example response:
   "data": {
     "contents": [
       {
-        "id": "66390d12eb016cbb28d57cd7",
-        "type": "page",
+        "id": "663c670e6c5504d43d3f2202",
+        "type": "article",
         "locale": "de",
+        "parent": {
+          "id": "663c671c6c5504d43d3f2204"
+        },
         "fields": [
           {
+            "type": "StringField",
             "name": "title",
-            "type": "StringField",
-            "string": "Startseite"
+            "string": "Hello2"
           },
           {
-            "name": "slug",
-            "type": "StringField",
-            "string": "home"
-          },
-          {
-            "name": "timeToRead",
-            "type": "NumberField",
-            "number": 4
-          },
-          {
-            "name": "isPublished",
             "type": "BooleanField",
+            "name": "isPublished",
             "boolean": false
           },
           {
+            "type": "NumberField",
+            "name": "timeToRead",
+            "number": 1.5
+          },
+          {
+            "type": "UserRelationField",
             "name": "author",
-            "type": "RelationField",
-            "relation": {
-              "type": "UserRelationField",
-              "user": {
-                "id": "6639322feb016cbb28d57cd9",
-                "username": "daspete",
-                "email": "daspetemail@gmail.com"
-              }
+            "user": {
+              "id": "6639322feb016cbb28d57cd9",
+              "username": "daspete",
+              "email": "daspetemail@gmail.com"
             }
           }
         ]
       },
       {
-        "id": "66392f2ceb016cbb28d57cd8",
-        "type": "page",
+        "id": "663c671c6c5504d43d3f2204",
+        "type": "article",
         "locale": "de",
+        "parent": null,
         "fields": [
           {
+            "type": "StringField",
             "name": "title",
-            "type": "StringField",
-            "string": "Testseite"
+            "string": "Hello"
           },
           {
-            "name": "slug",
-            "type": "StringField",
-            "string": "testing"
-          },
-          {
-            "name": "timeToRead",
-            "type": "NumberField",
-            "number": 7
-          },
-          {
-            "name": "isPublished",
             "type": "BooleanField",
+            "name": "isPublished",
             "boolean": true
           },
           {
-            "name": "homePage",
-            "type": "RelationField",
-            "relation": {
-              "type": "ContentRelationField",
-              "content": {
-                "id": "66390d12eb016cbb28d57cd7",
-                "type": "page",
-                "locale": "de",
-                "fields": [
-                  {
-                    "name": "title",
-                    "type": "StringField",
-                    "string": "Startseite"
-                  },
-                  {
-                    "name": "slug",
-                    "type": "StringField",
-                    "string": "home"
-                  },
-                  {
-                    "name": "timeToRead",
-                    "type": "NumberField",
-                    "number": 4
-                  },
-                  {
-                    "name": "isPublished",
-                    "type": "BooleanField",
-                    "boolean": false
-                  },
-                  {
-                    "name": "author",
-                    "type": "RelationField",
-                    "relation": {
-                      "__typename": "UserRelationField"
-                    }
-                  }
-                ]
-              }
-            }
+            "type": "NumberField",
+            "name": "timeToRead",
+            "number": 2
           },
           {
-            "name": "featuredImage",
-            "type": "RelationField",
-            "relation": {
-              "type": "AssetRelationField",
-              "asset": {
-                "id": "663936caeb016cbb28d57cda",
-                "name": "Hello Asset",
-                "type": "image",
-                "url": "https://loremflickr.com/640/360"
-              }
+            "type": "UserRelationField",
+            "name": "author",
+            "user": {
+              "id": "6639322feb016cbb28d57cd9",
+              "username": "daspete",
+              "email": "daspetemail@gmail.com"
             }
           }
         ]
@@ -207,3 +190,57 @@ Example response:
 }
 ```
 
+Example create mutation:
+
+```graphql
+mutation createContent($content: ContentInput!) {
+  createContent(content: $content) {
+    id
+  }
+}
+```
+
+Example Query Params:
+
+```json
+{
+  "content": {
+    "type": "article",
+    "locale": "de",
+    "fields": [
+      {
+        "name": "title",
+        "type": "StringField",
+        "string": "Hello"
+      },
+      {
+        "name": "isPublished",
+        "type": "BooleanField",
+        "boolean": true
+      },
+      {
+        "name": "timeToRead",
+        "type": "NumberField",
+        "number": 2
+      },
+      {
+        "name": "author",
+        "type": "UserRelationField",
+        "user": "6639322feb016cbb28d57cd9"
+      }
+    ]
+  }
+}
+```
+
+Example Response: 
+
+```json
+{
+	"data": {
+		"createContent": {
+			"id": "663c671c6c5504d43d3f2204"
+		}
+	}
+}
+```
