@@ -1,29 +1,38 @@
 services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx:/etc/nginx/templates
+    networks:
+      - manablox-network
+
   mongodb:
     image: mongo:7.0
     hostname: mongodb
     ports:
       - "27017:27017"
     volumes:
-      - ./data:/data/db
+      - ./data/db:/data/db
     networks:
       - manablox-network
 
-  manablox-api:
+  manablox-server:
     image: node:20
-    hostname: manablox-api
+    hostname: manablox-server
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
+      - ./packages/server:/app
     working_dir: /app
     env_file:
-      - .env
+      - ./packages/server/.env
     depends_on:
       - mongodb
     networks:
       - manablox-network
-    command: sh -c 'npm run start:dev manablox'
+    command: sh -c 'npm install && exec npm run start:dev manablox'
 
 networks:
   manablox-network:
