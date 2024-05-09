@@ -1,9 +1,14 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+
 import {
-  ContentTypeField,
   ContentTypeFieldSchema,
+  ContentTypeFieldUnion,
+  contentTypeFieldTypes,
 } from '../content-type-field/content-type-field.model';
+
+type ContentTypeFieldUnionType = (typeof contentTypeFieldTypes)[number];
 
 @ObjectType()
 @Schema({
@@ -24,9 +29,11 @@ export class ContentType {
   @Prop()
   isPublishable: boolean;
 
-  @Field(() => [ContentTypeField])
+  @Field(() => [ContentTypeFieldUnion])
   @Prop({ type: [ContentTypeFieldSchema] })
-  fields: Array<ContentTypeField>;
+  fields: Array<ContentTypeFieldUnionType>;
 }
 
 export const ContentTypeSchema = SchemaFactory.createForClass(ContentType);
+
+export type ContentFieldDocument = HydratedDocument<ContentType>;

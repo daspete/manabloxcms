@@ -23,6 +23,9 @@ import { UserRelationFieldResolver } from './entities/content-field/content-fiel
 import { ContentRelationFieldResolver } from './entities/content-field/content-field-types/content-relation-field/content-relation-field.resolver';
 import { ContentService } from './entities/content/content.service';
 import { ContentResolver } from './entities/content/content.resolver';
+import { ContentTypeService } from './entities/content-type/content-type.service';
+import { ContentTypeResolver } from './entities/content-type/content-type.resolver';
+import { StringFieldTypeSchema } from './entities/content-type-field/content-type-field-types/string-field-type/string-field-type.model';
 
 @Module({
   imports: [
@@ -53,6 +56,9 @@ import { ContentResolver } from './entities/content/content.resolver';
       {
         name: 'ContentTypeField',
         schema: ContentTypeFieldSchema,
+        discriminators: [
+          { name: 'StringFieldType', schema: StringFieldTypeSchema },
+        ],
       },
     ]),
   ],
@@ -63,6 +69,9 @@ import { ContentResolver } from './entities/content/content.resolver';
     ContentRelationFieldResolver,
     AssetRelationFieldResolver,
     UserRelationFieldResolver,
+
+    ContentTypeService,
+    ContentTypeResolver,
   ],
 })
 export class CmsModule {}

@@ -19,27 +19,29 @@ export class ContentField {
 }
 
 export const ContentFieldSchema = SchemaFactory.createForClass(ContentField);
+export const contentFieldTypes = [
+  StringField,
+  NumberField,
+  BooleanField,
+  DateField,
+  UserRelationField,
+  AssetRelationField,
+  ContentRelationField,
+];
 
 export const ContentFieldUnion = createUnionType({
   name: 'ContentFieldUnion',
-  types: () => [
-    StringField,
-    NumberField,
-    BooleanField,
-    DateField,
-    UserRelationField,
-    AssetRelationField,
-    ContentRelationField,
-  ],
+  types: () => contentFieldTypes,
   resolveType: (
-    value:
-      | StringField
-      | NumberField
-      | BooleanField
-      | DateField
-      | UserRelationField
-      | AssetRelationField
-      | ContentRelationField,
+    value: any,
+    // value:
+    //   | StringField
+    //   | NumberField
+    //   | BooleanField
+    //   | DateField
+    //   | UserRelationField
+    //   | AssetRelationField
+    //   | ContentRelationField,
   ) => {
     return value.type;
   },
