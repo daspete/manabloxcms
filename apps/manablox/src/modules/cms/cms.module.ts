@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
-import { CmsResolver } from './cms.resolver';
-
 import { MongooseModule } from '@nestjs/mongoose';
-
-import { CmsService } from './cms.service';
 
 import { UserModule } from '../user/user.module';
 import { AssetModule } from '../asset/asset.module';
 
 import { ContentSchema } from './entities/content/content.model';
 import { ContentFieldSchema } from './entities/content-field/content-field.model';
+
+import { ContentTypeSchema } from './entities/content-type/content-type.model';
+import { ContentTypeFieldSchema } from './entities/content-type-field/content-type-field.model';
 
 import { StringFieldSchema } from './entities/content-field/content-field-types/string-field/string-field.model';
 import { NumberFieldSchema } from './entities/content-field/content-field-types/number-field/number-field.model';
@@ -22,6 +21,8 @@ import { ContentRelationFieldSchema } from './entities/content-field/content-fie
 import { AssetRelationFieldResolver } from './entities/content-field/content-field-types/asset-relation-field/asset-relation-field.resolver';
 import { UserRelationFieldResolver } from './entities/content-field/content-field-types/user-relation-field/user-relation-field.resolver';
 import { ContentRelationFieldResolver } from './entities/content-field/content-field-types/content-relation-field/content-relation-field.resolver';
+import { ContentService } from './entities/content/content.service';
+import { ContentResolver } from './entities/content/content.resolver';
 
 @Module({
   imports: [
@@ -45,12 +46,20 @@ import { ContentRelationFieldResolver } from './entities/content-field/content-f
           { name: 'ContentRelationField', schema: ContentRelationFieldSchema },
         ],
       },
+      {
+        name: 'ContentType',
+        schema: ContentTypeSchema,
+      },
+      {
+        name: 'ContentTypeField',
+        schema: ContentTypeFieldSchema,
+      },
     ]),
   ],
   controllers: [],
   providers: [
-    CmsService,
-    CmsResolver,
+    ContentService,
+    ContentResolver,
     ContentRelationFieldResolver,
     AssetRelationFieldResolver,
     UserRelationFieldResolver,

@@ -6,18 +6,18 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { Content } from './entities/content/content.model';
-import { CmsService } from './cms.service';
-import { ContentInput } from './entities/content/content.input';
 import mongoose from 'mongoose';
+import { Content } from './content.model';
+import { ContentService } from './content.service';
+import { ContentInput } from './content.input';
 
 @Resolver(() => Content)
-export class CmsResolver {
-  constructor(private readonly cmsService: CmsService) {}
+export class ContentResolver {
+  constructor(private readonly contentService: ContentService) {}
 
   @Query(() => [Content])
   async contents() {
-    return this.cmsService.findAll();
+    return this.contentService.findAll();
   }
 
   @Query(() => [Content])
@@ -33,8 +33,8 @@ export class CmsResolver {
       };
     }
 
-    return this.cmsService.find(query);
-    // return this.cmsService.find({
+    return this.contentService.find(query);
+    // return this.contentService.find({
     //   $and: [
     //     {
     //       fields: {
@@ -79,7 +79,7 @@ export class CmsResolver {
       }
     }
 
-    return this.cmsService.create(content);
+    return this.contentService.create(content);
   }
 
   @ResolveField()
@@ -98,6 +98,6 @@ export class CmsResolver {
   @ResolveField()
   async parent(@Parent() content: Content) {
     if (!content.parent) return null;
-    return this.cmsService.findOne(content.parent);
+    return this.contentService.findOne(content.parent);
   }
 }
