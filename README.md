@@ -233,14 +233,14 @@ Example Query Params:
 }
 ```
 
-Example Response: 
+Example Response:
 
 ```json
 {
-	"data": {
-		"createContent": {
-			"id": "663c671c6c5504d43d3f2204"
-		}
-	}
+  "data": {
+    "createContent": {
+      "id": "663c671c6c5504d43d3f2204"
+    }
+  }
 }
 ```
