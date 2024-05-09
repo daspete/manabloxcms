@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Content } from './entities/content/content.model';
+import { ContentInput } from './entities/content/content.input';
 
 @Injectable()
 export class CmsService {
@@ -23,7 +24,7 @@ export class CmsService {
     return (await this.contentModel.findById(id).exec()).toJSON();
   }
 
-  async create(content: Content): Promise<Content> {
+  async create(content: ContentInput): Promise<Content> {
     return this.contentModel.create(content);
   }
 

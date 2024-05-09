@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @ObjectType()
@@ -12,7 +12,7 @@ export class NumberField {
   @Field()
   type: 'NumberField' = 'NumberField';
 
-  @Field()
+  @Field(() => Float)
   @Prop()
   number: number;
 }

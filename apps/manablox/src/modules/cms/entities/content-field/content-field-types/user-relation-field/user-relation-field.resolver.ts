@@ -1,6 +1,6 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { UserRelationField } from '../../../cms/entities/content-field/content-field-types/relation-field/relation-field-types/user-relation-field/user-relation-field.model';
-import { UserService } from '../../user.service';
+import { UserService } from 'apps/manablox/src/modules/user/user.service';
+import { UserRelationField } from './user-relation-field.model';
 
 @Resolver(() => UserRelationField)
 export class UserRelationFieldResolver {

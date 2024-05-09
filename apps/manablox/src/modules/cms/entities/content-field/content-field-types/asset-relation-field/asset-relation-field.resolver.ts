@@ -1,6 +1,6 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { AssetRelationField } from '../../../cms/entities/content-field/content-field-types/relation-field/relation-field-types/asset-relation-field/asset-relation-field.model';
-import { AssetService } from '../../asset.service';
+import { AssetService } from 'apps/manablox/src/modules/asset/asset.service';
+import { AssetRelationField } from './asset-relation-field.model';
 
 @Resolver(() => AssetRelationField)
 export class AssetRelationFieldResolver {

@@ -3,7 +3,6 @@ import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './entities/user/user.model';
-import { UserRelationFieldResolver } from './entities/user-relation-field/user-relation-field.resolver';
 
 @Module({
   imports: [
@@ -15,6 +14,7 @@ import { UserRelationFieldResolver } from './entities/user-relation-field/user-r
     ]),
   ],
   controllers: [],
-  providers: [UserService, UserResolver, UserRelationFieldResolver],
+  providers: [UserService, UserResolver],
+  exports: [UserService],
 })
 export class UserModule {}
