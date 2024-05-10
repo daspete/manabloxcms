@@ -18,11 +18,23 @@ services:
     networks:
       - manablox-network
 
+  manablox-admin:
+    image: node:20
+    hostname: manablox-admin
+    ports:
+      - 24678:24678
+    volumes:
+      - ./packages/admin:/app
+    working_dir: /app
+    env_file:
+      - ./packages/admin/.env
+    networks:
+      - manablox-network
+    command: sh -c 'yarn && exec yarn dev'
+
   manablox-server:
     image: node:20
     hostname: manablox-server
-    ports:
-      - "3000:3000"
     volumes:
       - ./packages/server:/app
     working_dir: /app
@@ -32,7 +44,7 @@ services:
       - mongodb
     networks:
       - manablox-network
-    command: sh -c 'npm install && exec npm run start:dev manablox'
+    command: sh -c 'yarn && exec yarn start:dev manablox'
 
 networks:
   manablox-network:
