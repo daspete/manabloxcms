@@ -9,7 +9,7 @@ useHead({
 <template>
   <div class="flex flex-col">
     <MainMenu />
-    <div class="content">
+    <div class="content flex justify-center">
       <NuxtPage />
     </div>
   </div>

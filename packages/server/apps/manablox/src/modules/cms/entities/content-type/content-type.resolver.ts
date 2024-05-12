@@ -3,6 +3,8 @@ import { ContentType } from './content-type.model';
 import { ContentTypeService } from './content-type.service';
 import { ContentTypeInput } from './content-type.input';
 
+// const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 @Resolver(() => ContentType)
 export class ContentTypeResolver {
   constructor(private readonly contentTypeService: ContentTypeService) {}

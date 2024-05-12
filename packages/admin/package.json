@@ -12,6 +12,7 @@
   "dependencies": {
     "@egoist/tailwindcss-icons": "^1.8.0",
     "@iconify/json": "^2.2.208",
+    "graphql": "^16.8.1",
     "nuxt": "^3.11.2",
     "primevue": "^3.52.0",
     "vue": "^3.4.27",

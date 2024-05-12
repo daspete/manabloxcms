@@ -12,7 +12,7 @@ services:
     image: mongo:7.0
     hostname: mongodb
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
       - ./data/db:/data/db
     networks:
