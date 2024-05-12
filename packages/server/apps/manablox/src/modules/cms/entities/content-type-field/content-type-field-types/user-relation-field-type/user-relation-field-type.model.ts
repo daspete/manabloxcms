@@ -23,6 +23,10 @@ export const UserRelationFieldTypeSettingsSchema = SchemaFactory.createForClass(
 export class UserRelationFieldType {
   @Field()
   @Prop()
+  fieldId: string;
+  
+  @Field()
+  @Prop()
   name: string;
 
   @Field()

@@ -29,8 +29,8 @@ const { loading, contentTypes } = useContentTypesQuery();
           <Column field="name" header="Name" sortable></Column>
           <Column field="isPublishable" header="Publishable" class="w-64">
             <template #body="{ data }">
-              <Chip v-if="data.isPublishable">Yes</Chip>
-              <Chip v-else>No</Chip>
+              <Tag v-if="data.isPublishable" value="Yes" severity="success" icon="i-mdi-check"></Tag>
+              <Tag v-else value="No" severity="danger" icon="i-mdi-window-close"></Tag>
             </template>
           </Column>
         </DataTable>

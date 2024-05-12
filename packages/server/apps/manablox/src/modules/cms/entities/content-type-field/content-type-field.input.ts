@@ -11,6 +11,9 @@ import { ContentRelationFieldTypeSettingsInput } from './content-type-field-type
 @InputType()
 export class ContentTypeFieldInput {
   @Field()
+  fieldId: string;
+
+  @Field()
   name: string;
 
   @Field()

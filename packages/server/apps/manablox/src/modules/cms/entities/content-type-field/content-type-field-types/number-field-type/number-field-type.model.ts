@@ -35,6 +35,10 @@ export const NumberFieldTypeSettingsSchema = SchemaFactory.createForClass(
 export class NumberFieldType {
   @Field()
   @Prop()
+  fieldId: string;
+  
+  @Field()
+  @Prop()
   name: string;
 
   @Field()

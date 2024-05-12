@@ -22,6 +22,10 @@ export const ContentRelationFieldTypeSettingsSchema =
 export class ContentRelationFieldType {
   @Field()
   @Prop()
+  fieldId: string;
+  
+  @Field()
+  @Prop()
   name: string;
 
   @Field()

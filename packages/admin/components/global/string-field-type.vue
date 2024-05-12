@@ -1,0 +1,36 @@
+<script setup lang="ts">
+const props = defineProps({
+  field: {
+    type: Object,
+    required: true
+  }
+})
+</script>
+
+<template>
+  <div class="flex flex-col gap-8">
+    <FieldTypeSettings :field="field" />
+
+    <div class="flex gap-4">
+      <FloatLabel class="flex-1">
+        <InputNumber id="min-characters" v-model="field.stringSettings.minCharacters" class="w-full" showButtons  />
+        <label for="min-characters">Min. characters</label>
+      </FloatLabel>
+      <FloatLabel class="flex-1">
+        <InputNumber id="max-characters" v-model="field.stringSettings.maxCharacters" class="w-full" showButtons  />
+        <label for="max-characters">Max. characters</label>
+      </FloatLabel>
+    </div>
+
+    <div class="flex gap-4">
+      <FloatLabel class="flex-1">
+        <InputText id="regex" v-model="field.stringSettings.regex" class="w-full"  />
+        <label for="regex">Possible characters regex</label>
+      </FloatLabel>
+      <FloatLabel class="flex-1">
+        <InputText id="default-value" v-model="field.stringSettings.defaultValue" class="w-full"  />
+        <label for="default-value">Default value</label>
+      </FloatLabel>
+    </div>
+  </div>
+</template>

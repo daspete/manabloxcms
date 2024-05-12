@@ -39,6 +39,10 @@ export const DateFieldTypeSettingsSchema = SchemaFactory.createForClass(
 export class DateFieldType {
   @Field()
   @Prop()
+  fieldId: string;
+  
+  @Field()
+  @Prop()
   name: string;
 
   @Field()

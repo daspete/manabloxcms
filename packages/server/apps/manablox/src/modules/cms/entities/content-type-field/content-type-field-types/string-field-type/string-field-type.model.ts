@@ -35,6 +35,10 @@ export const StringFieldTypeSettingsSchema = SchemaFactory.createForClass(
 export class StringFieldType {
   @Field()
   @Prop()
+  fieldId: string;
+  
+  @Field()
+  @Prop()
   name: string;
 
   @Field()

@@ -22,6 +22,10 @@ export const AssetRelationFieldTypeSettingsSchema =
 export class AssetRelationFieldType {
   @Field()
   @Prop()
+  fieldId: string;
+  
+  @Field()
+  @Prop()
   name: string;
 
   @Field()

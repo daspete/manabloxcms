@@ -23,6 +23,10 @@ export const BooleanFieldTypeSettingsSchema = SchemaFactory.createForClass(
 export class BooleanFieldType {
   @Field()
   @Prop()
+  fieldId: string;
+  
+  @Field()
+  @Prop()
   name: string;
 
   @Field()
