@@ -41,7 +41,7 @@ const mainMenuItems = ref([
 </script>
 
 <template>
-  <div class="mainmenu">
+  <div class="mainmenu sticky top-0 z-20 shadow">
     <Menubar :model="mainMenuItems">
       <template #start>
         <div class="uppercase font-bold text-xl mr-4">

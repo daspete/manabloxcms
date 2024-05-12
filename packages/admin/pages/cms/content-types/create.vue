@@ -8,10 +8,14 @@ const contentType = ref({
 
 <template>
   <div class="container pt-8">
-    <Card>
-      <template #title>
+    <div class="flex justify-between mb-8 items-center">
+      <span class="text-2xl font-bold">
         Add a new content type
-      </template>
+      </span>
+      <Button type="button" label="Create" size="small" icon="i-mdi-content-save" />
+    </div>
+
+    <Card>
       <template #content>
         <ContentTypeEditor :contentType="contentType" />
       </template>

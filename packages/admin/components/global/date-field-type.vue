@@ -1,12 +1,16 @@
 <script setup lang="ts">
 const props = defineProps({
-    field: {
-        type: Object,
-        required: true
-    }
+  field: {
+    type: Object,
+    required: true
+  }
 })
 </script>
 
 <template>
-    <div>Date field {{ field }}</div>
+  <div class="flex flex-col gap-8">
+    <FieldTypeSettings :field="field" />
+
+    Coming soon
+  </div>
 </template>

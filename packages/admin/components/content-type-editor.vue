@@ -106,14 +106,14 @@ const onContentTypeFieldOrder = (event: Event) => {
 
 <template>
   <div class="flex flex-col gap-4">
-    <div class="flex gap-2 items-center">
-      <div class="w-1/2">
+    <div class="flex gap-4 items-center">
+      <div class="flex-1">
         <FloatLabel>
           <InputText id="content-type-name" v-model="contentType.name" class="w-full" />
           <label for="content-type-name">Content type name</label>
         </FloatLabel>
       </div>
-      <div class="flex-1">
+      <div>
         <div class="flex items-center justify-between">
           <label for="ispublishable" class="mr-2">Is publishable</label>
           <InputSwitch inputId="ispublishable" v-model="contentType.isPublishable" />
@@ -127,7 +127,7 @@ const onContentTypeFieldOrder = (event: Event) => {
       </div>
       <div>
         <Button type="button" label="Add new" @click="toggleFieldTypeDropdown" icon="i-mdi-plus" size="small"
-          aria-haspopup="true" aria-controls="field-selection-menu" />
+          aria-haspopup="true" aria-controls="field-selection-menu" severity="secondary" />
         <Menu ref="fieldSelectionMenu" id="field-selection-menu" :popup="true" :model="[
           {
             label: appConfig.content.fieldTypes.StringField.label,
@@ -171,23 +171,24 @@ const onContentTypeFieldOrder = (event: Event) => {
     <div>
       <DataTable v-model:expandedRows="expandedFieldTypes" :value="contentType.fields" dataKey="fieldId"
         :reorderableColumns="true" @rowReorder="onContentTypeFieldOrder">
+        <template #empty>
+          No fields asset yet.
+        </template>
         <Column rowReorder class="w-4" :reorderableColumn="false" />
         <Column expander class="w-4" />
         <Column field="name" header="Name">
           <template #body="{ data }">
-            {{ data.name ? data.name : 'unnamed' }}
+            <div class="flex gap-2 items-center">
+              <span>{{ data.name ? data.name : 'unnamed' }}</span>
+              <Tag v-if="data.fieldSettings.isRequired" value="Required" severity="success" />
+            </div>
+
           </template>
         </Column>
         <Column field="type" header="Type" class="w-64">
           <template #body="{ data }">
             <Chip :label="data.type.replace('Type', '')"
               :icon="appConfig.content.fieldTypes[data.type.replace('Type', '')].icon" />
-          </template>
-        </Column>
-        <Column field="fieldSettings.isRequired" header="Is required" class="w-32">
-          <template #body="{ data }">
-            <Tag v-if="data.fieldSettings.isRequired" value="Yes" severity="success" icon="i-mdi-check"></Tag>
-            <Tag v-else value="No" severity="danger" icon="i-mdi-window-close"></Tag>
           </template>
         </Column>
 
