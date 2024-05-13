@@ -113,7 +113,7 @@ const confirmFieldDeletion = (event, field) => {
         <Column field="name" header="Name">
           <template #body="{ data }">
             <div class="flex gap-2 items-center">
-              <span v-if="data.name">{{ data.name }}</span>
+              <span v-if="data.name" class="font-bold">{{ data.name }}</span>
               <Tag v-else value="Unnamed field" severity="danger" />
               <Tag v-if="data.fieldSettings.isRequired" value="Required" severity="success" />
             </div>
@@ -122,7 +122,7 @@ const confirmFieldDeletion = (event, field) => {
         </Column>
         <Column field="type" header="Type" class="w-64">
           <template #body="{ data }">
-            <Chip :label="data.type.replace('Type', '')"
+            <Chip :label="data.type.replace('Type', '')" class="text-sm"
               :icon="appConfig.content.fieldTypes[data.type.replace('Type', '')].icon" />
           </template>
         </Column>
