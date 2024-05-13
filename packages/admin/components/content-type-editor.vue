@@ -81,23 +81,24 @@ const confirmFieldDeletion = (event, field) => {
       </div>
     </div>
 
-    <div class="flex justify-between items-center">
-      <div class="text-xl font-bold pt-8 pb-4">
-        Fields
-      </div>
-      <div>
-        <Button type="button" label="Add new" @click="toggleFieldTypeDropdown" icon="i-mdi-plus" size="small"
-          aria-haspopup="true" aria-controls="field-selection-menu" severity="secondary" />
-        <Menu ref="fieldSelectionMenu" id="field-selection-menu" :popup="true" :model="fieldSelectionMenuItems" />
-      </div>
-    </div>
+
 
     <div>
       <DataTable v-model:expandedRows="expandedFieldTypes" :value="contentType.fields" dataKey="fieldId"
         :reorderableColumns="true" @rowReorder="onContentTypeFieldOrder">
         <template #header>
-          <div class="flex flex-wrap justify-end gap-2">
-            <Button text icon="i-mdi-minus" size="small" label="Collapse All" @click="collapseAllFieldTypes" />
+          <div class="flex justify-between items-center">
+            <div class="text-xl font-bold">
+              Fields
+            </div>
+            <div class="flex gap-2">
+              <Button text icon="i-mdi-minus" size="small" label="Collapse All" @click="collapseAllFieldTypes" />
+              <div>
+                <Button type="button" label="Add new" @click="toggleFieldTypeDropdown" icon="i-mdi-plus" size="small"
+                  aria-haspopup="true" aria-controls="field-selection-menu" severity="secondary" />
+                <Menu ref="fieldSelectionMenu" id="field-selection-menu" :popup="true" :model="fieldSelectionMenuItems" />
+              </div>
+            </div>
           </div>
         </template>
         <template #empty>
