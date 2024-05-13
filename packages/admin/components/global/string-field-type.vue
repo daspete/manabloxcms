@@ -5,6 +5,10 @@ const props = defineProps({
     required: true
   }
 })
+
+if(!props.field.stringSettings) {
+  props.field.stringSettings = {};
+}
 </script>
 
 <template>

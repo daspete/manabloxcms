@@ -52,7 +52,7 @@ export class DateFieldType {
   @Prop({ type: ContentTypeFieldSettingsSchema })
   fieldSettings: ContentTypeFieldSettings;
 
-  @Field(() => DateFieldTypeSettings)
+  @Field(() => DateFieldTypeSettings, { nullable: true })
   @Prop({ type: DateFieldTypeSettingsSchema })
   dateSettings: DateFieldTypeSettings;
 }

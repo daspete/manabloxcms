@@ -48,7 +48,7 @@ export class StringFieldType {
   @Prop({ type: ContentTypeFieldSettingsSchema })
   fieldSettings: ContentTypeFieldSettings;
 
-  @Field(() => StringFieldTypeSettings)
+  @Field(() => StringFieldTypeSettings, { nullable: true })
   @Prop({ type: StringFieldTypeSettingsSchema })
   stringSettings: StringFieldTypeSettings;
 }

@@ -36,7 +36,7 @@ export class BooleanFieldType {
   @Prop({ type: ContentTypeFieldSettingsSchema })
   fieldSettings: ContentTypeFieldSettings;
 
-  @Field(() => BooleanFieldTypeSettings)
+  @Field(() => BooleanFieldTypeSettings, { nullable: true })
   @Prop({ type: BooleanFieldTypeSettingsSchema })
   booleanSettings: BooleanFieldTypeSettings;
 }

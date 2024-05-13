@@ -48,7 +48,7 @@ export class NumberFieldType {
   @Prop({ type: ContentTypeFieldSettingsSchema })
   fieldSettings: ContentTypeFieldSettings;
 
-  @Field(() => NumberFieldTypeSettings)
+  @Field(() => NumberFieldTypeSettings, { nullable: true })
   @Prop({ type: NumberFieldTypeSettingsSchema })
   numberSettings: NumberFieldTypeSettings;
 }

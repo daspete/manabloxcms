@@ -36,7 +36,7 @@ export class UserRelationFieldType {
   @Prop({ type: ContentTypeFieldSettingsSchema })
   fieldSettings: ContentTypeFieldSettings;
 
-  @Field(() => UserRelationFieldTypeSettings)
+  @Field(() => UserRelationFieldTypeSettings, { nullable: true })
   @Prop({ type: UserRelationFieldTypeSettingsSchema })
   userSettings: UserRelationFieldTypeSettings;
 }

@@ -4,7 +4,11 @@ const props = defineProps({
     type: Object,
     required: true
   }
-})
+});
+
+if(!props.field.contentSettings) {
+  props.field.contentSettings = {};
+}
 </script>
 
 <template>

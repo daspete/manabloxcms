@@ -4,7 +4,11 @@ const props = defineProps({
     type: Object,
     required: true
   }
-})
+});
+
+if(!props.field.assetSettings) {
+  props.field.assetSettings = {};
+}
 </script>
 
 <template>

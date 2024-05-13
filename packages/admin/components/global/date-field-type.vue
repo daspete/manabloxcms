@@ -4,7 +4,10 @@ const props = defineProps({
     type: Object,
     required: true
   }
-})
+});
+if(!props.field.dateSettings) {
+  props.field.dateSettings = {};
+}
 </script>
 
 <template>

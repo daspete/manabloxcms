@@ -35,7 +35,7 @@ export class AssetRelationFieldType {
   @Prop({ type: ContentTypeFieldSettingsSchema })
   fieldSettings: ContentTypeFieldSettings;
 
-  @Field(() => AssetRelationFieldTypeSettings)
+  @Field(() => AssetRelationFieldTypeSettings, { nullable: true })
   @Prop({ type: AssetRelationFieldTypeSettingsSchema })
   assetSettings: AssetRelationFieldTypeSettings;
 }

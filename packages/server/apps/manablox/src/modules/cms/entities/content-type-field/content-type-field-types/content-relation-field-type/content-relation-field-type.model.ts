@@ -35,7 +35,7 @@ export class ContentRelationFieldType {
   @Prop({ type: ContentTypeFieldSettingsSchema })
   fieldSettings: ContentTypeFieldSettings;
 
-  @Field(() => ContentRelationFieldTypeSettings)
+  @Field(() => ContentRelationFieldTypeSettings, { nullable: true })
   @Prop({ type: ContentRelationFieldTypeSettingsSchema })
   contentSettings: ContentRelationFieldTypeSettings;
 }

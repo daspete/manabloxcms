@@ -3,5 +3,94 @@ query contentType($name: String!) {
     name
     contentTypeId
     isPublishable
+    fields {
+      ...on StringFieldType {
+				name
+				type
+        fieldId
+				fieldSettings {
+					isRequired
+				}
+				stringSettings {
+					minCharacters
+					maxCharacters
+					defaultValue
+					regex
+				}
+			}
+			...on NumberFieldType {
+				name
+				type
+        fieldId
+				fieldSettings {
+					isRequired
+				}
+				numberSettings {
+					min
+					max
+					precision
+					defaultValue
+				}
+			}
+			...on DateFieldType {
+				name
+				type
+        fieldId
+				fieldSettings {
+					isRequired
+				}
+				dateSettings {
+					minDate
+					maxDate
+					excludedDates
+					possibleDates
+					defaultValue
+				}
+			}
+			...on BooleanFieldType {
+				name
+				type
+        fieldId
+				fieldSettings {
+					isRequired
+				}
+				booleanSettings {
+					defaultValue
+				}
+			}
+			...on UserRelationFieldType {
+				name
+				type
+        fieldId
+				fieldSettings {
+					isRequired
+				}
+				userSettings {
+					defaultValue
+				}
+			}
+			...on AssetRelationFieldType {
+				name
+				type
+        fieldId
+				fieldSettings {
+					isRequired
+				}
+				assetSettings {
+					defaultValue
+				}
+			}
+			...on ContentRelationFieldType {
+				name
+				type
+        fieldId
+				fieldSettings {
+					isRequired
+				}
+				contentSettings {
+					defaultValue
+				}
+			}
+    }
   }
 }

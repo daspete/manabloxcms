@@ -13,6 +13,10 @@ const props = defineProps({
   }
 });
 
+if(!props.contentType.fields){
+  props.contentType.fields = [];
+}
+
 const expandedFieldTypes = ref([]);
 
 const fieldSelectionMenu = ref();
