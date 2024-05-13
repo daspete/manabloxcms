@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { v4 as uuid4 } from 'uuid';
+import { useConfirm } from "primevue/useconfirm";
+import { clone } from '~/utils/clone';
 
 const appConfig = useAppConfig();
+const confirm = useConfirm();
 
 const props = defineProps({
   contentType: {
@@ -18,89 +21,46 @@ const toggleFieldTypeDropdown = (event: Event) => {
 }
 
 const addField = (type: string) => {
-  switch (type) {
-    case 'StringFieldType':
-      props.contentType.fields.push({
-        fieldId: uuid4(),
-        name: '',
-        type: 'StringFieldType',
-        fieldSettings: {
-          isRequired: false
-        },
-        stringSettings: {}
-      });
-      break;
-    case 'BooleanFieldType':
-      props.contentType.fields.push({
-        fieldId: uuid4(),
-        name: '',
-        type: 'BooleanFieldType',
-        fieldSettings: {
-          isRequired: false
-        },
-        booleanSettings: {}
-      });
-      break;
-    case 'NumberFieldType':
-      props.contentType.fields.push({
-        fieldId: uuid4(),
-        name: '',
-        type: 'NumberFieldType',
-        fieldSettings: {
-          isRequired: false
-        },
-        numberSettings: {}
-      });
-      break;
-    case 'DateFieldType':
-      props.contentType.fields.push({
-        fieldId: uuid4(),
-        name: '',
-        type: 'DateFieldType',
-        fieldSettings: {
-          isRequired: false
-        },
-        dateSettings: {}
-      });
-      break;
-    case 'UserRelationFieldType':
-      props.contentType.fields.push({
-        fieldId: uuid4(),
-        name: '',
-        type: 'UserRelationFieldType',
-        fieldSettings: {
-          isRequired: false
-        },
-        userSettings: {}
-      });
-      break;
-    case 'AssetRelationFieldType':
-      props.contentType.fields.push({
-        fieldId: uuid4(),
-        name: '',
-        type: 'AssetRelationFieldType',
-        fieldSettings: {
-          isRequired: false
-        },
-        assetSettings: {}
-      });
-      break;
-    case 'ContentRelationFieldType':
-      props.contentType.fields.push({
-        fieldId: uuid4(),
-        name: '',
-        type: 'ContentRelationFieldType',
-        fieldSettings: {
-          isRequired: false
-        },
-        contentSettings: {}
-      });
-      break;
-  }
+  props.contentType.fields.push({
+    fieldId: uuid4(),
+    ...clone(appConfig.content.fieldTypes[type.replace('Type', '')].default)
+  });
 }
 
 const onContentTypeFieldOrder = (event: Event) => {
   props.contentType.fields = event.value;
+}
+
+const collapseAllFieldTypes = () => {
+  expandedFieldTypes.value = null;
+}
+
+const fieldSelectionMenuItems = Object.keys(appConfig.content.fieldTypes).map((fieldType) => {
+  const fieldTypeSettings = appConfig.content.fieldTypes[fieldType.replace('Type', '')];
+
+  return {
+    label: fieldTypeSettings.label,
+    icon: fieldTypeSettings.icon,
+    command: () => { addField(fieldType); }
+  }
+});
+
+const deleteFieldByFieldId = (fieldId) => {
+  props.contentType.fields = props.contentType.fields.filter((field) => {
+    return field.fieldId !== fieldId;
+  })
+}
+
+const confirmFieldDeletion = (event, field) => {
+  confirm.require({
+    target: event.currentTarget,
+    group: 'deleteFieldGroup',
+    message: `Field ${ field.name ? field.name : '' } will be deleted.`,
+    accept: () => {
+      deleteFieldByFieldId(field.fieldId)
+    },
+    reject: () => {}
+  })
 }
 </script>
 
@@ -128,61 +88,31 @@ const onContentTypeFieldOrder = (event: Event) => {
       <div>
         <Button type="button" label="Add new" @click="toggleFieldTypeDropdown" icon="i-mdi-plus" size="small"
           aria-haspopup="true" aria-controls="field-selection-menu" severity="secondary" />
-        <Menu ref="fieldSelectionMenu" id="field-selection-menu" :popup="true" :model="[
-          {
-            label: appConfig.content.fieldTypes.StringField.label,
-            icon: appConfig.content.fieldTypes.StringField.icon,
-            command: () => { addField('StringFieldType') }
-          },
-          {
-            label: appConfig.content.fieldTypes.BooleanField.label,
-            icon: appConfig.content.fieldTypes.BooleanField.icon,
-            command: () => { addField('BooleanFieldType') }
-          },
-          {
-            label: appConfig.content.fieldTypes.NumberField.label,
-            icon: appConfig.content.fieldTypes.NumberField.icon,
-            command: () => { addField('NumberFieldType') }
-          },
-          {
-            label: appConfig.content.fieldTypes.DateField.label,
-            icon: appConfig.content.fieldTypes.DateField.icon,
-            command: () => { addField('DateFieldType') }
-          },
-          {
-            label: appConfig.content.fieldTypes.UserRelationField.label,
-            icon: appConfig.content.fieldTypes.UserRelationField.icon,
-            command: () => { addField('UserRelationFieldType') }
-          },
-          {
-            label: appConfig.content.fieldTypes.AssetRelationField.label,
-            icon: appConfig.content.fieldTypes.AssetRelationField.icon,
-            command: () => { addField('AssetRelationFieldType') }
-          },
-          {
-            label: appConfig.content.fieldTypes.ContentRelationField.label,
-            icon: appConfig.content.fieldTypes.ContentRelationField.icon,
-            command: () => { addField('ContentRelationFieldType') }
-          }
-        ]" />
+        <Menu ref="fieldSelectionMenu" id="field-selection-menu" :popup="true" :model="fieldSelectionMenuItems" />
       </div>
     </div>
 
     <div>
       <DataTable v-model:expandedRows="expandedFieldTypes" :value="contentType.fields" dataKey="fieldId"
         :reorderableColumns="true" @rowReorder="onContentTypeFieldOrder">
+        <template #header>
+          <div class="flex flex-wrap justify-end gap-2">
+            <Button text icon="i-mdi-minus" size="small" label="Collapse All" @click="collapseAllFieldTypes" />
+          </div>
+        </template>
         <template #empty>
-          No fields asset yet.
+          No fields added yet.
         </template>
         <Column rowReorder class="w-4" :reorderableColumn="false" />
         <Column expander class="w-4" />
         <Column field="name" header="Name">
           <template #body="{ data }">
             <div class="flex gap-2 items-center">
-              <span>{{ data.name ? data.name : 'unnamed' }}</span>
+              <span v-if="data.name">{{ data.name }}</span>
+              <Tag v-else value="Unnamed field" severity="danger" />
               <Tag v-if="data.fieldSettings.isRequired" value="Required" severity="success" />
             </div>
-
+            <div class="text-xs">Field ID: {{ data.fieldId }}</div>
           </template>
         </Column>
         <Column field="type" header="Type" class="w-64">
@@ -191,13 +121,30 @@ const onContentTypeFieldOrder = (event: Event) => {
               :icon="appConfig.content.fieldTypes[data.type.replace('Type', '')].icon" />
           </template>
         </Column>
+        <Column class="w-16">
+          <template #body="{ data }">
+            <Button @click="confirmFieldDeletion($event, data)" icon="i-mdi-trash" text severity="secondary" size="large" />
+          </template>
+        </Column>
 
         <template #expansion="{ data }">
-          <div class="py-4">
+          <div class="pt-4 pb-16 px-8 ml-20">
             <component :field="data" :is="data.type" />
           </div>
         </template>
       </DataTable>
     </div>
+    <ConfirmPopup group="deleteFieldGroup">
+      <template #container="{ message, acceptCallback, rejectCallback }">
+        <div class="px-4 py-2">
+          <div class="text-center font-bold">Are you sure?</div>
+          <div>{{ message.message }}</div>
+          <div class="flex gap-2 items-center justify-center mt-2">
+            <Button label="Yes" size="small" icon="i-mdi-check" severity="danger" @click="acceptCallback" />
+            <Button label="No" size="small" icon="i-mdi-window-close" severity="success" @click="rejectCallback" />
+          </div>
+        </div>
+      </template>
+    </ConfirmPopup>
   </div>
 </template>

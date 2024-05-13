@@ -1,9 +1,36 @@
 <script setup lang="ts">
+import createContentTypeMutation from '~/graphql/content-types/create-content-type.mutation.gql';
+import { useToast } from "primevue/usetoast";
+
+const toast = useToast();
+
 const contentType = ref({
   name: '',
   isPublishable: false,
   fields: []
 });
+
+const isCreating = ref(false);
+
+const createContentType = async () => {
+  isCreating.value = true;
+
+  const { mutate } = useMutation(createContentTypeMutation, {
+    variables: {
+      contentType: contentType.value
+    }
+  });
+
+  try {
+    const response = await mutate();
+    toast.add({ severity: 'success', summary: 'Success', detail: `Content type "${ contentType.value.name }" created.`, life: 5000 });
+  } catch(err) {
+    toast.add({ severity: 'error', summary: 'Error while creating content type', detail: err.message, life: 5000 });
+  } finally {
+    isCreating.value = false;
+  }
+
+}
 </script>
 
 <template>
@@ -12,7 +39,7 @@ const contentType = ref({
       <span class="text-2xl font-bold">
         Add a new content type
       </span>
-      <Button type="button" label="Create" size="small" icon="i-mdi-content-save" />
+      <Button type="button" label="Create"  icon="i-mdi-content-save" @click="createContentType" />
     </div>
 
     <Card>
@@ -20,5 +47,7 @@ const contentType = ref({
         <ContentTypeEditor :contentType="contentType" />
       </template>
     </Card>
+
+    <BlockUI :blocked="isCreating" fullScreen />
   </div>
 </template>

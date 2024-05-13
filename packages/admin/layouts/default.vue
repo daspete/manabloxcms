@@ -12,5 +12,6 @@ useHead({
     <div class="content flex justify-center pb-8">
       <NuxtPage />
     </div>
+    <Toast />
   </div>
 </template>
