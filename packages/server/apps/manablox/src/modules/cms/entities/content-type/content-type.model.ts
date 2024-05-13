@@ -33,6 +33,14 @@ export class ContentType {
   @Prop()
   isPublishable: boolean;
 
+  @Field()
+  @Prop()
+  canBeVisibleInMenu: boolean;
+
+  @Field()
+  @Prop()
+  isVisibleInTree: boolean;
+
   @Field(() => [ContentTypeFieldUnion])
   @Prop({ type: [ContentTypeFieldSchema] })
   fields: Array<ContentTypeFieldUnionType>;

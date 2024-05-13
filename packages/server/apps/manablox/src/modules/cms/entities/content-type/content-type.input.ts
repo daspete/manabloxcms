@@ -15,6 +15,12 @@ export class ContentTypeInput {
   @Field()
   isPublishable: boolean;
 
+  @Field()
+  canBeVisibleInMenu: boolean;
+
+  @Field()
+  isVisibleInTree: boolean;
+
   @Field(() => [ContentTypeFieldInput], { nullable: true })
   fields: Array<ContentTypeFieldInput>;
 }

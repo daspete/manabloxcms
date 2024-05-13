@@ -37,7 +37,12 @@ const updateContentType = async () => {
       <span class="text-2xl font-bold">
         Update content type
       </span>
-      <Button type="button" label="Update"  icon="i-mdi-content-save" @click="updateContentType" />
+      <div class="flex gap-2">
+        <NuxtLink to="/cms/content-types">
+          <Button type="button" label="Back to overview" icon="i-mdi-chevron-left" severity="secondary" outlined />
+        </NuxtLink>
+        <Button type="button" label="Update"  icon="i-mdi-content-save" @click="updateContentType" />
+      </div>
     </div>
 
     <Card>

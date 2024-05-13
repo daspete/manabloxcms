@@ -25,8 +25,8 @@ const createContentType = async () => {
 
   try {
     const response = await mutate();
-    toast.add({ severity: 'success', summary: 'Success', detail: `Content type "${ contentType.value.name }" created.`, life: 5000 });
-  } catch(err) {
+    toast.add({ severity: 'success', summary: 'Success', detail: `Content type "${contentType.value.name}" created.`, life: 5000 });
+  } catch (err) {
     toast.add({ severity: 'error', summary: 'Error while creating content type', detail: err.message, life: 5000 });
   } finally {
     isCreating.value = false;
@@ -41,7 +41,12 @@ const createContentType = async () => {
       <span class="text-2xl font-bold">
         Add a new content type
       </span>
-      <Button type="button" label="Create"  icon="i-mdi-content-save" @click="createContentType" />
+      <div class="flex gap-2">
+        <NuxtLink to="/cms/content-types">
+          <Button type="button" label="Back to overview" icon="i-mdi-chevron-left" severity="secondary" outlined />
+        </NuxtLink>
+        <Button type="button" label="Create" icon="i-mdi-content-save" @click="createContentType" />
+      </div>
     </div>
 
     <Card>

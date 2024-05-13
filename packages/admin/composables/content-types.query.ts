@@ -5,7 +5,10 @@ export const useContentTypesQuery = (variables = {}) => {
 
   const { onResult, onError, refetch, loading } = useQuery(
     contentTypesQuery,
-    variables
+    variables,
+    {
+      fetchPolicy: 'cache-and-network'
+    }
   );
 
   onResult((result) => {

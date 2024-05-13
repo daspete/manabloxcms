@@ -1,11 +1,31 @@
 <script setup lang="ts">
-const { loading, contentTypes } = useContentTypesQuery();
+import { useConfirm } from "primevue/useconfirm";
+
+const { loading, contentTypes, refetch } = useContentTypesQuery();
 const router = useRouter();
+const confirm = useConfirm();
 
 const onContentTypeSelect = (event) => {
   console.log(event.data);
-  router.push(`/cms/content-types/${ event.data.name }`);
-}
+  router.push(`/cms/content-types/${event.data.name}`);
+};
+
+const deleteContentTypeById = (contentTypeId) => {
+  console.log("delete content type");
+};
+
+const confirmContentTypeDeletion = (event, contentType) => {
+  confirm.require({
+    target: event.currentTarget,
+    group: "deleteContentTypeGroup",
+    message: `Content type ${contentType.name ? contentType.name : ""
+      } will be deleted.`,
+    accept: () => {
+      deleteContentTypeById(contentType.id);
+    },
+    reject: () => { },
+  });
+};
 </script>
 
 <template>
@@ -19,15 +39,12 @@ const onContentTypeSelect = (event) => {
 
     <div>
       <div class="shadow">
-        <DataTable :value="contentTypes" paginator :rows="5" stripedRows :loading="loading" removableSort selectionMode="single"
-          :rowsPerPageOptions="[5, 10, 20, 50]"
+        <DataTable :value="contentTypes" paginator :rows="5" stripedRows :loading="loading" removableSort
+          selectionMode="single" :rowsPerPageOptions="[5, 10, 20, 50]"
           paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
-          currentPageReportTemplate="{first} to {last} of {totalRecords}"
-          @rowSelect="onContentTypeSelect"
-        >
-
+          currentPageReportTemplate="{first} to {last} of {totalRecords}" @rowSelect="onContentTypeSelect">
           <template #paginatorstart>
-            <Button type="button" label="Reload" icon="i-mdi-reload" rounded size="small" />
+            <Button type="button" label="Reload" icon="i-mdi-reload" rounded size="small" @click="refetch" />
           </template>
 
           <template #paginatorend></template>
@@ -37,17 +54,40 @@ const onContentTypeSelect = (event) => {
           <Column field="name" header="Name" sortable>
             <template #body="{ data }">
               <div>{{ data.name }}</div>
-              <div class="text-xs">Content type ID: {{ data.contentTypeId }}</div>
+              <div class="text-xs">
+                Content type ID: {{ data.contentTypeId }}
+              </div>
             </template>
           </Column>
-          <Column field="isPublishable" header="Publishable" class="w-64">
+          <Column field="isPublishable" class="w-48 text-center">
+            <template #header="{ data }">
+              <div class="text-center flex-1">is publishable</div>
+            </template>
             <template #body="{ data }">
-              <Tag v-if="data.isPublishable" value="Yes" severity="success" icon="i-mdi-check"></Tag>
-              <Tag v-else value="No" severity="danger" icon="i-mdi-window-close"></Tag>
+              <i v-if="data.isPublishable" class="i-mdi-check text-green-500" />
+              <i v-else class="i-mdi-window-close" />
+            </template>
+          </Column>
+          <Column class="w-16">
+            <template #body="{ data }">
+              <Button @click="confirmContentTypeDeletion($event, data)" icon="i-mdi-trash" text severity="secondary"
+                size="large" />
             </template>
           </Column>
         </DataTable>
       </div>
     </div>
+    <ConfirmPopup group="deleteContentTypeGroup">
+      <template #container="{ message, acceptCallback, rejectCallback }">
+        <div class="px-4 py-2">
+          <div class="text-center font-bold">Are you sure?</div>
+          <div>{{ message.message }}</div>
+          <div class="flex gap-2 items-center justify-center mt-2">
+            <Button label="Yes" size="small" icon="i-mdi-check" severity="danger" @click="acceptCallback" />
+            <Button label="No" size="small" icon="i-mdi-window-close" severity="success" @click="rejectCallback" />
+          </div>
+        </div>
+      </template>
+    </ConfirmPopup>
   </div>
 </template>

@@ -1,8 +1,13 @@
 query contentType($name: String!) {
   contentType(name: $name) {
+    id
     name
     contentTypeId
+
     isPublishable
+    canBeVisibleInMenu
+    isVisibleInTree
+
     fields {
       ...on StringFieldType {
 				name

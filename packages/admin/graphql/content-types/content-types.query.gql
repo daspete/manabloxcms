@@ -4,5 +4,7 @@ query contentTypes {
     contentTypeId
     name
     isPublishable
+    canBeVisibleInMenu
+    isVisibleInTree
   }
 }

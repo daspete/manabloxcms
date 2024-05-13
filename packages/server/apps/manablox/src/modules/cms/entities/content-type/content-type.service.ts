@@ -78,9 +78,9 @@ export class ContentTypeService {
   async update(contentType: ContentTypeInput): Promise<ContentType> {
     const { id, contentTypeId, ...dataToUpdate } = contentType;
 
-    await this.contentTypeModel.updateOne({ id: contentType.id }, { $set: dataToUpdate });
+    await this.contentTypeModel.updateOne({ contentTypeId: contentType.contentTypeId }, { $set: dataToUpdate });
 
-    return this.contentTypeModel.findOne({ id });
+    return this.contentTypeModel.findOne({ contentTypeId });
   }
 
   async delete(id: string): Promise<ContentType> {
