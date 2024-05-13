@@ -1,5 +1,11 @@
 <script setup lang="ts">
 const { loading, contentTypes } = useContentTypesQuery();
+const router = useRouter();
+
+const onContentTypeSelect = (event) => {
+  console.log(event.data);
+  router.push(`/cms/content-types/${ event.data.name }`);
+}
 </script>
 
 <template>
@@ -13,10 +19,12 @@ const { loading, contentTypes } = useContentTypesQuery();
 
     <div>
       <div class="shadow">
-        <DataTable :value="contentTypes" paginator :rows="5" stripedRows :loading="loading" removableSort
+        <DataTable :value="contentTypes" paginator :rows="5" stripedRows :loading="loading" removableSort selectionMode="single"
           :rowsPerPageOptions="[5, 10, 20, 50]"
           paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
-          currentPageReportTemplate="{first} to {last} of {totalRecords}">
+          currentPageReportTemplate="{first} to {last} of {totalRecords}"
+          @rowSelect="onContentTypeSelect"
+        >
 
           <template #paginatorstart>
             <Button type="button" label="Reload" icon="i-mdi-reload" rounded size="small" />
@@ -24,9 +32,14 @@ const { loading, contentTypes } = useContentTypesQuery();
 
           <template #paginatorend></template>
 
-          <template #empty>Nothing found</template>
+          <template #empty>No content types added yet.</template>
 
-          <Column field="name" header="Name" sortable></Column>
+          <Column field="name" header="Name" sortable>
+            <template #body="{ data }">
+              <div>{{ data.name }}</div>
+              <div class="text-xs">Content type ID: {{ data.contentTypeId }}</div>
+            </template>
+          </Column>
           <Column field="isPublishable" header="Publishable" class="w-64">
             <template #body="{ data }">
               <Tag v-if="data.isPublishable" value="Yes" severity="success" icon="i-mdi-check"></Tag>

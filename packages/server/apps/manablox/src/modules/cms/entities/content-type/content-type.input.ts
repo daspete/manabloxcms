@@ -7,6 +7,9 @@ export class ContentTypeInput {
   id?: string;
 
   @Field()
+  contentTypeId: string;
+
+  @Field()
   name: string;
 
   @Field()

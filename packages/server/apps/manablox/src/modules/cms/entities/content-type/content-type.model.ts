@@ -22,6 +22,10 @@ export class ContentType {
   id: string;
 
   @Field()
+  @Prop()
+  contentTypeId: string;
+
+  @Field()
   @Prop({ unique: true })
   name: string;
 

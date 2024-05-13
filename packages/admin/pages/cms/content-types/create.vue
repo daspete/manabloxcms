@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import createContentTypeMutation from '~/graphql/content-types/create-content-type.mutation.gql';
 import { useToast } from "primevue/usetoast";
+import { v4 as uuid4 } from 'uuid';
 
 const toast = useToast();
 
 const contentType = ref({
   name: '',
+  contentTypeId: uuid4(),
   isPublishable: false,
   fields: []
 });

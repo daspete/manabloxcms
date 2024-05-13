@@ -9,7 +9,7 @@ export class ContentTypeService {
   constructor(
     @InjectModel('ContentType')
     private readonly contentTypeModel: Model<ContentType>,
-  ) {}
+  ) { }
 
   async findAll(): Promise<ContentType[]> {
     const items = await this.contentTypeModel.find().exec();
@@ -73,6 +73,14 @@ export class ContentTypeService {
       }
     }
     return this.contentTypeModel.create(contentType);
+  }
+
+  async update(contentType: ContentTypeInput): Promise<ContentType> {
+    const { id, contentTypeId, ...dataToUpdate } = contentType;
+
+    await this.contentTypeModel.updateOne({ id: contentType.id }, { $set: dataToUpdate });
+
+    return this.contentTypeModel.findOne({ id });
   }
 
   async delete(id: string): Promise<ContentType> {
