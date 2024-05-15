@@ -1,4 +1,87 @@
-export default defineAppConfig({
+import type { AssetRelationFieldTypeSettings, BooleanFieldTypeSettings, ContentRelationFieldTypeSettings, DateFieldTypeSettings, NumberFieldTypeSettings, StringFieldTypeSettings, UserRelationFieldTypeSettings } from "./generated/graphql/graphql";
+
+type FieldSettings = {
+  isRequired: boolean
+}
+
+export type ContentConfig = {
+  content: {
+    fieldTypes: {
+      StringField: {
+        label: string,
+        icon: string,
+        default: {
+          name: string,
+          type: string,
+          fieldSettings: FieldSettings,
+          stringSettings: StringFieldTypeSettings
+        }
+      },
+      NumberField: {
+        label: string,
+        icon: string,
+        default: {
+          name: string,
+          type: string,
+          fieldSettings: FieldSettings,
+          numberSettings: NumberFieldTypeSettings
+        }
+      },
+      DateField: {
+        label: string,
+        icon: string,
+        default: {
+          name: string,
+          type: string,
+          fieldSettings: FieldSettings,
+          dateSettings: DateFieldTypeSettings
+        }
+      },
+      BooleanField: {
+        label: string,
+        icon: string,
+        default: {
+          name: string,
+          type: string,
+          fieldSettings: FieldSettings,
+          booleanSettings: BooleanFieldTypeSettings
+        }
+      },
+      UserRelationField: {
+        label: string,
+        icon: string,
+        default: {
+          name: string,
+          type: string,
+          fieldSettings: FieldSettings,
+          userSettings: UserRelationFieldTypeSettings
+        }
+      },
+      AssetRelationField: {
+        label: string,
+        icon: string,
+        default: {
+          name: string,
+          type: string,
+          fieldSettings: FieldSettings,
+          assetSettings: AssetRelationFieldTypeSettings
+        }
+      },
+      ContentRelationField: {
+        label: string,
+        icon: string,
+        default: {
+          name: string,
+          type: string,
+          fieldSettings: FieldSettings,
+          contentSettings: ContentRelationFieldTypeSettings
+        }
+      }
+    }
+  }
+}
+
+export default defineAppConfig<ContentConfig>({
   content: {
     fieldTypes: {
       StringField: {

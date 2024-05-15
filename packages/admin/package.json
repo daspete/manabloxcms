@@ -20,8 +20,11 @@
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.2.5",
     "@nuxtjs/apollo": "^5.0.0-alpha.14",
     "@nuxtjs/tailwindcss": "^6.12.0",
+    "@types/uuid": "^9.0.8",
     "nuxt-primevue": "^0.3.1"
   }
 }

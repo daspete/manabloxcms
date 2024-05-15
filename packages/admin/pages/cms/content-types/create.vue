@@ -26,7 +26,7 @@ const createContentType = async () => {
   try {
     const response = await mutate();
     toast.add({ severity: 'success', summary: 'Success', detail: `Content type "${contentType.value.name}" created.`, life: 5000 });
-  } catch (err) {
+  } catch (err: any) {
     toast.add({ severity: 'error', summary: 'Error while creating content type', detail: err.message, life: 5000 });
   } finally {
     isCreating.value = false;

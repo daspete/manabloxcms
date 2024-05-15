@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import { useConfirm } from "primevue/useconfirm";
+import type { ContentType } from "~/generated/graphql/graphql";
 
 const { loading, contentTypes, refetch } = useContentTypesQuery();
 const router = useRouter();
 const confirm = useConfirm();
 
-const onContentTypeSelect = (event) => {
+const onContentTypeSelect = (event: any) => {
   console.log(event.data);
   router.push(`/cms/content-types/${event.data.name}`);
 };
 
-const deleteContentTypeById = (contentTypeId) => {
+const deleteContentTypeById = (contentTypeId: string) => {
   console.log("delete content type");
 };
 
-const confirmContentTypeDeletion = (event, contentType) => {
+const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
   confirm.require({
     target: event.currentTarget,
     group: "deleteContentTypeGroup",
@@ -60,7 +61,7 @@ const confirmContentTypeDeletion = (event, contentType) => {
             </template>
           </Column>
           <Column field="isPublishable" class="w-48 text-center">
-            <template #header="{ data }">
+            <template #header>
               <div class="text-center flex-1">is publishable</div>
             </template>
             <template #body="{ data }">

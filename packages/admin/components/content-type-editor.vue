@@ -2,8 +2,10 @@
 import { v4 as uuid4 } from "uuid";
 import { useConfirm } from "primevue/useconfirm";
 import { clone } from "~/utils/clone";
+import type { ContentTypeFieldUnion } from "~/generated/graphql/graphql";
+import type { ContentConfig } from "~/app.config";
 
-const appConfig = useAppConfig();
+const appConfig = useAppConfig() as ContentConfig;
 const confirm = useConfirm();
 
 const props = defineProps({
@@ -24,25 +26,29 @@ const toggleFieldTypeDropdown = (event: Event) => {
   fieldSelectionMenu.value.toggle(event);
 };
 
+const getFieldTypeKey = (type: string) => {
+  return type.replace("Type", "") as keyof typeof appConfig.content.fieldTypes;
+}
+
 const addField = (type: string) => {
   props.contentType.fields.push({
     fieldId: uuid4(),
-    ...clone(appConfig.content.fieldTypes[type.replace("Type", "")].default),
+    ...clone(appConfig.content.fieldTypes[getFieldTypeKey(type)].default),
   });
 };
 
-const onContentTypeFieldOrder = (event: Event) => {
+const onContentTypeFieldOrder = (event: any) => {
   props.contentType.fields = event.value;
 };
 
 const collapseAllFieldTypes = () => {
-  expandedFieldTypes.value = null;
+  expandedFieldTypes.value = [];
 };
 
 const fieldSelectionMenuItems = Object.keys(appConfig.content.fieldTypes).map(
   (fieldType) => {
     const fieldTypeSettings =
-      appConfig.content.fieldTypes[fieldType.replace("Type", "")];
+      appConfig.content.fieldTypes[getFieldTypeKey(fieldType)];
 
     return {
       label: fieldTypeSettings.label,
@@ -54,13 +60,13 @@ const fieldSelectionMenuItems = Object.keys(appConfig.content.fieldTypes).map(
   }
 );
 
-const deleteFieldByFieldId = (fieldId) => {
-  props.contentType.fields = props.contentType.fields.filter((field) => {
+const deleteFieldByFieldId = (fieldId: string) => {
+  props.contentType.fields = props.contentType.fields.filter((field: ContentTypeFieldUnion) => {
     return field.fieldId !== fieldId;
   });
 };
 
-const confirmFieldDeletion = (event, field) => {
+const confirmFieldDeletion = (event: any, field: ContentTypeFieldUnion) => {
   confirm.require({
     target: event.currentTarget,
     group: "deleteFieldGroup",
@@ -130,7 +136,7 @@ const confirmFieldDeletion = (event, field) => {
         </Column>
         <Column field="type" header="Type" class="w-64">
           <template #body="{ data }">
-            <Chip :label="data.type.replace('Type', '')" class="text-sm" :icon="appConfig.content.fieldTypes[data.type.replace('Type', '')].icon
+            <Chip :label="data.type.replace('Type', '')" class="text-sm" :icon="appConfig.content.fieldTypes[getFieldTypeKey(data.type)].icon
               " />
           </template>
         </Column>

@@ -22,7 +22,7 @@ const updateContentType = async () => {
   try {
     const response = await mutate();
     toast.add({ severity: 'success', summary: 'Success', detail: `Content type "${ contentType.value.name }" updated.`, life: 5000 });
-  } catch(err) {
+  } catch(err: any) {
     toast.add({ severity: 'error', summary: 'Error while updating content type', detail: err.message, life: 5000 });
   } finally {
     isUpdating.value = false;

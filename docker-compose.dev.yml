@@ -30,7 +30,7 @@ services:
       - ./packages/admin/.env
     networks:
       - manablox-network
-    command: sh -c 'yarn && exec yarn dev'
+    command: sh -c 'yarn && yarn graphql-codegen && exec yarn dev'
 
   manablox-server:
     image: node:20
