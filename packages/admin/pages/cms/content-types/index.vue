@@ -1,30 +1,58 @@
 <script setup lang="ts">
 import { useConfirm } from "primevue/useconfirm";
 import type { ContentType } from "~/generated/graphql/graphql";
+import deleteContentTypeMutation from "~/graphql/content-types/delete-content-type.mutation.gql";
 
 const { loading, contentTypes, refetch } = useContentTypesQuery();
 const router = useRouter();
 const confirm = useConfirm();
+const toast = useToast();
+
+const isDeleting = ref(false);
 
 const onContentTypeSelect = (event: any) => {
-  console.log(event.data);
   router.push(`/cms/content-types/${event.data.name}`);
 };
 
-const deleteContentTypeById = (contentTypeId: string) => {
-  console.log("delete content type");
+const deleteContentType = async (contentType: Partial<ContentType>) => {
+  isDeleting.value = true;
+
+  const { mutate } = await useMutation(deleteContentTypeMutation, {
+    variables: { contentTypeId: contentType.contentTypeId },
+  });
+
+  try {
+    await mutate();
+    toast.add({
+      severity: "success",
+      summary: "Success",
+      detail: `Content type ${contentType.name} deleted.`,
+      life: 2000,
+    });
+    refetch();
+  } catch (err: any) {
+    toast.add({
+      severity: "error",
+      summary: "Error while deleting content type",
+      detail: err.message,
+      life: 3000,
+    });
+  } finally {
+    isDeleting.value = false;
+  }
 };
 
 const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
   confirm.require({
     target: event.currentTarget,
     group: "deleteContentTypeGroup",
-    message: `Content type ${contentType.name ? contentType.name : ""
-      } will be deleted.`,
+    message: `Content type ${
+      contentType.name ? contentType.name : ""
+    } will be deleted.`,
     accept: () => {
-      deleteContentTypeById(contentType.id);
+      deleteContentType(contentType);
     },
-    reject: () => { },
+    reject: () => {},
   });
 };
 </script>
@@ -40,12 +68,28 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
 
     <div>
       <div class="shadow">
-        <DataTable :value="contentTypes" paginator :rows="5" stripedRows :loading="loading" removableSort
-          selectionMode="single" :rowsPerPageOptions="[5, 10, 20, 50]"
+        <DataTable
+          :value="contentTypes"
+          paginator
+          :rows="5"
+          stripedRows
+          :loading="loading"
+          removableSort
+          selectionMode="single"
+          :rowsPerPageOptions="[5, 10, 20, 50]"
           paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
-          currentPageReportTemplate="{first} to {last} of {totalRecords}" @rowSelect="onContentTypeSelect">
+          currentPageReportTemplate="{first} to {last} of {totalRecords}"
+          @rowSelect="onContentTypeSelect"
+        >
           <template #paginatorstart>
-            <Button type="button" label="Reload" icon="i-mdi-reload" rounded size="small" @click="refetch" />
+            <Button
+              type="button"
+              label="Reload"
+              icon="i-mdi-reload"
+              rounded
+              size="small"
+              @click="refetch"
+            />
           </template>
 
           <template #paginatorend></template>
@@ -71,8 +115,13 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
           </Column>
           <Column class="w-16">
             <template #body="{ data }">
-              <Button @click="confirmContentTypeDeletion($event, data)" icon="i-mdi-trash" text severity="secondary"
-                size="large" />
+              <Button
+                @click="confirmContentTypeDeletion($event, data)"
+                icon="i-mdi-trash"
+                text
+                severity="secondary"
+                size="large"
+              />
             </template>
           </Column>
         </DataTable>
@@ -84,11 +133,25 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
           <div class="text-center font-bold">Are you sure?</div>
           <div>{{ message.message }}</div>
           <div class="flex gap-2 items-center justify-center mt-2">
-            <Button label="Yes" size="small" icon="i-mdi-check" severity="danger" @click="acceptCallback" />
-            <Button label="No" size="small" icon="i-mdi-window-close" severity="success" @click="rejectCallback" />
+            <Button
+              label="Yes"
+              size="small"
+              icon="i-mdi-check"
+              severity="danger"
+              @click="acceptCallback"
+            />
+            <Button
+              label="No"
+              size="small"
+              icon="i-mdi-window-close"
+              severity="success"
+              @click="rejectCallback"
+            />
           </div>
         </div>
       </template>
     </ConfirmPopup>
+
+    <BlockUI :blocked="isDeleting" fullScreen />
   </div>
 </template>

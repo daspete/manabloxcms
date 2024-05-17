@@ -83,7 +83,7 @@ export class ContentTypeService {
     return this.contentTypeModel.findOne({ contentTypeId });
   }
 
-  async delete(id: string): Promise<ContentType> {
-    return this.contentTypeModel.findByIdAndDelete(id).exec();
+  async delete(contentTypeId: string): Promise<ContentType> {
+    return this.contentTypeModel.findOneAndDelete({ contentTypeId }).exec();
   }
 }

@@ -26,4 +26,9 @@ export class ContentTypeResolver {
   async updateContentType(@Args('contentType') contentType: ContentTypeInput) {
     return this.contentTypeService.update(contentType);
   }
+
+  @Mutation(() => ContentType)
+  async deleteContentType(@Args('contentTypeId') contentTypeId: string){
+    return this.contentTypeService.delete(contentTypeId);
+  }
 }
