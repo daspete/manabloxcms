@@ -1,10 +1,10 @@
 import type { BooleanField, BooleanFieldType, Content, ContentFieldUnion, ContentType, DateField, DateFieldType, NumberField, NumberFieldType, StringField, StringFieldType, UserRelationField, UserRelationFieldType } from "~/generated/graphql/graphql";
 
-export const initContentFields = (contentType: ContentType, content: Content) => {
+export const initContentFields = (contentType: ContentType, content: Partial<Content>) => {
   for (let i = 0; i < contentType.fields.length; i++) {
     const fieldType = contentType.fields[i];
     const fieldId = fieldType.fieldId;
-    const field = content.fields.find((field: ContentFieldUnion) => field.fieldId === fieldId);
+    const field = content.fields?.find((field: ContentFieldUnion) => field.fieldId === fieldId);
 
     if (!field) {
       const newField = {
@@ -29,7 +29,7 @@ export const initContentFields = (contentType: ContentType, content: Content) =>
         (newField as DateField).date = (fieldType as DateFieldType).dateSettings?.defaultValue || null;
       }
 
-      content.fields.push(newField as ContentFieldUnion);
+      content.fields?.push(newField as ContentFieldUnion);
     }
 
   }

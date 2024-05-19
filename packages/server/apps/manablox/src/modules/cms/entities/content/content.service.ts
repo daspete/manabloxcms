@@ -8,7 +8,7 @@ import { ContentInput } from './content.input';
 export class ContentService {
   constructor(
     @InjectModel('Content') private readonly contentModel: Model<Content>,
-  ) {}
+  ) { }
 
   async findAll(): Promise<Content[]> {
     const items = await this.contentModel.find().exec();
@@ -28,7 +28,7 @@ export class ContentService {
     return this.contentModel.create(content);
   }
 
-  async delete(id: string): Promise<Content> {
-    return this.contentModel.findByIdAndDelete(id).exec();
+  async delete(contentId: string): Promise<Content> {
+    return this.contentModel.findOneAndDelete({ contentId }).exec();
   }
 }

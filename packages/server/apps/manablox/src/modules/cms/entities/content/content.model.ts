@@ -21,7 +21,21 @@ export class Content {
 
   @Field()
   @Prop()
+  contentId: string;
+
+  // @Field(() => ContentType)
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ContentType' })
+  @Field()
+  @Prop()
   type: string;
+
+  @Field()
+  @Prop()
+  title: string;
+
+  @Field()
+  @Prop()
+  slug: string;
 
   @Field(() => Content, { nullable: true })
   @Prop({

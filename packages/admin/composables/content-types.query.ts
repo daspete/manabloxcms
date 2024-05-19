@@ -2,7 +2,7 @@ import type { ContentType } from "~/generated/graphql/graphql";
 import contentTypesQuery from "~/graphql/content-types/content-types.query.gql";
 
 export const useContentTypesQuery = (variables = {}) => {
-  const contentTypes = ref<Array<ContentType>>([]);
+  const contentTypes = ref<Array<Partial<ContentType>>>([]);
 
   const { onResult, onError, refetch, loading } = useQuery(
     contentTypesQuery,

@@ -7,7 +7,7 @@ const props = defineProps({
     required: true,
   },
   content: {
-    type: Object as PropType<Content>,
+    type: Object as PropType<Partial<Content>>,
     required: true,
   },
 });
@@ -17,6 +17,23 @@ initContentFields(props.contentType, props.content);
 
 <template>
   <div class="flex flex-col gap-8">
+    <div>
+      <label for="content-title">Title</label>
+      <InputText
+        id="content-title"
+        v-model="content.title"
+        class="w-full"
+      />
+    </div>
+    <div>
+      <label for="content-slug">Slug</label>
+      <InputText
+        id="content-slug"
+        v-model="content.slug"
+        class="w-full"
+      />
+    </div>
+
     <component
       v-for="field in content.fields"
       :key="field.fieldId"

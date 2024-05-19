@@ -13,13 +13,16 @@ export class ContentTypeInput {
   name: string;
 
   @Field()
-  isPublishable: boolean;
+  isBlockType: boolean;
 
-  @Field()
-  canBeVisibleInMenu: boolean;
+  @Field({ nullable: true })
+  isPublishable?: boolean;
 
-  @Field()
-  isVisibleInTree: boolean;
+  @Field({ nullable: true })
+  canBeVisibleInMenu?: boolean;
+
+  @Field({ nullable: true })
+  isVisibleInTree?: boolean;
 
   @Field(() => [ContentTypeFieldInput], { nullable: true })
   fields: Array<ContentTypeFieldInput>;

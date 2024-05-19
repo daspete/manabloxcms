@@ -3,7 +3,7 @@ query contentType($name: String!) {
     id
     name
     contentTypeId
-
+    isBlockType
     isPublishable
     canBeVisibleInMenu
     isVisibleInTree

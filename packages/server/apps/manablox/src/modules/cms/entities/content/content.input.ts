@@ -7,7 +7,16 @@ export class ContentInput {
   id?: string;
 
   @Field()
+  contentId: string;
+
+  @Field()
   type: string;
+
+  @Field()
+  title: string;
+
+  @Field()
+  slug: string;
 
   @Field({ nullable: true })
   parent?: string;

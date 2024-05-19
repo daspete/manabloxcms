@@ -1,0 +1,13 @@
+query contents {
+  contents {
+    id
+    contentId
+    type
+    title
+    slug
+    parent {
+      id
+    }
+    locale
+  }
+}

@@ -26,20 +26,24 @@ export class ContentType {
   contentTypeId: string;
 
   @Field()
+  @Prop()
+  isBlockType: boolean;
+
+  @Field()
   @Prop({ unique: true })
   name: string;
 
-  @Field()
-  @Prop()
-  isPublishable: boolean;
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  isPublishable?: boolean;
 
-  @Field()
-  @Prop()
-  canBeVisibleInMenu: boolean;
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  canBeVisibleInMenu?: boolean;
 
-  @Field()
-  @Prop()
-  isVisibleInTree: boolean;
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  isVisibleInTree?: boolean;
 
   @Field(() => [ContentTypeFieldUnion])
   @Prop({ type: [ContentTypeFieldSchema] })

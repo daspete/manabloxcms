@@ -10,10 +10,11 @@ import mongoose from 'mongoose';
 import { Content } from './content.model';
 import { ContentService } from './content.service';
 import { ContentInput } from './content.input';
+import { ContentTypeService } from '../content-type/content-type.service';
 
 @Resolver(() => Content)
 export class ContentResolver {
-  constructor(private readonly contentService: ContentService) {}
+  constructor(private readonly contentService: ContentService, private readonly contentTypeService: ContentTypeService) { }
 
   @Query(() => [Content])
   async contents() {
@@ -82,6 +83,11 @@ export class ContentResolver {
     return this.contentService.create(content);
   }
 
+  @Mutation(() => Content)
+  async deleteContent(@Args('contentId') contentId: string) {
+    return this.contentService.delete(contentId);
+  }
+
   @ResolveField()
   async fields(
     @Args('fields', { type: () => [String], nullable: true })
@@ -94,6 +100,11 @@ export class ContentResolver {
 
     return content.fields.filter((field) => fields.includes(field.name));
   }
+
+  // @ResolveField()
+  // async type(@Parent() content: Content) {
+  //   return this.contentTypeService.findOne({ name: content.type });
+  // }
 
   @ResolveField()
   async parent(@Parent() content: Content) {

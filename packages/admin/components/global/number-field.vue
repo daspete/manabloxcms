@@ -13,13 +13,11 @@ const props = defineProps({
 
 <template>
   <div>
-    <FloatLabel class="flex-1">
-      <InputNumber
-        :id="fieldType.fieldId"
-        v-model="field.number"
-        class="w-full"
-      />
-      <label :for="fieldType.fieldId">{{ fieldType.name }}</label>
-    </FloatLabel>
+    <label :for="fieldType.fieldId">{{ fieldType.name }}</label>
+    <InputNumber
+      :id="fieldType.fieldId"
+      v-model="field.number"
+      class="w-full"
+    />
   </div>
 </template>

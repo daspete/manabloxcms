@@ -12,8 +12,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div>
+  <div class="flex items-center gap-4">
+    <InputSwitch :id="fieldType.fieldId" v-model="field.boolean" />
     <label :for="fieldType.fieldId">{{ fieldType.name }}</label>
-    <InputText :id="fieldType.fieldId" v-model="field.string" class="w-full" />
   </div>
 </template>

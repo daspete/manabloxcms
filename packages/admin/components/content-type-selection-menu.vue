@@ -1,11 +1,18 @@
 <script setup lang="ts">
-const { loading, contentTypes, refetch } = useContentTypesQuery();
+const { loading, contentTypes } = useContentTypesQuery();
 
-const emits = defineEmits(['select']);
+const props = defineProps({
+  showBlockTypes: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const emits = defineEmits(["select"]);
 
 const contentTypeSelectionMenu = ref();
-const toggleContentTypeSelectionMenu = (event) => {
-  	contentTypeSelectionMenu.value.toggle(event);
+const toggleContentTypeSelectionMenu = (event: any) => {
+  contentTypeSelectionMenu.value.toggle(event);
 };
 </script>
 
@@ -25,10 +32,18 @@ const toggleContentTypeSelectionMenu = (event) => {
       id="content-type-selection-menu"
       :popup="true"
       :model="
-        contentTypes.map((contentType) => ({
-          label: contentType.name,
-          command: () => $emit('select', contentType)
-        }))
+        contentTypes
+          .filter((contentType) => {
+            if (props.showBlockTypes) {
+              return true;
+            }
+
+            return !contentType.isBlockType;
+          })
+          .map((contentType) => ({
+            label: contentType.name,
+            command: () => $emit('select', contentType),
+          }))
       "
     />
   </div>

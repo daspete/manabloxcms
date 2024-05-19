@@ -32,7 +32,7 @@ services:
       - ./packages/admin/.env
     networks:
       - manablox-network
-    command: sh -c 'yarn && yarn graphql-codegen && exec yarn dev'
+    command: sh -c 'rm -rf /tmp/nitro/*.sock && yarn && yarn graphql-codegen && exec yarn dev'
 
   manablox-server:
     image: node:20

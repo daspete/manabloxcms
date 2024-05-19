@@ -3,6 +3,7 @@ query contentTypes {
     id
     contentTypeId
     name
+    isBlockType
     isPublishable
     canBeVisibleInMenu
     isVisibleInTree

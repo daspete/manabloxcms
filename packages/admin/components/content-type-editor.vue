@@ -94,32 +94,42 @@ const confirmFieldDeletion = (event: any, field: ContentTypeFieldUnion) => {
           <label for="content-type-name">Content type name</label>
         </FloatLabel>
       </div>
-      <div class="flex flex-col gap-2">
+
+      <div class="flex flex-col gap-2 w-64">
         <div class="flex items-center justify-between">
-          <label for="ispublishable" class="mr-2">Is publishable</label>
+          <label for="isBlockType" class="mr-2">Is a block type</label>
           <InputSwitch
-            inputId="ispublishable"
-            v-model="contentType.isPublishable"
+            inputId="isBlockType"
+            v-model="contentType.isBlockType"
           />
         </div>
-        <div class="flex items-center justify-between">
-          <label for="canBeVisibleInMenu" class="mr-2"
-            >Can be visible in menu</label
-          >
-          <InputSwitch
-            inputId="canBeVisibleInMenu"
-            v-model="contentType.canBeVisibleInMenu"
-          />
-        </div>
-        <div class="flex items-center justify-between">
-          <label for="isVisibleInTree" class="mr-2"
-            >Is visible in content tree</label
-          >
-          <InputSwitch
-            inputId="isVisibleInTree"
-            v-model="contentType.isVisibleInTree"
-          />
-        </div>
+        <template v-if="!contentType.isBlockType">
+          <div class="flex items-center justify-between">
+            <label for="ispublishable" class="mr-2">Is publishable</label>
+            <InputSwitch
+              inputId="ispublishable"
+              v-model="contentType.isPublishable"
+            />
+          </div>
+          <div class="flex items-center justify-between">
+            <label for="canBeVisibleInMenu" class="mr-2"
+              >Can be visible in menu</label
+            >
+            <InputSwitch
+              inputId="canBeVisibleInMenu"
+              v-model="contentType.canBeVisibleInMenu"
+            />
+          </div>
+          <div class="flex items-center justify-between">
+            <label for="isVisibleInTree" class="mr-2"
+              >Is visible in content tree</label
+            >
+            <InputSwitch
+              inputId="isVisibleInTree"
+              v-model="contentType.isVisibleInTree"
+            />
+          </div>
+        </template>
       </div>
     </div>
 

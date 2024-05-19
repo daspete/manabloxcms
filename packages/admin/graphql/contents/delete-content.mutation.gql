@@ -1,0 +1,5 @@
+mutation deleteContent($contentId: String!) {
+  deleteContent(contentId: $contentId) {
+    contentId
+  }
+}

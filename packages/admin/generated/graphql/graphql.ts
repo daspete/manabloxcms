@@ -79,10 +79,13 @@ export type BooleanFieldTypeSettingsInput = {
 
 export type Content = {
   __typename?: 'Content';
+  contentId: Scalars['String']['output'];
   fields: Array<ContentFieldUnion>;
   id: Scalars['ID']['output'];
   locale: Scalars['String']['output'];
   parent?: Maybe<Content>;
+  slug: Scalars['String']['output'];
+  title: Scalars['String']['output'];
   type: Scalars['String']['output'];
 };
 
@@ -107,10 +110,13 @@ export type ContentFieldInput = {
 export type ContentFieldUnion = AssetRelationField | BooleanField | ContentRelationField | DateField | NumberField | StringField | UserRelationField;
 
 export type ContentInput = {
+  contentId: Scalars['String']['input'];
   fields?: InputMaybe<Array<ContentFieldInput>>;
   id?: InputMaybe<Scalars['String']['input']>;
   locale: Scalars['String']['input'];
   parent?: InputMaybe<Scalars['String']['input']>;
+  slug: Scalars['String']['input'];
+  title: Scalars['String']['input'];
   type: Scalars['String']['input'];
 };
 
@@ -142,12 +148,13 @@ export type ContentRelationFieldTypeSettingsInput = {
 
 export type ContentType = {
   __typename?: 'ContentType';
-  canBeVisibleInMenu: Scalars['Boolean']['output'];
+  canBeVisibleInMenu?: Maybe<Scalars['Boolean']['output']>;
   contentTypeId: Scalars['String']['output'];
   fields: Array<ContentTypeFieldUnion>;
   id: Scalars['ID']['output'];
-  isPublishable: Scalars['Boolean']['output'];
-  isVisibleInTree: Scalars['Boolean']['output'];
+  isBlockType: Scalars['Boolean']['output'];
+  isPublishable?: Maybe<Scalars['Boolean']['output']>;
+  isVisibleInTree?: Maybe<Scalars['Boolean']['output']>;
   name: Scalars['String']['output'];
 };
 
@@ -177,12 +184,13 @@ export type ContentTypeFieldSettingsInput = {
 export type ContentTypeFieldUnion = AssetRelationFieldType | BooleanFieldType | ContentRelationFieldType | DateFieldType | NumberFieldType | StringFieldType | UserRelationFieldType;
 
 export type ContentTypeInput = {
-  canBeVisibleInMenu: Scalars['Boolean']['input'];
+  canBeVisibleInMenu?: InputMaybe<Scalars['Boolean']['input']>;
   contentTypeId: Scalars['String']['input'];
   fields?: InputMaybe<Array<ContentTypeFieldInput>>;
   id?: InputMaybe<Scalars['String']['input']>;
-  isPublishable: Scalars['Boolean']['input'];
-  isVisibleInTree: Scalars['Boolean']['input'];
+  isBlockType: Scalars['Boolean']['input'];
+  isPublishable?: InputMaybe<Scalars['Boolean']['input']>;
+  isVisibleInTree?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
 };
 

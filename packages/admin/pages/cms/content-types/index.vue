@@ -104,13 +104,12 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
               </div>
             </template>
           </Column>
-          <Column field="isPublishable" class="w-48 text-center">
+          <Column field="isBlockType" class="w-48 text-center">
             <template #header>
-              <div class="text-center flex-1">is publishable</div>
+              <div class="text-center flex-1">Type</div>
             </template>
             <template #body="{ data }">
-              <i v-if="data.isPublishable" class="i-mdi-check text-green-500" />
-              <i v-else class="i-mdi-window-close" />
+              {{ data.isBlockType ? "Block" : "Single" }}
             </template>
           </Column>
           <Column class="w-16">

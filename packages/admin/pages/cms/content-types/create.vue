@@ -9,6 +9,7 @@ const toast = useToast();
 const contentType = ref<Partial<ContentType>>({
   name: "",
   contentTypeId: uuid4(),
+  isBlockType: false,
   isPublishable: false,
   canBeVisibleInMenu: false,
   isVisibleInTree: false,
