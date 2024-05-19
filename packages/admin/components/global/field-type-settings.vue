@@ -2,9 +2,9 @@
 const props = defineProps({
   field: {
     type: Object,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 </script>
 
 <template>
@@ -15,7 +15,10 @@ const props = defineProps({
     </FloatLabel>
     <div class="flex items-center justify-between">
       <label for="isRequired" class="mr-2">Is required</label>
-      <InputSwitch inputId="isRequired" v-model="field.fieldSettings.isRequired" />
+      <InputSwitch
+        inputId="isRequired"
+        v-model="field.fieldSettings.isRequired"
+      />
     </div>
   </div>
 </template>

@@ -11,7 +11,7 @@ import {
 export class ContentRelationFieldTypeSettings {
   @Field({ nullable: true })
   @Prop({ required: false })
-  defaultValue?: boolean;
+  defaultValue?: string;
 }
 
 export const ContentRelationFieldTypeSettingsSchema =
@@ -23,7 +23,7 @@ export class ContentRelationFieldType {
   @Field()
   @Prop()
   fieldId: string;
-  
+
   @Field()
   @Prop()
   name: string;

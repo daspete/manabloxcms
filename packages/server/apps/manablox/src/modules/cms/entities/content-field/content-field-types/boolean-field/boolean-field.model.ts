@@ -10,6 +10,10 @@ export class BooleanField {
   name: string;
 
   @Field()
+  @Prop()
+  fieldId: string;
+
+  @Field()
   type: 'BooleanField' = 'BooleanField';
 
   @Field()

@@ -27,7 +27,8 @@ export type Asset = {
 
 export type AssetRelationField = {
   __typename?: 'AssetRelationField';
-  asset: Asset;
+  asset?: Maybe<Asset>;
+  fieldId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
 };
@@ -43,7 +44,7 @@ export type AssetRelationFieldType = {
 
 export type AssetRelationFieldTypeSettings = {
   __typename?: 'AssetRelationFieldTypeSettings';
-  defaultValue?: Maybe<Scalars['Boolean']['output']>;
+  defaultValue?: Maybe<Scalars['String']['output']>;
 };
 
 export type AssetRelationFieldTypeSettingsInput = {
@@ -53,6 +54,7 @@ export type AssetRelationFieldTypeSettingsInput = {
 export type BooleanField = {
   __typename?: 'BooleanField';
   boolean: Scalars['Boolean']['output'];
+  fieldId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
 };
@@ -94,6 +96,7 @@ export type ContentFieldInput = {
   boolean?: InputMaybe<Scalars['Boolean']['input']>;
   content?: InputMaybe<Scalars['ID']['input']>;
   date?: InputMaybe<Scalars['DateTime']['input']>;
+  fieldId: Scalars['String']['input'];
   name: Scalars['String']['input'];
   number?: InputMaybe<Scalars['Float']['input']>;
   string?: InputMaybe<Scalars['String']['input']>;
@@ -113,7 +116,8 @@ export type ContentInput = {
 
 export type ContentRelationField = {
   __typename?: 'ContentRelationField';
-  content: Content;
+  content?: Maybe<Content>;
+  fieldId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
 };
@@ -129,7 +133,7 @@ export type ContentRelationFieldType = {
 
 export type ContentRelationFieldTypeSettings = {
   __typename?: 'ContentRelationFieldTypeSettings';
-  defaultValue?: Maybe<Scalars['Boolean']['output']>;
+  defaultValue?: Maybe<Scalars['String']['output']>;
 };
 
 export type ContentRelationFieldTypeSettingsInput = {
@@ -185,6 +189,7 @@ export type ContentTypeInput = {
 export type DateField = {
   __typename?: 'DateField';
   date: Scalars['DateTime']['output'];
+  fieldId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
 };
@@ -219,6 +224,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createContent: Content;
   createContentType: ContentType;
+  deleteContentType: ContentType;
   updateContentType: ContentType;
 };
 
@@ -233,12 +239,18 @@ export type MutationCreateContentTypeArgs = {
 };
 
 
+export type MutationDeleteContentTypeArgs = {
+  contentTypeId: Scalars['String']['input'];
+};
+
+
 export type MutationUpdateContentTypeArgs = {
   contentType: ContentTypeInput;
 };
 
 export type NumberField = {
   __typename?: 'NumberField';
+  fieldId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   number: Scalars['Float']['output'];
   type: Scalars['String']['output'];
@@ -290,6 +302,7 @@ export type QueryFindContentsArgs = {
 
 export type StringField = {
   __typename?: 'StringField';
+  fieldId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   string: Scalars['String']['output'];
   type: Scalars['String']['output'];
@@ -328,9 +341,10 @@ export type User = {
 
 export type UserRelationField = {
   __typename?: 'UserRelationField';
+  fieldId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  user: User;
+  user?: Maybe<User>;
 };
 
 export type UserRelationFieldType = {
@@ -344,7 +358,7 @@ export type UserRelationFieldType = {
 
 export type UserRelationFieldTypeSettings = {
   __typename?: 'UserRelationFieldTypeSettings';
-  defaultValue?: Maybe<Scalars['Boolean']['output']>;
+  defaultValue?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserRelationFieldTypeSettingsInput = {

@@ -28,7 +28,7 @@ const toggleFieldTypeDropdown = (event: Event) => {
 
 const getFieldTypeKey = (type: string) => {
   return type.replace("Type", "") as keyof typeof appConfig.content.fieldTypes;
-}
+};
 
 const addField = (type: string) => {
   props.contentType.fields.push({
@@ -61,9 +61,11 @@ const fieldSelectionMenuItems = Object.keys(appConfig.content.fieldTypes).map(
 );
 
 const deleteFieldByFieldId = (fieldId: string) => {
-  props.contentType.fields = props.contentType.fields.filter((field: ContentTypeFieldUnion) => {
-    return field.fieldId !== fieldId;
-  });
+  props.contentType.fields = props.contentType.fields.filter(
+    (field: ContentTypeFieldUnion) => {
+      return field.fieldId !== fieldId;
+    }
+  );
 };
 
 const confirmFieldDeletion = (event: any, field: ContentTypeFieldUnion) => {
@@ -74,49 +76,89 @@ const confirmFieldDeletion = (event: any, field: ContentTypeFieldUnion) => {
     accept: () => {
       deleteFieldByFieldId(field.fieldId);
     },
-    reject: () => { },
+    reject: () => {},
   });
 };
 </script>
 
 <template>
   <div class="flex flex-col gap-4">
-    <div class="flex gap-4 ">
+    <div class="flex gap-4">
       <div class="flex-1">
         <FloatLabel>
-          <InputText id="content-type-name" v-model="contentType.name" class="w-full" />
+          <InputText
+            id="content-type-name"
+            v-model="contentType.name"
+            class="w-full"
+          />
           <label for="content-type-name">Content type name</label>
         </FloatLabel>
       </div>
       <div class="flex flex-col gap-2">
         <div class="flex items-center justify-between">
           <label for="ispublishable" class="mr-2">Is publishable</label>
-          <InputSwitch inputId="ispublishable" v-model="contentType.isPublishable" />
+          <InputSwitch
+            inputId="ispublishable"
+            v-model="contentType.isPublishable"
+          />
         </div>
         <div class="flex items-center justify-between">
-          <label for="canBeVisibleInMenu" class="mr-2">Can be visible in menu</label>
-          <InputSwitch inputId="canBeVisibleInMenu" v-model="contentType.canBeVisibleInMenu" />
+          <label for="canBeVisibleInMenu" class="mr-2"
+            >Can be visible in menu</label
+          >
+          <InputSwitch
+            inputId="canBeVisibleInMenu"
+            v-model="contentType.canBeVisibleInMenu"
+          />
         </div>
         <div class="flex items-center justify-between">
-          <label for="isVisibleInTree" class="mr-2">Is visible in content tree</label>
-          <InputSwitch inputId="isVisibleInTree" v-model="contentType.isVisibleInTree" />
+          <label for="isVisibleInTree" class="mr-2"
+            >Is visible in content tree</label
+          >
+          <InputSwitch
+            inputId="isVisibleInTree"
+            v-model="contentType.isVisibleInTree"
+          />
         </div>
       </div>
     </div>
 
     <div>
-      <DataTable v-model:expandedRows="expandedFieldTypes" :value="contentType.fields" dataKey="fieldId"
-        :reorderableColumns="true" @rowReorder="onContentTypeFieldOrder">
+      <DataTable
+        v-model:expandedRows="expandedFieldTypes"
+        :value="contentType.fields"
+        dataKey="fieldId"
+        :reorderableColumns="true"
+        @rowReorder="onContentTypeFieldOrder"
+      >
         <template #header>
           <div class="flex justify-between items-center">
             <div class="text-xl font-bold">Fields</div>
             <div class="flex gap-2">
-              <Button text icon="i-mdi-minus" size="small" label="Collapse All" @click="collapseAllFieldTypes" />
+              <Button
+                text
+                icon="i-mdi-minus"
+                size="small"
+                label="Collapse All"
+                @click="collapseAllFieldTypes"
+              />
               <div>
-                <Button type="button" label="Add new" @click="toggleFieldTypeDropdown" icon="i-mdi-plus" size="small"
-                  aria-haspopup="true" aria-controls="field-selection-menu" severity="secondary" />
-                <Menu ref="fieldSelectionMenu" id="field-selection-menu" :popup="true"
-                  :model="fieldSelectionMenuItems" />
+                <Button
+                  type="button"
+                  label="Add new"
+                  @click="toggleFieldTypeDropdown"
+                  icon="i-mdi-plus"
+                  size="small"
+                  aria-haspopup="true"
+                  aria-controls="field-selection-menu"
+                  severity="secondary"
+                />
+                <Menu
+                  ref="fieldSelectionMenu"
+                  id="field-selection-menu"
+                  :popup="true"
+                  :model="fieldSelectionMenuItems"
+                />
               </div>
             </div>
           </div>
@@ -129,21 +171,35 @@ const confirmFieldDeletion = (event: any, field: ContentTypeFieldUnion) => {
             <div class="flex gap-2 items-center">
               <span v-if="data.name" class="font-bold">{{ data.name }}</span>
               <Tag v-else value="Unnamed field" severity="danger" />
-              <Tag v-if="data.fieldSettings.isRequired" value="Required" severity="success" />
+              <Tag
+                v-if="data.fieldSettings.isRequired"
+                value="Required"
+                severity="success"
+              />
             </div>
             <div class="text-xs">Field ID: {{ data.fieldId }}</div>
           </template>
         </Column>
         <Column field="type" header="Type" class="w-64">
           <template #body="{ data }">
-            <Chip :label="data.type.replace('Type', '')" class="text-sm" :icon="appConfig.content.fieldTypes[getFieldTypeKey(data.type)].icon
-              " />
+            <Chip
+              :label="data.type.replace('Type', '')"
+              class="text-sm"
+              :icon="
+                appConfig.content.fieldTypes[getFieldTypeKey(data.type)].icon
+              "
+            />
           </template>
         </Column>
         <Column class="w-16">
           <template #body="{ data }">
-            <Button @click="confirmFieldDeletion($event, data)" icon="i-mdi-trash" text severity="secondary"
-              size="large" />
+            <Button
+              @click="confirmFieldDeletion($event, data)"
+              icon="i-mdi-trash"
+              text
+              severity="secondary"
+              size="large"
+            />
           </template>
         </Column>
 
@@ -160,8 +216,20 @@ const confirmFieldDeletion = (event: any, field: ContentTypeFieldUnion) => {
           <div class="text-center font-bold">Are you sure?</div>
           <div>{{ message.message }}</div>
           <div class="flex gap-2 items-center justify-center mt-2">
-            <Button label="Yes" size="small" icon="i-mdi-check" severity="danger" @click="acceptCallback" />
-            <Button label="No" size="small" icon="i-mdi-window-close" severity="success" @click="rejectCallback" />
+            <Button
+              label="Yes"
+              size="small"
+              icon="i-mdi-check"
+              severity="danger"
+              @click="acceptCallback"
+            />
+            <Button
+              label="No"
+              size="small"
+              icon="i-mdi-window-close"
+              severity="success"
+              @click="rejectCallback"
+            />
           </div>
         </div>
       </template>

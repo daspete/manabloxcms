@@ -10,6 +10,10 @@ export class DateField {
   name: string;
 
   @Field()
+  @Prop()
+  fieldId: string;
+
+  @Field()
   type: 'DateField' = 'DateField';
 
   @Field(() => Date)

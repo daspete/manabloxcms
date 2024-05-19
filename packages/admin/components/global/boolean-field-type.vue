@@ -2,11 +2,11 @@
 const props = defineProps({
   field: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 
-if(!props.field.booleanSettings) {
+if (!props.field.booleanSettings) {
   props.field.booleanSettings = {};
 }
 </script>

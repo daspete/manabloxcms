@@ -12,10 +12,14 @@ export class UserRelationField {
   name: string;
 
   @Field()
+  @Prop()
+  fieldId: string;
+
+  @Field()
   type: 'UserRelationField' = 'UserRelationField';
 
-  @Field(() => User)
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  @Field(() => User, { nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false })
   user: string;
 }
 

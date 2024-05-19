@@ -2,11 +2,11 @@
 const props = defineProps({
   field: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 
-if(!props.field.assetSettings) {
+if (!props.field.assetSettings) {
   props.field.assetSettings = {};
 }
 </script>

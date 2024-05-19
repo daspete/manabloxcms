@@ -21,6 +21,8 @@ services:
   manablox-admin:
     image: node:20
     hostname: manablox-admin
+    depends_on:
+      - manablox-server
     ports:
       - 24678:24678
     volumes:

@@ -12,10 +12,14 @@ export class ContentRelationField {
   name: string;
 
   @Field()
+  @Prop()
+  fieldId: string;
+
+  @Field()
   type: 'ContentRelationField' = 'ContentRelationField';
 
-  @Field(() => Content)
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Content' })
+  @Field(() => Content, { nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Content', required: false })
   content: string;
 }
 

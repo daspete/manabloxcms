@@ -2,10 +2,10 @@
 const props = defineProps({
   field: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
-if(!props.field.dateSettings) {
+if (!props.field.dateSettings) {
   props.field.dateSettings = {};
 }
 </script>

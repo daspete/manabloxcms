@@ -11,7 +11,7 @@ import {
 export class UserRelationFieldTypeSettings {
   @Field({ nullable: true })
   @Prop({ required: false })
-  defaultValue?: boolean;
+  defaultValue?: string;
 }
 
 export const UserRelationFieldTypeSettingsSchema = SchemaFactory.createForClass(
@@ -24,7 +24,7 @@ export class UserRelationFieldType {
   @Field()
   @Prop()
   fieldId: string;
-  
+
   @Field()
   @Prop()
   name: string;

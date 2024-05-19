@@ -12,10 +12,14 @@ export class AssetRelationField {
   name: string;
 
   @Field()
+  @Prop()
+  fieldId: string;
+
+  @Field()
   type: 'AssetRelationField' = 'AssetRelationField';
 
-  @Field(() => Asset)
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Asset' })
+  @Field(() => Asset, { nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Asset', required: false })
   asset: string;
 }
 

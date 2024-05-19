@@ -10,6 +10,10 @@ export class NumberField {
   name: string;
 
   @Field()
+  @Prop()
+  fieldId: string;
+
+  @Field()
   type: 'NumberField' = 'NumberField';
 
   @Field(() => Float)

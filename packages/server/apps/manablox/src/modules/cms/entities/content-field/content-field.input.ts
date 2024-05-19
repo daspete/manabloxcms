@@ -9,6 +9,9 @@ export class ContentFieldInput {
   @Field()
   type: string;
 
+  @Field()
+  fieldId: string;
+
   @Field({ nullable: true })
   string?: string;
 

@@ -10,6 +10,10 @@ export class StringField {
   name: string;
 
   @Field()
+  @Prop()
+  fieldId: string;
+
+  @Field()
   type: 'StringField' = 'StringField';
 
   @Field()

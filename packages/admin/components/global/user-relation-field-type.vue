@@ -2,11 +2,11 @@
 const props = defineProps({
   field: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 
-if(!props.field.userSettings) {
+if (!props.field.userSettings) {
   props.field.userSettings = {};
 }
 </script>

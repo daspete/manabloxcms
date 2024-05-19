@@ -2,11 +2,11 @@
 const props = defineProps({
   field: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 
-if(!props.field.numberSettings) {
+if (!props.field.numberSettings) {
   props.field.numberSettings = {};
 }
 </script>
@@ -17,22 +17,42 @@ if(!props.field.numberSettings) {
 
     <div class="flex gap-4">
       <FloatLabel class="flex-1">
-        <InputNumber id="min-value" v-model="field.numberSettings.min" class="w-full" showButtons  />
+        <InputNumber
+          id="min-value"
+          v-model="field.numberSettings.min"
+          class="w-full"
+          showButtons
+        />
         <label for="min-value">Min. value</label>
       </FloatLabel>
       <FloatLabel class="flex-1">
-        <InputNumber id="max-value" v-model="field.numberSettings.max" class="w-full" showButtons  />
+        <InputNumber
+          id="max-value"
+          v-model="field.numberSettings.max"
+          class="w-full"
+          showButtons
+        />
         <label for="max-value">Max. value</label>
       </FloatLabel>
     </div>
 
     <div class="flex gap-4">
       <FloatLabel class="flex-1">
-        <InputNumber id="precision" v-model="field.numberSettings.precision" class="w-full" showButtons  />
+        <InputNumber
+          id="precision"
+          v-model="field.numberSettings.precision"
+          class="w-full"
+          showButtons
+        />
         <label for="precision">Precision</label>
       </FloatLabel>
       <FloatLabel class="flex-1">
-        <InputNumber id="default-value" v-model="field.numberSettings.defaultValue" class="w-full" showButtons  />
+        <InputNumber
+          id="default-value"
+          v-model="field.numberSettings.defaultValue"
+          class="w-full"
+          showButtons
+        />
         <label for="default-value">Default value</label>
       </FloatLabel>
     </div>
