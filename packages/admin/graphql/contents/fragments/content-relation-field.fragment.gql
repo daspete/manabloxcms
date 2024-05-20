@@ -1,0 +1,8 @@
+fragment ContentRelationFieldFields on ContentRelationField {
+  name
+  fieldId
+  type
+  content {
+    contentId
+  }
+}

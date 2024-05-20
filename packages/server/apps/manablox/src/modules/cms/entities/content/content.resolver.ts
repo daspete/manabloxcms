@@ -21,6 +21,11 @@ export class ContentResolver {
     return this.contentService.findAll();
   }
 
+  @Query(() => Content)
+  async content(@Args('contentId', { type: () => String }) contentId: string) {
+    return this.contentService.findOne({ contentId });
+  }
+
   @Query(() => [Content])
   async findContents(
     @Args('types', { type: () => [String], nullable: true })
@@ -81,6 +86,11 @@ export class ContentResolver {
     }
 
     return this.contentService.create(content);
+  }
+
+  @Mutation(() => Content)
+  async updateContent(@Args('content') content: ContentInput) {
+    return this.contentService.update(content);
   }
 
   @Mutation(() => Content)

@@ -7,6 +7,9 @@ import { BooleanFieldType } from './content-type-field-types/boolean-field-type/
 import { UserRelationFieldType } from './content-type-field-types/user-relation-field-type/user-relation-field-type.model';
 import { AssetRelationFieldType } from './content-type-field-types/asset-relation-field-type/asset-relation-field-type.model';
 import { ContentRelationFieldType } from './content-type-field-types/content-relation-field-type/content-relation-field-type.model';
+import { BlockItemFieldType } from './content-type-field-types/block-item-field-type/block-item-field-type.model';
+import { BlockItemsFieldType } from './content-type-field-types/block-items-field-type/block-items-field-type.model';
+
 
 @ObjectType()
 @Schema({ discriminatorKey: 'type', _id: false, autoCreate: false })
@@ -26,6 +29,8 @@ export const contentTypeFieldTypes = [
   UserRelationFieldType,
   AssetRelationFieldType,
   ContentRelationFieldType,
+  BlockItemFieldType,
+  BlockItemsFieldType
 ];
 
 export const ContentTypeFieldUnion = createUnionType({

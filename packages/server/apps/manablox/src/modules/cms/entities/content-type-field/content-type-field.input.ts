@@ -7,6 +7,8 @@ import { DateFieldTypeSettingsInput } from './content-type-field-types/date-fiel
 import { UserRelationFieldTypeSettingsInput } from './content-type-field-types/user-relation-field-type/user-relation-field-type-settings.input';
 import { AssetRelationFieldTypeSettingsInput } from './content-type-field-types/asset-relation-field-type/asset-relation-field-type-settings.input';
 import { ContentRelationFieldTypeSettingsInput } from './content-type-field-types/content-relation-field-type/content-relation-field-type-settings.input';
+import { BlockItemFieldTypeSettingsInput } from './content-type-field-types/block-item-field-type/block-item-field-type-settings.input';
+import { BlockItemsFieldTypeSettingsInput } from './content-type-field-types/block-items-field-type/block-items-field-type-settings.input';
 
 @InputType()
 export class ContentTypeFieldInput {
@@ -42,4 +44,10 @@ export class ContentTypeFieldInput {
 
   @Field({ nullable: true })
   contentSettings?: ContentRelationFieldTypeSettingsInput;
+
+  @Field({ nullable: true })
+  blockSettings?: BlockItemFieldTypeSettingsInput;
+
+  @Field({ nullable: true })
+  blocksSettings?: BlockItemsFieldTypeSettingsInput;
 }

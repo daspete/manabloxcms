@@ -2,12 +2,13 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import {
   ContentFieldSchema,
   ContentFieldUnion,
-  contentFieldTypes,
+  ContentFieldUnionType,
 } from '../content-field/content-field.model';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-type ContentFieldUnionType = (typeof contentFieldTypes)[number];
+
+
 @ObjectType()
 @Schema({
   collection: 'contents',

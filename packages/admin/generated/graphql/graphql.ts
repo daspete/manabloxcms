@@ -51,6 +51,86 @@ export type AssetRelationFieldTypeSettingsInput = {
   defaultValue?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type Block = {
+  __typename?: 'Block';
+  blockId: Scalars['String']['output'];
+  fields: Array<BlockFieldUnion>;
+  type: Scalars['String']['output'];
+};
+
+export type BlockFieldInput = {
+  asset?: InputMaybe<Scalars['ID']['input']>;
+  boolean?: InputMaybe<Scalars['Boolean']['input']>;
+  content?: InputMaybe<Scalars['ID']['input']>;
+  date?: InputMaybe<Scalars['DateTime']['input']>;
+  fieldId: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  number?: InputMaybe<Scalars['Float']['input']>;
+  string?: InputMaybe<Scalars['String']['input']>;
+  type: Scalars['String']['input'];
+  user?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type BlockFieldUnion = AssetRelationField | BooleanField | ContentRelationField | DateField | NumberField | StringField | UserRelationField;
+
+export type BlockInput = {
+  blockId: Scalars['String']['input'];
+  fields?: InputMaybe<Array<BlockFieldInput>>;
+  type: Scalars['String']['input'];
+};
+
+export type BlockItemField = {
+  __typename?: 'BlockItemField';
+  block: Block;
+  fieldId: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type BlockItemFieldType = {
+  __typename?: 'BlockItemFieldType';
+  blockSettings?: Maybe<BlockItemFieldTypeSettings>;
+  fieldId: Scalars['String']['output'];
+  fieldSettings: ContentTypeFieldSettings;
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type BlockItemFieldTypeSettings = {
+  __typename?: 'BlockItemFieldTypeSettings';
+  blockType: ContentType;
+};
+
+export type BlockItemFieldTypeSettingsInput = {
+  blockType?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type BlockItemsField = {
+  __typename?: 'BlockItemsField';
+  blocks: Array<Block>;
+  fieldId: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type BlockItemsFieldType = {
+  __typename?: 'BlockItemsFieldType';
+  blocksSettings?: Maybe<BlockItemsFieldTypeSettings>;
+  fieldId: Scalars['String']['output'];
+  fieldSettings: ContentTypeFieldSettings;
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type BlockItemsFieldTypeSettings = {
+  __typename?: 'BlockItemsFieldTypeSettings';
+  blockType: ContentType;
+};
+
+export type BlockItemsFieldTypeSettingsInput = {
+  blockType?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type BooleanField = {
   __typename?: 'BooleanField';
   boolean: Scalars['Boolean']['output'];
@@ -96,6 +176,8 @@ export type ContentFieldsArgs = {
 
 export type ContentFieldInput = {
   asset?: InputMaybe<Scalars['ID']['input']>;
+  block?: InputMaybe<BlockInput>;
+  blocks?: InputMaybe<Array<BlockInput>>;
   boolean?: InputMaybe<Scalars['Boolean']['input']>;
   content?: InputMaybe<Scalars['ID']['input']>;
   date?: InputMaybe<Scalars['DateTime']['input']>;
@@ -107,7 +189,7 @@ export type ContentFieldInput = {
   user?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type ContentFieldUnion = AssetRelationField | BooleanField | ContentRelationField | DateField | NumberField | StringField | UserRelationField;
+export type ContentFieldUnion = AssetRelationField | BlockItemField | BlockItemsField | BooleanField | ContentRelationField | DateField | NumberField | StringField | UserRelationField;
 
 export type ContentInput = {
   contentId: Scalars['String']['input'];
@@ -160,6 +242,8 @@ export type ContentType = {
 
 export type ContentTypeFieldInput = {
   assetSettings?: InputMaybe<AssetRelationFieldTypeSettingsInput>;
+  blockSettings?: InputMaybe<BlockItemFieldTypeSettingsInput>;
+  blocksSettings?: InputMaybe<BlockItemsFieldTypeSettingsInput>;
   booleanSettings?: InputMaybe<BooleanFieldTypeSettingsInput>;
   contentSettings?: InputMaybe<ContentRelationFieldTypeSettingsInput>;
   dateSettings?: InputMaybe<DateFieldTypeSettingsInput>;
@@ -181,7 +265,7 @@ export type ContentTypeFieldSettingsInput = {
   isRequired: Scalars['Boolean']['input'];
 };
 
-export type ContentTypeFieldUnion = AssetRelationFieldType | BooleanFieldType | ContentRelationFieldType | DateFieldType | NumberFieldType | StringFieldType | UserRelationFieldType;
+export type ContentTypeFieldUnion = AssetRelationFieldType | BlockItemFieldType | BlockItemsFieldType | BooleanFieldType | ContentRelationFieldType | DateFieldType | NumberFieldType | StringFieldType | UserRelationFieldType;
 
 export type ContentTypeInput = {
   canBeVisibleInMenu?: InputMaybe<Scalars['Boolean']['input']>;
@@ -232,7 +316,9 @@ export type Mutation = {
   __typename?: 'Mutation';
   createContent: Content;
   createContentType: ContentType;
+  deleteContent: Content;
   deleteContentType: ContentType;
+  updateContent: Content;
   updateContentType: ContentType;
 };
 
@@ -247,8 +333,18 @@ export type MutationCreateContentTypeArgs = {
 };
 
 
+export type MutationDeleteContentArgs = {
+  contentId: Scalars['String']['input'];
+};
+
+
 export type MutationDeleteContentTypeArgs = {
   contentTypeId: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateContentArgs = {
+  content: ContentInput;
 };
 
 
@@ -291,11 +387,17 @@ export type NumberFieldTypeSettingsInput = {
 export type Query = {
   __typename?: 'Query';
   assets: Array<Asset>;
+  content: Content;
   contentType: ContentType;
   contentTypes: Array<ContentType>;
   contents: Array<Content>;
   findContents: Array<Content>;
   users: Array<User>;
+};
+
+
+export type QueryContentArgs = {
+  contentId: Scalars['String']['input'];
 };
 
 
@@ -328,6 +430,9 @@ export type StringFieldType = {
 export type StringFieldTypeSettings = {
   __typename?: 'StringFieldTypeSettings';
   defaultValue?: Maybe<Scalars['String']['output']>;
+  isCodeBlock?: Maybe<Scalars['Boolean']['output']>;
+  isRichText?: Maybe<Scalars['Boolean']['output']>;
+  isTextArea?: Maybe<Scalars['Boolean']['output']>;
   maxCharacters?: Maybe<Scalars['Float']['output']>;
   minCharacters?: Maybe<Scalars['Float']['output']>;
   regex?: Maybe<Scalars['String']['output']>;
@@ -335,6 +440,9 @@ export type StringFieldTypeSettings = {
 
 export type StringFieldTypeSettingsInput = {
   defaultValue?: InputMaybe<Scalars['String']['input']>;
+  isCodeBlock?: InputMaybe<Scalars['Boolean']['input']>;
+  isRichText?: InputMaybe<Scalars['Boolean']['input']>;
+  isTextArea?: InputMaybe<Scalars['Boolean']['input']>;
   maxCharacters?: InputMaybe<Scalars['Float']['input']>;
   minCharacters?: InputMaybe<Scalars['Float']['input']>;
   regex?: InputMaybe<Scalars['String']['input']>;

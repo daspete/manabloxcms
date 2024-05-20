@@ -7,12 +7,18 @@ const props = defineProps({
     required: true,
   },
   content: {
-    type: Object as PropType<Partial<Content>>,
+    type: Object as PropType<Content>,
     required: true,
   },
 });
 
 initContentFields(props.contentType, props.content);
+
+const contentFields = computed(() => {
+  return props.content.fields.filter((field) => {
+    return !!getFieldType(props.contentType, field);
+  });
+});
 </script>
 
 <template>
@@ -35,7 +41,7 @@ initContentFields(props.contentType, props.content);
     </div>
 
     <component
-      v-for="field in content.fields"
+      v-for="field in contentFields"
       :key="field.fieldId"
       :is="field.type"
       :fieldType="getFieldType(contentType, field)"

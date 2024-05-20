@@ -8,7 +8,7 @@ export const useContentTypeQuery = (variables = {}) => {
     contentTypeQuery,
     variables,
     {
-      fetchPolicy: 'cache-and-network'
+      fetchPolicy: 'network-only'
     }
   );
 

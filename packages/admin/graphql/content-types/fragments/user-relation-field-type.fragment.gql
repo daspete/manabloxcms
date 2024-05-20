@@ -1,0 +1,11 @@
+fragment UserRelationFieldTypeFields on UserRelationFieldType {
+  name
+  type
+  fieldId
+  fieldSettings {
+    isRequired
+  }
+  userSettings {
+    defaultValue
+  }
+}

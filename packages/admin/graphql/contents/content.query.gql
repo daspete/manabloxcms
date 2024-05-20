@@ -1,0 +1,33 @@
+#import "./fragments/string-field.fragment.gql"
+#import "./fragments/number-field.fragment.gql"
+#import "./fragments/date-field.fragment.gql"
+#import "./fragments/boolean-field.fragment.gql"
+#import "./fragments/user-relation-field.fragment.gql"
+#import "./fragments/content-relation-field.fragment.gql"
+#import "./fragments/asset-relation-field.fragment.gql"
+#import "./fragments/block-item-field.fragment.gql"
+#import "./fragments/block-items-field.fragment.gql"
+
+query content($contentId: String!) {
+  content(contentId: $contentId) {
+    contentId
+    type
+    title
+    slug
+    parent {
+      id
+    }
+    locale
+    fields {
+      ...StringFieldFields
+      ...NumberFieldFields
+      ...DateFieldFields
+      ...BooleanFieldFields
+      ...UserRelationFieldFields
+      ...ContentRelationFieldFields
+      ...AssetRelationFieldFields
+      ...BlockItemFieldFields
+      ...BlockItemsFieldFields
+    }
+  }
+}

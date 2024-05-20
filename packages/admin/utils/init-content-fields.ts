@@ -31,8 +31,8 @@ export const initContentFields = (contentType: ContentType, content: Partial<Con
 
       content.fields?.push(newField as ContentFieldUnion);
     }
-
   }
+
   return content;
 }
 

@@ -1,0 +1,11 @@
+fragment AssetRelationFieldTypeFields on AssetRelationFieldType {
+  name
+  type
+  fieldId
+  fieldSettings {
+    isRequired
+  }
+  assetSettings {
+    defaultValue
+  }
+}

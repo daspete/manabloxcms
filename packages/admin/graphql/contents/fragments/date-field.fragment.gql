@@ -1,0 +1,6 @@
+fragment DateFieldFields on DateField {
+  type
+  fieldId
+  name
+  date
+}

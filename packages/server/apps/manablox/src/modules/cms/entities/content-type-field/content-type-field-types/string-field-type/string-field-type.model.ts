@@ -24,6 +24,18 @@ export class StringFieldTypeSettings {
   @Field({ nullable: true })
   @Prop({ required: false })
   regex?: string;
+
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  isRichText?: boolean;
+
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  isCodeBlock?: boolean;
+
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  isTextArea?: boolean;
 }
 
 export const StringFieldTypeSettingsSchema = SchemaFactory.createForClass(
@@ -36,7 +48,7 @@ export class StringFieldType {
   @Field()
   @Prop()
   fieldId: string;
-  
+
   @Field()
   @Prop()
   name: string;
