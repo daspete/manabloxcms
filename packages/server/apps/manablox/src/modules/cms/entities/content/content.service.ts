@@ -20,12 +20,24 @@ export class ContentService {
     return items.map((item) => item.toJSON());
   }
 
-  async findOne(id: string): Promise<Content> {
+  async findOne(query: any): Promise<Content> {
+    return (await this.contentModel.findOne(query).exec()).toJSON();
+  }
+
+  async findById(id: string): Promise<Content> {
     return (await this.contentModel.findById(id).exec()).toJSON();
   }
 
   async create(content: ContentInput): Promise<Content> {
     return this.contentModel.create(content);
+  }
+
+  async update(content: ContentInput): Promise<Content> {
+    const { id, contentId, ...dataToUpdate } = content;
+
+    await this.contentModel.updateOne({ contentId }, { $set: dataToUpdate });
+
+    return this.contentModel.findOne({ contentId }).exec();
   }
 
   async delete(contentId: string): Promise<Content> {

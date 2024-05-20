@@ -1,0 +1,11 @@
+fragment ContentRelationFieldTypeFields on ContentRelationFieldType {
+  name
+  type
+  fieldId
+  fieldSettings {
+    isRequired
+  }
+  contentSettings {
+    defaultValue
+  }
+}

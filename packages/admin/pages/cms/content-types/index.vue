@@ -75,11 +75,9 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
           stripedRows
           :loading="loading"
           removableSort
-          selectionMode="single"
           :rowsPerPageOptions="[5, 10, 20, 50]"
           paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
           currentPageReportTemplate="{first} to {last} of {totalRecords}"
-          @rowSelect="onContentTypeSelect"
         >
           <template #paginatorstart>
             <Button
@@ -98,9 +96,13 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
 
           <Column field="name" header="Name" sortable>
             <template #body="{ data }">
-              <div>{{ data.name }}</div>
-              <div class="text-xs">
-                Content type ID: {{ data.contentTypeId }}
+              <div>
+                <NuxtLink :to="`/cms/content-types/${data.name}`">
+                  <div>{{ data.name }}</div>
+                  <div class="text-xs">
+                    Content type ID: {{ data.contentTypeId }}
+                  </div>
+                </NuxtLink>
               </div>
             </template>
           </Column>

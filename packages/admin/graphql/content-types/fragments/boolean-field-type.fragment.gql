@@ -1,0 +1,11 @@
+fragment BooleanFieldTypeFields on BooleanFieldType {
+  name
+  type
+  fieldId
+  fieldSettings {
+    isRequired
+  }
+  booleanSettings {
+    defaultValue
+  }
+}

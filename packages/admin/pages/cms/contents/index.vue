@@ -93,14 +93,24 @@ const confirmContentDeletion = (event: any, content: Content) => {
 
           <Column field="title" header="Title" sortable>
             <template #body="{ data }">
-              <div>{{ data.title }}</div>
-              <div class="text-xs">Content ID: {{ data.contentId }}</div>
+              <div>
+                <NuxtLink :to="`/cms/contents/${data.type}/${data.contentId}`">
+                  <div>{{ data.title }}</div>
+                  <div class="text-xs">Content ID: {{ data.contentId }}</div>
+                </NuxtLink>
+              </div>
             </template>
           </Column>
 
-          <Column field="slug" header="slug">
+          <Column field="slug" header="Slug">
             <template #body="{ data }">
               <div>{{ data.slug }}</div>
+            </template>
+          </Column>
+
+          <Column field="type" header="Type">
+            <template #body="{ data }">
+              <div>{{ data.type }}</div>
             </template>
           </Column>
 

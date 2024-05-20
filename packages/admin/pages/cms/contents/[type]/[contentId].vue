@@ -1,22 +1,26 @@
 <script setup lang="ts">
 import { useToast } from "primevue/usetoast";
-import updateContentTypeMutation from "~/graphql/content-types/update-content-type.mutation.gql";
+import updateContentMutation from "~/graphql/contents/update-content.mutation.gql";
 
 const route = useRoute();
 const toast = useToast();
 
-const { loading, contentType } = useContentTypeQuery({
-  name: route.params.name,
+const { loading: contentTypeLoading, contentType } = useContentTypeQuery({
+  name: route.params.type,
+});
+
+const { loading: contentLoading, content } = useContentQuery({
+  contentId: route.params.contentId,
 });
 
 const isUpdating = ref(false);
 
-const updateContentType = async () => {
+const updateContent = async () => {
   isUpdating.value = true;
 
-  const { mutate } = useMutation(updateContentTypeMutation, {
+  const { mutate } = useMutation(updateContentMutation, {
     variables: {
-      contentType: stripTypename(clone(contentType.value)),
+      content: stripTypename(clone(content.value)),
     },
   });
 
@@ -25,28 +29,30 @@ const updateContentType = async () => {
     toast.add({
       severity: "success",
       summary: "Success",
-      detail: `Content type "${contentType.value.name}" updated.`,
-      life: 3000,
+      detail: `Content updated.`,
+      life: 2000,
     });
   } catch (err: any) {
     toast.add({
       severity: "error",
-      summary: "Error while updating content type",
+      summary: "Error while updating content",
       detail: err.message,
-      life: 5000,
+      life: 3000,
     });
   } finally {
     isUpdating.value = false;
   }
 };
+
+const contentReady = computed(() => !contentLoading.value && !contentTypeLoading.value && content.value && contentType.value && content.value.contentId);
 </script>
 
 <template>
   <div class="container pt-8">
     <div class="flex justify-between mb-8 items-center">
-      <span class="text-2xl font-bold"> Update content type </span>
+      <span class="text-2xl font-bold"> Update content </span>
       <div class="flex gap-2">
-        <NuxtLink to="/cms/content-types">
+        <NuxtLink to="/cms/contents">
           <Button
             type="button"
             label="Back to overview"
@@ -59,14 +65,14 @@ const updateContentType = async () => {
           type="button"
           label="Update"
           icon="i-mdi-content-save"
-          @click="updateContentType"
+          @click="updateContent"
         />
       </div>
     </div>
 
     <Card>
       <template #content>
-        <ContentTypeEditor :contentType="contentType" />
+        <ContentEditor v-if="contentReady" :contentType="contentType" :content="content" />
       </template>
     </Card>
 

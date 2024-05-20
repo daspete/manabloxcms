@@ -1,0 +1,5 @@
+mutation updateContent($content: ContentInput!) {
+  updateContent(content: $content) {
+    contentId
+  }
+}

@@ -9,6 +9,7 @@ import { DateField } from './content-field-types/date-field/date-field.model';
 import { UserRelationField } from './content-field-types/user-relation-field/user-relation-field.model';
 import { AssetRelationField } from './content-field-types/asset-relation-field/asset-relation-field.model';
 import { ContentRelationField } from './content-field-types/content-relation-field/content-relation-field.model';
+import { BlockField } from './content-field-types/block-field/block-field.model';
 
 @ObjectType()
 @Schema({ discriminatorKey: 'type', _id: false, autoCreate: false })
@@ -27,21 +28,14 @@ export const contentFieldTypes = [
   UserRelationField,
   AssetRelationField,
   ContentRelationField,
+  BlockField,
 ];
 
 export const ContentFieldUnion = createUnionType({
   name: 'ContentFieldUnion',
   types: () => contentFieldTypes,
   resolveType: (
-    value: any,
-    // value:
-    //   | StringField
-    //   | NumberField
-    //   | BooleanField
-    //   | DateField
-    //   | UserRelationField
-    //   | AssetRelationField
-    //   | ContentRelationField,
+    value: any
   ) => {
     return value.type;
   },

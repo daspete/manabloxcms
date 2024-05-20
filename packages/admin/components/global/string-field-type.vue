@@ -54,5 +54,20 @@ if (!props.field.stringSettings) {
         <label for="default-value">Default value</label>
       </FloatLabel>
     </div>
+
+    <div class="flex gap-8">
+      <div class="flex gap-4 items-center" v-if="!field.stringSettings.isCodeBlock && !field.stringSettings.isRichText">
+        <InputSwitch id="is-textarea" v-model="field.stringSettings.isTextArea" />
+        <label for="is-textarea">Is a textarea</label>
+      </div>
+      <div class="flex gap-4 items-center" v-if="!field.stringSettings.isCodeBlock && !field.stringSettings.isTextArea">
+        <InputSwitch id="is-richtext" v-model="field.stringSettings.isRichText" />
+        <label for="is-richtext">Use a WYSIWYG editor</label>
+      </div>
+      <div class="flex gap-4 items-center" v-if="!field.stringSettings.isRichText && !field.stringSettings.isTextArea">
+        <InputSwitch id="is-codeblock" v-model="field.stringSettings.isCodeBlock" />
+        <label for="is-codeblock">Is a codeblock</label>
+      </div>
+    </div>
   </div>
 </template>

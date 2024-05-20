@@ -232,6 +232,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createContent: Content;
   createContentType: ContentType;
+  deleteContent: Content;
   deleteContentType: ContentType;
   updateContentType: ContentType;
 };
@@ -244,6 +245,11 @@ export type MutationCreateContentArgs = {
 
 export type MutationCreateContentTypeArgs = {
   contentType: ContentTypeInput;
+};
+
+
+export type MutationDeleteContentArgs = {
+  contentId: Scalars['String']['input'];
 };
 
 

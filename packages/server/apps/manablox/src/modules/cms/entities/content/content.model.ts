@@ -7,7 +7,8 @@ import {
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-type ContentFieldUnionType = (typeof contentFieldTypes)[number];
+export type ContentFieldUnionType = (typeof contentFieldTypes)[number];
+
 @ObjectType()
 @Schema({
   collection: 'contents',
