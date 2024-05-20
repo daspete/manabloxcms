@@ -25,6 +25,7 @@ import { DateFieldSchema } from './entities/content-field/content-field-types/da
 import { UserRelationFieldSchema } from './entities/content-field/content-field-types/user-relation-field/user-relation-field.model';
 import { AssetRelationFieldSchema } from './entities/content-field/content-field-types/asset-relation-field/asset-relation-field.model';
 import { ContentRelationFieldSchema } from './entities/content-field/content-field-types/content-relation-field/content-relation-field.model';
+import { BlockFieldSchema } from './entities/content-field/content-field-types/block-field/block-field.model';
 
 import { AssetRelationFieldResolver } from './entities/content-field/content-field-types/asset-relation-field/asset-relation-field.resolver';
 import { UserRelationFieldResolver } from './entities/content-field/content-field-types/user-relation-field/user-relation-field.resolver';

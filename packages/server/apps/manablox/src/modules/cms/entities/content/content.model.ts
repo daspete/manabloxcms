@@ -7,8 +7,6 @@ import {
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-
-
 @ObjectType()
 @Schema({
   collection: 'contents',

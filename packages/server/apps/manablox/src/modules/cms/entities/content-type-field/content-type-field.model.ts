@@ -10,7 +10,6 @@ import { ContentRelationFieldType } from './content-type-field-types/content-rel
 import { BlockItemFieldType } from './content-type-field-types/block-item-field-type/block-item-field-type.model';
 import { BlockItemsFieldType } from './content-type-field-types/block-items-field-type/block-items-field-type.model';
 
-
 @ObjectType()
 @Schema({ discriminatorKey: 'type', _id: false, autoCreate: false })
 export class ContentTypeField {
