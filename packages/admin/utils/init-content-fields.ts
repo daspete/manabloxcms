@@ -29,6 +29,8 @@ export const initContentFields = (contentType: ContentType, content: Partial<Con
         (newField as DateField).date = (fieldType as DateFieldType).dateSettings?.defaultValue || null;
       }
 
+      //TODO: add block injection
+
       content.fields?.push(newField as ContentFieldUnion);
     }
   }

@@ -6,17 +6,17 @@ import { ContentTypeFieldSettings, ContentTypeFieldSettingsSchema } from "../../
 
 @ObjectType()
 @Schema()
-export class BlockItemsFieldTypeSettings {
+export class BlockFieldTypeSettings {
   @Field(() => ContentType)
-  @Prop({ type: Array<mongoose.Schema.Types.ObjectId>, ref: 'ContentType' })
-  possibleBlockTypes: Array<string>;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ContentType' })
+  blockType: string;
 }
 
-export const BlockItemsFieldTypeSettingsSchema = SchemaFactory.createForClass(BlockItemsFieldTypeSettings);
+export const BlockFieldTypeSettingsSchema = SchemaFactory.createForClass(BlockFieldTypeSettings);
 
 @ObjectType()
 @Schema()
-export class BlockItemsFieldType {
+export class BlockFieldType {
   @Field()
   @Prop()
   fieldId: string;
@@ -26,15 +26,15 @@ export class BlockItemsFieldType {
   name: string;
 
   @Field()
-  type: 'BlockItemsFieldType' = 'BlockItemsFieldType';
+  type: 'BlockFieldType' = 'BlockFieldType';
 
   @Field(() => ContentTypeFieldSettings)
   @Prop({ type: ContentTypeFieldSettingsSchema })
   fieldSettings: ContentTypeFieldSettings;
 
-  @Field(() => BlockItemsFieldTypeSettings, { nullable: true })
-  @Prop({ type: BlockItemsFieldTypeSettingsSchema })
-  blocksSettings: BlockItemsFieldTypeSettings;
+  @Field(() => BlockFieldTypeSettings, { nullable: true })
+  @Prop({ type: BlockFieldTypeSettingsSchema })
+  blockSettings: BlockFieldTypeSettings;
 }
 
-export const BlockItemsFieldTypeSchema = SchemaFactory.createForClass(BlockItemsFieldType);
+export const BlockFieldTypeSchema = SchemaFactory.createForClass(BlockFieldType);

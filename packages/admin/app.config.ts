@@ -1,4 +1,4 @@
-import type { AssetRelationFieldTypeSettings, BooleanFieldTypeSettings, ContentRelationFieldTypeSettings, DateFieldTypeSettings, NumberFieldTypeSettings, StringFieldTypeSettings, UserRelationFieldTypeSettings } from "./generated/graphql/graphql";
+import type { AssetRelationFieldTypeSettings, BlockItemFieldTypeSettings, BlockItemsFieldTypeSettings, BooleanFieldTypeSettings, ContentRelationFieldTypeSettings, DateFieldTypeSettings, NumberFieldTypeSettings, StringFieldTypeSettings, UserRelationFieldTypeSettings } from "./generated/graphql/graphql";
 
 type FieldSettings = {
   isRequired: boolean
@@ -75,6 +75,26 @@ export type ContentConfig = {
           type: string,
           fieldSettings: FieldSettings,
           contentSettings: ContentRelationFieldTypeSettings
+        }
+      },
+      BlockItemField: {
+        label: string,
+        icon: string,
+        default: {
+          name: string,
+          type: string,
+          fieldSettings: FieldSettings,
+          blockSettings: Partial<BlockItemFieldTypeSettings>
+        }
+      },
+      BlockItemsField: {
+        label: string,
+        icon: string,
+        default: {
+          name: string,
+          type: string,
+          fieldSettings: FieldSettings,
+          blocksSettings: Partial<BlockItemsFieldTypeSettings>
         }
       }
     }
@@ -168,6 +188,30 @@ export default defineAppConfig<ContentConfig>({
           contentSettings: {}
         }
       },
+      BlockItemField: {
+        label: "Single Block field",
+        icon: "i-mdi-card-outline",
+        default: {
+          name: '',
+          type: 'BlockItemFieldType',
+          fieldSettings: {
+            isRequired: false
+          },
+          blockSettings: {}
+        }
+      },
+      BlockItemsField: {
+        label: "Multiple Blocks field",
+        icon: "i-mdi-card-multiple-outline",
+        default: {
+          name: '',
+          type: 'BlockItemsFieldType',
+          fieldSettings: {
+            isRequired: false
+          },
+          blocksSettings: {}
+        }
+      }
     },
   },
 });

@@ -1,0 +1,19 @@
+fragment BlockItemFieldTypeFields on BlockItemFieldType {
+  name
+  type
+  fieldId
+  fieldSettings {
+    isRequired
+  }
+  blockSettings {
+    blockType {
+      id
+      contentTypeId
+      name
+      isBlockType
+      isPublishable
+      canBeVisibleInMenu
+      isVisibleInTree
+    }
+  }
+}
