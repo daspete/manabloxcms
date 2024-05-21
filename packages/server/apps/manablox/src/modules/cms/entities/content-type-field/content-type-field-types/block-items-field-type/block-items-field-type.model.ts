@@ -8,8 +8,8 @@ import { ContentTypeFieldSettings, ContentTypeFieldSettingsSchema } from "../../
 @Schema()
 export class BlockItemsFieldTypeSettings {
   @Field(() => ContentType)
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ContentType' })
-  blockType: string;
+  @Prop({ type: Array<mongoose.Schema.Types.ObjectId>, ref: 'ContentType' })
+  possibleBlockTypes: Array<string>;
 }
 
 export const BlockItemsFieldTypeSettingsSchema = SchemaFactory.createForClass(BlockItemsFieldTypeSettings);

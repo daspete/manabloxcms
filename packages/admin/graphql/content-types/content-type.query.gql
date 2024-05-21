@@ -5,7 +5,7 @@
 #import "./fragments/user-relation-field-type.fragment.gql"
 #import "./fragments/content-relation-field-type.fragment.gql"
 #import "./fragments/asset-relation-field-type.fragment.gql"
-
+#import "./fragments/block-item-field-type.fragment.gql"
 
 query contentType($name: String!) {
   contentType(name: $name) {
@@ -25,6 +25,7 @@ query contentType($name: String!) {
       ...UserRelationFieldTypeFields
       ...ContentRelationFieldTypeFields
       ...AssetRelationFieldTypeFields
+      ...BlockItemFieldTypeFields
     }
   }
 }
