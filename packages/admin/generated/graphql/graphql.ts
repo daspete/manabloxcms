@@ -124,11 +124,11 @@ export type BlockItemsFieldType = {
 
 export type BlockItemsFieldTypeSettings = {
   __typename?: 'BlockItemsFieldTypeSettings';
-  blockType: ContentType;
+  possibleBlockTypes: ContentType;
 };
 
 export type BlockItemsFieldTypeSettingsInput = {
-  blockType?: InputMaybe<Scalars['ID']['input']>;
+  possibleBlockTypes?: InputMaybe<Array<Scalars['ID']['input']>>;
 };
 
 export type BooleanField = {

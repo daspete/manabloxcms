@@ -1,6 +1,8 @@
-import type { BooleanField, BooleanFieldType, Content, ContentFieldUnion, ContentType, DateField, DateFieldType, NumberField, NumberFieldType, StringField, StringFieldType, UserRelationField, UserRelationFieldType } from "~/generated/graphql/graphql";
+import type { BlockItemField, BlockItemFieldType, BooleanField, BooleanFieldType, Content, ContentFieldUnion, ContentType, DateField, DateFieldType, NumberField, NumberFieldType, StringField, StringFieldType, UserRelationField, UserRelationFieldType } from "~/generated/graphql/graphql";
+import{ v4 as uuid4 } from 'uuid';
 
 export const initContentFields = (contentType: ContentType, content: Partial<Content>) => {
+  console.log(contentType.name);
   for (let i = 0; i < contentType.fields.length; i++) {
     const fieldType = contentType.fields[i];
     const fieldId = fieldType.fieldId;
@@ -27,6 +29,14 @@ export const initContentFields = (contentType: ContentType, content: Partial<Con
 
       if(fieldType.type === 'DateFieldType') {
         (newField as DateField).date = (fieldType as DateFieldType).dateSettings?.defaultValue || null;
+      }
+
+      if(fieldType.type === 'BlockItemFieldType') {
+        (newField as BlockItemField).block = {
+          blockId: uuid4(),
+          type: (fieldType as BlockItemFieldType).blockSettings?.blockType.name || 'undefined',
+          fields: []
+        }
       }
 
       //TODO: add block injection

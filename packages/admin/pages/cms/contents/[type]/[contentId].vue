@@ -13,6 +13,8 @@ const { loading: contentLoading, content } = useContentQuery({
   contentId: route.params.contentId,
 });
 
+const isInitializing = computed(() => contentLoading.value || contentTypeLoading.value)
+
 const isUpdating = ref(false);
 
 const updateContent = async () => {
@@ -43,8 +45,6 @@ const updateContent = async () => {
     isUpdating.value = false;
   }
 };
-
-const contentReady = computed(() => !contentLoading.value && !contentTypeLoading.value && content.value && contentType.value && content.value.contentId);
 </script>
 
 <template>
@@ -72,7 +72,9 @@ const contentReady = computed(() => !contentLoading.value && !contentTypeLoading
 
     <Card>
       <template #content>
-        <ContentEditor v-if="contentReady" :contentType="contentType" :content="content" />
+        <div v-if="!isInitializing">
+          <ContentEditor :contentType="contentType" :content="content" />
+        </div>
       </template>
     </Card>
 

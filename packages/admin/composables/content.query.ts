@@ -3,19 +3,20 @@ import contentQuery from "~/graphql/contents/content.query.gql";
 
 export const useContentQuery = (variables = {}) => {
   const content = ref<Content>({} as Content);
+  const loading = ref(true);
 
-  const { onResult, onError, refetch, loading } = useQuery(
-    contentQuery,
-    variables,
-    {
-      fetchPolicy: 'network-only'// 'cache-and-network'
+  const refetch = async (_variables: any) => {
+    loading.value = true;
+
+    const { data } = await useAsyncQuery<{ content: Content }>(contentQuery, _variables);
+
+    if(data.value?.content) {
+      content.value = clone(data.value.content);
+      loading.value = false;
     }
-  );
+  }
 
-  onResult((result) => {
-    if (result.partial) return;
-    content.value = clone(result.data.content);
-  });
+  refetch(variables);
 
   return {
     loading,

@@ -3,19 +3,20 @@ import contentTypeQuery from "~/graphql/content-types/content-type.query.gql";
 
 export const useContentTypeQuery = (variables = {}) => {
   const contentType = ref<ContentType>({} as ContentType);
+  const loading = ref(true);
 
-  const { onResult, onError, refetch, loading } = useQuery(
-    contentTypeQuery,
-    variables,
-    {
-      fetchPolicy: 'network-only'
+  const refetch = async (_variables: any) => {
+    loading.value = true;
+    
+    const { data } = await useAsyncQuery<{ contentType: ContentType}>(contentTypeQuery, _variables);
+    
+    if(data.value?.contentType) {
+      contentType.value = clone(data.value.contentType);
     }
-  );
+    loading.value = false;
+  }
 
-  onResult((result) => {
-    if (result.partial) return;
-    contentType.value = clone(result.data.contentType);
-  });
+  refetch(variables);
 
   return {
     loading,
