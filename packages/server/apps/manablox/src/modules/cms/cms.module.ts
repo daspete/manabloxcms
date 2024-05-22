@@ -43,6 +43,7 @@ import { AssetRelationFieldTypeSchema } from './entities/content-type-field/cont
 import { ContentRelationFieldTypeSchema } from './entities/content-type-field/content-type-field-types/content-relation-field-type/content-relation-field-type.model';
 
 import { BlockItemFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/block-item-field-type/block-item-field-type-settings.resolver';
+import { BlockItemsFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/block-items-field-type/block-items-field-type-settings.resolver';
 
 
 @Module({
@@ -126,6 +127,7 @@ import { BlockItemFieldTypeSettingsResolver } from './entities/content-type-fiel
     UserRelationFieldResolver,
 
     BlockItemFieldTypeSettingsResolver,
+    BlockItemsFieldTypeSettingsResolver,
 
     ContentTypeService,
     ContentTypeResolver,

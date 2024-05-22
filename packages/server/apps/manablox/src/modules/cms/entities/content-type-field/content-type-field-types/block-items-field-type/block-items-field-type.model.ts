@@ -7,7 +7,7 @@ import { ContentTypeFieldSettings, ContentTypeFieldSettingsSchema } from "../../
 @ObjectType()
 @Schema()
 export class BlockItemsFieldTypeSettings {
-  @Field(() => ContentType)
+  @Field(() => [ContentType])
   @Prop({ type: Array<mongoose.Schema.Types.ObjectId>, ref: 'ContentType' })
   possibleBlockTypes: Array<string>;
 }
