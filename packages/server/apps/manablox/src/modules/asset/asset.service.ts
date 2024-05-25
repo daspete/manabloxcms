@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Asset } from './entities/asset/asset.model';
+import { AssetInput } from './entities/asset/asset.input';
 
 @Injectable()
 export class AssetService {
@@ -18,7 +19,7 @@ export class AssetService {
     return (await this.assetModel.findById(id).exec()).toJSON();
   }
 
-  async create(asset: Asset): Promise<Asset> {
+  async create(asset: AssetInput): Promise<Asset> {
     return this.assetModel.create(asset);
   }
 

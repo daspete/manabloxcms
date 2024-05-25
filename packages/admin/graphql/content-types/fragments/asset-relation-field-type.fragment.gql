@@ -6,6 +6,11 @@ fragment AssetRelationFieldTypeFields on AssetRelationFieldType {
     isRequired
   }
   assetSettings {
-    defaultValue
+    defaultValue {
+      id
+      name
+      type
+      url
+    }
   }
 }

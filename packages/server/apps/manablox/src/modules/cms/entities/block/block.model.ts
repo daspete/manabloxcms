@@ -4,7 +4,7 @@ import mongoose, { HydratedDocument } from "mongoose";
 import { BlockFieldSchema, BlockFieldUnion, BlockFieldUnionType } from "../block-field/block-field.model";
 
 @ObjectType()
-@Schema()
+@Schema({ _id: false, autoCreate: false })
 export class Block {
     @Field()
     @Prop()

@@ -4,5 +4,6 @@ fragment ContentRelationFieldFields on ContentRelationField {
   type
   content {
     contentId
+    title
   }
 }

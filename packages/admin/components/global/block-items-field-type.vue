@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { refresh, contentTypes } = useContentTypesQuery();
+const { contentTypes } = useContentTypesQuery();
 
 const props = defineProps({
   field: {

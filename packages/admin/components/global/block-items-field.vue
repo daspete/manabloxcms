@@ -42,10 +42,6 @@ const addBlock = (blockType: any) => {
     fields: []
   });
 };
-
-// const blocklist = ref();
-// const draggableList = useDraggable(blocklist, props.field.blocks);
-
 </script>
 
 <template>

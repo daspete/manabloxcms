@@ -4,5 +4,8 @@ fragment AssetRelationFieldFields on AssetRelationField {
   type
   asset {
     id
+    name
+    type
+    url
   }
 }

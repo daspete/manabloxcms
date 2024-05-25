@@ -21,6 +21,30 @@ export const prepareContentTypeForMutation = (contentType: Partial<ContentType>)
                 blockItemsFieldType.blocksSettings.possibleBlockTypes = blockItemsFieldType.blocksSettings.possibleBlockTypes.map((blockType:any) => blockType.id)
             }
         }
+
+        if(contentTypeField.type === 'UserRelationFieldType') {
+            const userRelationFieldType = contentTypeField as any;
+
+            if(userRelationFieldType.userSettings) {
+                if(userRelationFieldType.userSettings.defaultValue?.id) {
+                  userRelationFieldType.userSettings.defaultValue = userRelationFieldType.userSettings.defaultValue.id;
+                }else{
+                  userRelationFieldType.userSettings.defaultValue = null;
+                }
+            }
+        }
+
+        if(contentTypeField.type === 'AssetRelationFieldType') {
+            const assetRelationFieldType = contentTypeField as any;
+
+            if(assetRelationFieldType.assetSettings) {
+                if(assetRelationFieldType.assetSettings.defaultValue?.id) {
+                  assetRelationFieldType.assetSettings.defaultValue = assetRelationFieldType.assetSettings.defaultValue.id;
+                }else{
+                  assetRelationFieldType.assetSettings.defaultValue = null;
+                }
+            }
+        }
     }
 
     return _contentType;

@@ -60,6 +60,8 @@ export type Block = {
 
 export type BlockFieldInput = {
   asset?: InputMaybe<Scalars['ID']['input']>;
+  block?: InputMaybe<BlockInput>;
+  blocks?: InputMaybe<Array<BlockInput>>;
   boolean?: InputMaybe<Scalars['Boolean']['input']>;
   content?: InputMaybe<Scalars['ID']['input']>;
   date?: InputMaybe<Scalars['DateTime']['input']>;
@@ -71,7 +73,7 @@ export type BlockFieldInput = {
   user?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type BlockFieldUnion = AssetRelationField | BooleanField | ContentRelationField | DateField | NumberField | StringField | UserRelationField;
+export type BlockFieldUnion = AssetRelationField | BlockItemField | BlockItemsField | BooleanField | ContentRelationField | DateField | NumberField | StringField | UserRelationField;
 
 export type BlockInput = {
   blockId: Scalars['String']['input'];
@@ -310,12 +312,14 @@ export type DateFieldTypeSettingsInput = {
   maxDate?: InputMaybe<Scalars['DateTime']['input']>;
   minDate?: InputMaybe<Scalars['DateTime']['input']>;
   possibleDates?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+  useTime?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createContent: Content;
   createContentType: ContentType;
+  createUser: User;
   deleteContent: Content;
   deleteContentType: ContentType;
   updateContent: Content;
@@ -330,6 +334,11 @@ export type MutationCreateContentArgs = {
 
 export type MutationCreateContentTypeArgs = {
   contentType: ContentTypeInput;
+};
+
+
+export type MutationCreateUserArgs = {
+  user: UserInput;
 };
 
 
@@ -453,6 +462,13 @@ export type User = {
   email: Scalars['String']['output'];
   id: Scalars['String']['output'];
   username: Scalars['String']['output'];
+};
+
+export type UserInput = {
+  email: Scalars['String']['input'];
+  id?: InputMaybe<Scalars['String']['input']>;
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 export type UserRelationField = {

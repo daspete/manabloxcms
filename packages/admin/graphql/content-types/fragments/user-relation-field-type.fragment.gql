@@ -6,6 +6,10 @@ fragment UserRelationFieldTypeFields on UserRelationFieldType {
     isRequired
   }
   userSettings {
-    defaultValue
+    defaultValue {
+      id
+      username
+      email
+    }
   }
 }

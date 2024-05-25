@@ -44,6 +44,9 @@ import { ContentRelationFieldTypeSchema } from './entities/content-type-field/co
 
 import { BlockItemFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/block-item-field-type/block-item-field-type-settings.resolver';
 import { BlockItemsFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/block-items-field-type/block-items-field-type-settings.resolver';
+import { UserRelationFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/user-relation-field-type/user-relation-field-type-settings.resolver';
+import { AssetRelationFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/asset-relation-field-type/asset-relation-field-type-settings.resolver';
+import { ContentRelationFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/content-relation-field-type/content-relation-field-type-settings.resolver';
 
 
 @Module({
@@ -128,11 +131,14 @@ import { BlockItemsFieldTypeSettingsResolver } from './entities/content-type-fie
     AssetRelationFieldResolver,
     UserRelationFieldResolver,
 
-    BlockItemFieldTypeSettingsResolver,
-    BlockItemsFieldTypeSettingsResolver,
-
     ContentTypeService,
     ContentTypeResolver,
+
+    BlockItemFieldTypeSettingsResolver,
+    BlockItemsFieldTypeSettingsResolver,
+    UserRelationFieldTypeSettingsResolver,
+    AssetRelationFieldTypeSettingsResolver,
+    ContentRelationFieldTypeSettingsResolver,
   ],
 })
-export class CmsModule { }
+export class CmsModule {}

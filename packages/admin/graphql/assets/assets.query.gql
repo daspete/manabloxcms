@@ -1,0 +1,8 @@
+query assets {
+  assets {
+    id
+    name
+    type
+    url
+  }
+}

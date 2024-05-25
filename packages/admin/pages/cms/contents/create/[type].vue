@@ -27,7 +27,7 @@ const createContent = async () => {
 
   const { mutate } = useMutation(createContentMutation, {
     variables: {
-      content: content.value,
+      content: prepareContentForMutation(clone(content.value)),
     },
   });
 

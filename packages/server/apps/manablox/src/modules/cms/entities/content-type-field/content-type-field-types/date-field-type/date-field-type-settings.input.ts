@@ -2,6 +2,9 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class DateFieldTypeSettingsInput {
+  @Field(() => Boolean, { nullable: true })
+  useTime?: Boolean;
+
   @Field(() => Date, { nullable: true })
   minDate?: Date;
 

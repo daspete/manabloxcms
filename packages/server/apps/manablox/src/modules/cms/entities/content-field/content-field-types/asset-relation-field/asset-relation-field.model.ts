@@ -20,7 +20,7 @@ export class AssetRelationField {
 
   @Field(() => Asset, { nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Asset', required: false })
-  asset: string;
+  asset?: string;
 }
 
 export const AssetRelationFieldSchema =

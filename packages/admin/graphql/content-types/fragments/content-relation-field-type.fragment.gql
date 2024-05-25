@@ -6,6 +6,9 @@ fragment ContentRelationFieldTypeFields on ContentRelationFieldType {
     isRequired
   }
   contentSettings {
-    defaultValue
+    defaultValue {
+      contentId
+      title
+    }
   }
 }

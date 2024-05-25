@@ -5,16 +5,21 @@ export const useContentQuery = (variables = {}) => {
   const content = ref<Content>({} as Content);
   const loading = ref(true);
 
-  const refetch = async (_variables: any) => {
+  const refetch = async (_variables: any = {}) => {
     loading.value = true;
 
-    const { data } = await useAsyncQuery<{ content: Content }>(contentQuery, _variables);
+    try {
+      const { data } = await useAsyncQuery<{ content: Content }>(contentQuery, _variables);
 
-    if(data.value?.content) {
-      content.value = clone(data.value.content);
+      if (data.value?.content) {
+        content.value = clone(data.value.content);
+      }
+    }catch(err) {
+      console.log(err);
+    }finally {
       loading.value = false;
     }
-  }
+  };
 
   refetch(variables);
 
