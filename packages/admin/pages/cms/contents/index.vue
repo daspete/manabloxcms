@@ -28,6 +28,7 @@ const deleteContent = async (content: Partial<Content>) => {
       detail: `Content type ${content.title} deleted.`,
       life: 2000,
     });
+
     refetch();
   } catch (err: any) {
     toast.add({
