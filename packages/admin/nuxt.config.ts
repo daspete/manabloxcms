@@ -12,6 +12,11 @@ export default defineNuxtConfig({
     clients: {
       default: {
         httpEndpoint: "http://api.manablox.test/graphql",
+        defaultOptions: {
+          query: {
+            fetchPolicy: "network-only"
+          }
+        }
       },
     },
   },

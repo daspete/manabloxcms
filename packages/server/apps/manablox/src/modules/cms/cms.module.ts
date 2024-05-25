@@ -85,6 +85,8 @@ import { BlockItemsFieldTypeSettingsResolver } from './entities/content-type-fie
           { name: 'BlockUserRelationField', schema: UserRelationFieldSchema },
           { name: 'BlockAssetRelationField', schema: AssetRelationFieldSchema },
           { name: 'BlockContentRelationField', schema: ContentRelationFieldSchema },
+          { name: 'SubBlockItemField', schema: BlockItemFieldSchema },
+          { name: 'SubBlockItemsField', schema: BlockItemsFieldSchema },
         ],
       },
       {

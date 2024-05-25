@@ -21,7 +21,7 @@ const blockTypes = computed(() => contentTypes.value.filter((contentType) => con
 
     <div class="flex gap-4 items-center">
       <label>Possible block types</label>
-      <MultiSelect v-model="field.blocksSettings.possibleBlockTypes" :options="blockTypes" filter optionLabel="name" placeholder="Select possible block types" />
+      <MultiSelect v-model="field.blocksSettings.possibleBlockTypes" :options="blockTypes" filter display="chip" optionLabel="name" placeholder="Select possible block types" class="flex-1" />
     </div>
   </div>
 </template>

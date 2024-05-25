@@ -59,7 +59,7 @@ export default {
             'w-[9px] top-0',
 
             // Appearance
-            'bg-surface-100 hover:bg-surface-200 dark:bg-surface-700 rounded',
+            'bg-surface-50 dark:bg-surface-700 rounded',
 
             // Interactivity
             'cursor-pointer',

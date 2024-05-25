@@ -124,7 +124,7 @@ export type BlockItemsFieldType = {
 
 export type BlockItemsFieldTypeSettings = {
   __typename?: 'BlockItemsFieldTypeSettings';
-  possibleBlockTypes: ContentType;
+  possibleBlockTypes: Array<ContentType>;
 };
 
 export type BlockItemsFieldTypeSettingsInput = {

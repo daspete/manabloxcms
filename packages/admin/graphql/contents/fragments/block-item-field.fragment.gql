@@ -5,6 +5,8 @@
 #import "./user-relation-field.fragment.gql"
 #import "./content-relation-field.fragment.gql"
 #import "./asset-relation-field.fragment.gql"
+#import "./sub-block-item-field.fragment.gql"
+#import "./sub-block-items-field.fragment.gql"
 
 fragment BlockItemFieldFields on BlockItemField {
   type
@@ -21,6 +23,9 @@ fragment BlockItemFieldFields on BlockItemField {
       ...UserRelationFieldFields
       ...ContentRelationFieldFields
       ...AssetRelationFieldFields
+      ...SubBlockItemFieldFields
+      ...SubBlockItemsFieldFields
+
     }
   }
 }

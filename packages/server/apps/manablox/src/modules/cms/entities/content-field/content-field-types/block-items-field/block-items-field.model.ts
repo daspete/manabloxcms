@@ -1,6 +1,7 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Block, BlockSchema } from "../../../block/block.model";
+import mongoose from "mongoose";
 
 @ObjectType()
 @Schema()
@@ -17,7 +18,7 @@ export class BlockItemsField {
   type: 'BlockItemField' = 'BlockItemField';
 
   @Field(() => [Block])
-  @Prop({ type: [BlockSchema] })
+  @Prop({ type: mongoose.Schema.Types.Array, ref: 'Block' })
   blocks: Array<Block>;
 }
 

@@ -1,6 +1,6 @@
-import type { BlockItemFieldType, ContentType } from "~/generated/graphql/graphql";
+import type { BlockItemFieldType, BlockItemsFieldType, ContentType } from "~/generated/graphql/graphql";
 
-export const prepareContentTypeForMutation = (contentType: ContentType) => {
+export const prepareContentTypeForMutation = (contentType: Partial<ContentType>) => {
     const _contentType = clone(contentType);
 
     for(let i = 0; i < _contentType.fields.length; i++){

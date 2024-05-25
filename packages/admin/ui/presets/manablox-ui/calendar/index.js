@@ -1,16 +1,13 @@
 export default {
-    root: ({ props }) => ({
+    root: {
         class: [
             // Display and Position
             'inline-flex',
             'max-w-full',
-            'relative',
-
-            // Misc
-            { 'opacity-60 select-none pointer-events-none cursor-default': props.disabled }
+            'relative'
         ]
-    }),
-    input: ({ props, parent }) => ({
+    },
+    input: ({ props, parent, context }) => ({
         class: [
             // Display
             'flex flex-auto',
@@ -21,15 +18,17 @@ export default {
             // Colors
             'text-surface-600 dark:text-surface-200',
             'placeholder:text-surface-400 dark:placeholder:text-surface-500',
-            'bg-surface-0 dark:bg-surface-900',
+            { 'bg-surface-0 dark:bg-surface-950': !props.disabled },
             'border',
             { 'border-surface-300 dark:border-surface-600': !props.invalid },
 
             // Invalid State
+            'invalid:focus:ring-red-200',
+            'invalid:hover:border-red-500',
             { 'border-red-500 dark:border-red-400': props.invalid },
 
             // Spacing
-            'm-0 p-3',
+            'm-0 py-2 px-3',
 
             // Shape
             'appearance-none',
@@ -42,8 +41,11 @@ export default {
             'duration-200',
 
             // States
-            { 'hover:border-primary-hover': !props.invalid },
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-500/50 dark:focus:ring-primary-400/50',
+            {
+                'hover:border-surface-400 dark:hover:border-surface-600': !props.disabled && !props.invalid,
+                'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10': !props.disabled,
+                'bg-surface-200 dark:bg-surface-700 select-none pointer-events-none cursor-default': props.disabled
+            },
 
             // Filled State *for FloatLabel
             { filled: parent.instance?.$name == 'FloatLabel' && props.modelValue !== null }
@@ -58,13 +60,15 @@ export default {
                 'relative',
 
                 // Alignments
-                'items-center inline-flex text-center align-bottom',
+                'items-center inline-flex text-center align-bottom justify-center',
 
                 // Shape
                 'rounded-r-md',
 
                 // Size
-                'px-4 py-3 leading-none',
+                'py-2 px-0',
+                'w-10',
+                'leading-[normal]',
 
                 // Colors
                 'text-primary-inverse',
@@ -72,9 +76,9 @@ export default {
                 'border border-primary',
 
                 // States
-                'focus:outline-none focus:outline-offset-0 focus:ring',
+                'focus:outline-none focus:outline-offset-0 focus:ring-1',
                 'hover:bg-primary-hover hover:border-primary-hover',
-                'focus:ring-primary-400/50 dark:focus:ring-primary-300/50'
+                'focus:ring-primary-500 dark:focus:ring-primary-400'
             ]
         }
     },
@@ -87,9 +91,9 @@ export default {
             },
 
             // Size
-            { 'w-auto p-2 ': !props.inline },
-            { 'min-w-[80vw] w-auto p-2 ': props.touchUI },
-            { 'p-2 min-w-full': props.inline },
+            { 'w-auto p-3 ': !props.inline },
+            { 'min-w-[80vw] w-auto p-3 ': props.touchUI },
+            { 'p-3 min-w-full': props.inline },
 
             // Shape
             'border rounded-lg',
@@ -98,7 +102,7 @@ export default {
             },
 
             // Colors
-            'bg-surface-0 dark:bg-surface-800',
+            'bg-surface-0 dark:bg-surface-900',
             'border-surface-200 dark:border-surface-700',
 
             //misc
@@ -111,13 +115,13 @@ export default {
     header: {
         class: [
             //Font
-            'font-semibold',
+            'font-medium',
 
             // Flexbox and Alignment
             'flex items-center justify-between',
 
             // Spacing
-            'p-2',
+            'p-0 pb-2',
             'm-0',
 
             // Shape
@@ -126,7 +130,7 @@ export default {
 
             // Colors
             'text-surface-700 dark:text-white/80',
-            'bg-surface-0 dark:bg-surface-800',
+            'bg-surface-0 dark:bg-surface-900',
             'border-surface-200 dark:border-surface-700'
         ]
     },
@@ -138,7 +142,7 @@ export default {
             'inline-flex items-center justify-center',
 
             // Size
-            'w-8 h-8',
+            'w-7 h-7',
             'p-0 m-0',
 
             // Shape
@@ -154,7 +158,8 @@ export default {
 
             // States
             'hover:text-surface-700 dark:hover:text-white/80',
-            'hover:bg-surface-100 dark:hover:bg-surface-800/80',
+            'hover:bg-surface-100 dark:hover:bg-surface-500/10  ',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
 
             // Misc
             'cursor-pointer overflow-hidden'
@@ -163,7 +168,7 @@ export default {
     title: {
         class: [
             // Text
-            'leading-8',
+            'leading-7',
             'mx-auto my-0'
         ]
     },
@@ -171,7 +176,10 @@ export default {
         class: [
             // Font
             'text-base leading-[normal]',
-            'font-semibold',
+            'font-medium',
+
+            //shape
+            'rounded-md',
 
             // Colors
             'text-surface-700 dark:text-white/80',
@@ -180,11 +188,12 @@ export default {
             'transition duration-200',
 
             // Spacing
-            'p-2',
+            'p-1',
             'm-0 mr-2',
 
             // States
             'hover:text-primary-500 dark:hover:text-primary-400',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
 
             // Misc
             'cursor-pointer'
@@ -194,7 +203,10 @@ export default {
         class: [
             // Font
             'text-base leading-[normal]',
-            'font-semibold',
+            'font-medium',
+
+            //shape
+            'rounded-md',
 
             // Colors
             'text-surface-700 dark:text-white/80',
@@ -203,11 +215,12 @@ export default {
             'transition duration-200',
 
             // Spacing
-            'p-2',
-            'm-0',
+            'p-1',
+            'm-0 mr-2',
 
             // States
             'hover:text-primary-500 dark:hover:text-primary-400',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
 
             // Misc
             'cursor-pointer'
@@ -221,7 +234,7 @@ export default {
             'inline-flex items-center justify-center',
 
             // Size
-            'w-8 h-8',
+            'w-7 h-7',
             'p-0 m-0',
 
             // Shape
@@ -237,7 +250,8 @@ export default {
 
             // States
             'hover:text-surface-700 dark:hover:text-white/80',
-            'hover:bg-surface-100 dark:hover:bg-surface-800/80',
+            'hover:bg-surface-100 dark:hover:bg-surface-500/10  ',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
 
             // Misc
             'cursor-pointer overflow-hidden'
@@ -246,23 +260,24 @@ export default {
     table: {
         class: [
             // Font
-            'text-base leading-none',
+            'text-base leading-[normal]',
             // Size & Shape
             'border-collapse',
             'w-full',
 
             // Spacing
-            'm-0 my-2'
+            'm-0 mt-2'
         ]
     },
     tableheadercell: {
         class: [
             // Spacing
-            'p-0 md:p-2'
+            'p-1',
+            'font-medium'
         ]
     },
     weekheader: {
-        class: ['leading-[normal]', 'text-surface-600 dark:text-white/70', 'opacity-60 cursor-default']
+        class: ['leading-5', 'text-surface-600 dark:text-white/70', 'opacity-60 cursor-default']
     },
     weeknumber: {
         class: ['text-surface-600 dark:text-white/70', 'opacity-60 cursor-default']
@@ -270,13 +285,14 @@ export default {
     weekday: {
         class: [
             // Colors
-            'text-surface-500 dark:text-white/60'
+            'text-surface-500 dark:text-white/60',
+            'p-1'
         ]
     },
     day: {
         class: [
             // Spacing
-            'p-0 md:p-2'
+            'p-1'
         ]
     },
     weeklabelcontainer: ({ context }) => ({
@@ -286,9 +302,10 @@ export default {
             'mx-auto',
 
             // Shape & Size
-            'w-10 h-10',
+            'w-8 h-8',
             'rounded-full',
             'border-transparent border',
+            'leading-[normal]',
 
             // Colors
             {
@@ -297,9 +314,9 @@ export default {
             },
 
             // States
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
             {
-                'hover:bg-surface-100 dark:hover:bg-surface-800/80': !context.selected && !context.disabled,
+                'hover:bg-surface-50 dark:hover:bg-surface-500/10': !context.selected && !context.disabled,
                 'hover:bg-primary-highlight-hover': context.selected && !context.disabled
             },
             {
@@ -315,22 +332,22 @@ export default {
             'mx-auto',
 
             // Shape & Size
-            'w-10 h-10',
+            'w-8 h-8',
             'rounded-full',
             'border-transparent border',
+            'leading-[normal]',
 
             // Colors
             {
-                'text-primary': context.date.today,
-                'text-surface-600 dark:text-white/70 bg-transparent': !context.selected && !context.disabled && !context.date.today,
+                'bg-surface-100 dark:bg-surface-800 text-surface-600 dark:text-white/70': context.date.today && !context.selected && !context.disabled,
+                'bg-transparent text-surface-600 dark:text-white/70': !context.selected && !context.disabled && !context.date.today,
                 'text-primary-highlight-inverse bg-primary-highlight': context.selected && !context.disabled
             },
 
             // States
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
             {
-                'hover:bg-surface-100 dark:hover:bg-surface-600/80': !context.selected && !context.disabled,
-                'hover:bg-primary-highlight-hover': context.selected && !context.disabled
+                'hover:bg-surface-50 dark:hover:bg-surface-500/10': !context.selected && !context.disabled
             },
             {
                 'opacity-60 cursor-default': context.disabled,
@@ -341,7 +358,7 @@ export default {
     monthpicker: {
         class: [
             // Spacing
-            'my-2'
+            'mt-2'
         ]
     },
     month: ({ context }) => ({
@@ -351,7 +368,7 @@ export default {
 
             // Size
             'w-1/3',
-            'p-2',
+            'p-1',
 
             // Shape
             'rounded-md',
@@ -363,10 +380,9 @@ export default {
             },
 
             // States
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
             {
-                'hover:bg-surface-100 dark:hover:bg-surface-600/80': !context.selected && !context.disabled,
-                'hover:bg-primary-highlight-hover': context.selected && !context.disabled
+                'hover:bg-surface-100 dark:hover:bg-[rgba(255,255,255,0.03)]': !context.selected && !context.disabled
             },
 
             // Misc
@@ -376,7 +392,7 @@ export default {
     yearpicker: {
         class: [
             // Spacing
-            'my-2'
+            'mt-2'
         ]
     },
     year: ({ context }) => ({
@@ -385,8 +401,8 @@ export default {
             'inline-flex items-center justify-center',
 
             // Size
-            'w-1/3',
-            'p-2',
+            'w-1/2',
+            'p-1',
 
             // Shape
             'rounded-md',
@@ -398,10 +414,9 @@ export default {
             },
 
             // States
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
             {
-                'hover:bg-surface-100 dark:hover:bg-surface-600/80': !context.selected && !context.disabled,
-                'hover:bg-primary-highlight-hover': context.selected && !context.disabled
+                'hover:bg-surface-100 dark:hover:bg-[rgba(255,255,255,0.03)]': !context.selected && !context.disabled
             },
 
             // Misc
@@ -419,7 +434,7 @@ export default {
             'border-solid border-surface-200',
 
             // Spacing
-            'p-2'
+            'pt-2 mt-2'
         ]
     },
     separatorcontainer: {
@@ -491,7 +506,7 @@ export default {
             'inline-flex items-center justify-center',
 
             // Size
-            'w-8 h-8',
+            'w-7 h-7',
             'p-0 m-0',
 
             // Shape
@@ -507,7 +522,8 @@ export default {
 
             // States
             'hover:text-surface-700 dark:hover:text-white/80',
-            'hover:bg-surface-100 dark:hover:bg-surface-800/80',
+            'hover:bg-surface-100 dark:hover:bg-surface-500/10  ',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
 
             // Misc
             'cursor-pointer overflow-hidden'
@@ -521,7 +537,7 @@ export default {
             'inline-flex items-center justify-center',
 
             // Size
-            'w-8 h-8',
+            'w-7 h-7',
             'p-0 m-0',
 
             // Shape
@@ -537,7 +553,8 @@ export default {
 
             // States
             'hover:text-surface-700 dark:hover:text-white/80',
-            'hover:bg-surface-100 dark:hover:bg-surface-800/80',
+            'hover:bg-surface-100 dark:hover:bg-surface-500/10  ',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
 
             // Misc
             'cursor-pointer overflow-hidden'
@@ -575,7 +592,7 @@ export default {
             'flex justify-between items-center',
 
             // Spacing
-            'py-3 px-0',
+            'pt-2',
 
             // Shape
             'border-t border-surface-200 dark:border-surface-700'
@@ -588,7 +605,7 @@ export default {
                 'inline-flex items-center justify-center',
 
                 // Spacing
-                'px-4 py-3 leading-none',
+                'px-3 py-1 text-sm leading-[normal]',
 
                 // Shape
                 'rounded-md',
@@ -601,7 +618,7 @@ export default {
                 'transition-colors duration-200 ease-in-out',
 
                 // States
-                'focus:outline-none focus:outline-offset-0 focus:ring',
+                'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
                 'hover:bg-primary-300/20',
 
                 // Misc
@@ -616,7 +633,7 @@ export default {
                 'inline-flex items-center justify-center',
 
                 // Spacing
-                'px-4 py-3 leading-none',
+                'px-3 py-1 text-sm leading-[normal]',
 
                 // Shape
                 'rounded-md',
@@ -629,7 +646,7 @@ export default {
                 'transition-colors duration-200 ease-in-out',
 
                 // States
-                'focus:outline-none focus:outline-offset-0 focus:ring',
+                'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
                 'hover:bg-primary-300/20',
 
                 // Misc

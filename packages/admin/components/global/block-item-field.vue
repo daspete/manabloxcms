@@ -12,11 +12,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex gap-4">
-    <div>{{ field.name }}</div>
-
-    <div class="flex-1">
+  <div>
+    <Fieldset :legend="field.name" :toggleable="true">
+      <div>
         <BlockEditor :block="field.block" />
-    </div>
+      </div>
+    </Fieldset>
   </div>
 </template>

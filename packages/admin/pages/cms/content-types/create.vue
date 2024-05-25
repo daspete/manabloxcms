@@ -5,6 +5,7 @@ import { v4 as uuid4 } from "uuid";
 import type { ContentType } from "~/generated/graphql/graphql";
 
 const toast = useToast();
+const router = useRouter();
 
 const contentType = ref<Partial<ContentType>>({
   name: "",
@@ -23,18 +24,21 @@ const createContentType = async () => {
 
   const { mutate } = useMutation(createContentTypeMutation, {
     variables: {
-      contentType: contentType.value,
+      contentType: prepareContentTypeForMutation(contentType.value),
     },
   });
 
   try {
     await mutate();
+
     toast.add({
       severity: "success",
       summary: "Success",
       detail: `Content type "${contentType.value.name}" created.`,
       life: 2000,
     });
+
+    router.push(`/cms/content-types/${ contentType.value.name }`);
   } catch (err: any) {
     toast.add({
       severity: "error",

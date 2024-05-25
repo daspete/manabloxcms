@@ -118,8 +118,11 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
             <template #body="{ data }">
               <Button
                 @click="confirmContentTypeDeletion($event, data)"
+                class="w-12"
                 icon="i-mdi-trash"
+                aria-label=""
                 text
+                rounded
                 severity="secondary"
                 size="large"
               />

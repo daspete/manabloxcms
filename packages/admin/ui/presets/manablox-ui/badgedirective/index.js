@@ -3,7 +3,7 @@ export default {
         class: [
             // Font
             'font-bold',
-            'text-xs leading-[normal]',
+            'text-xs leading-5',
 
             // Alignment
             'flex items-center justify-center',
