@@ -24,7 +24,7 @@ export class BooleanFieldType {
   @Field()
   @Prop()
   fieldId: string;
-  
+
   @Field()
   @Prop()
   name: string;

@@ -25,7 +25,6 @@ fragment BlockItemFieldFields on BlockItemField {
       ...AssetRelationFieldFields
       ...SubBlockItemFieldFields
       ...SubBlockItemsFieldFields
-
     }
   }
 }

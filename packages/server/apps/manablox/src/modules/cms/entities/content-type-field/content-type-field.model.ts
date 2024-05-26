@@ -29,7 +29,7 @@ export const contentTypeFieldTypes = [
   AssetRelationFieldType,
   ContentRelationFieldType,
   BlockItemFieldType,
-  BlockItemsFieldType
+  BlockItemsFieldType,
 ];
 
 export const ContentTypeFieldUnion = createUnionType({

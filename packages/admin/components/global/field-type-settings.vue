@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   field: {
     type: Object,
     required: true,
@@ -16,8 +16,8 @@ const props = defineProps({
     <div class="flex items-center justify-between">
       <label for="isRequired" class="mr-2">Is required</label>
       <InputSwitch
-        inputId="isRequired"
         v-model="field.fieldSettings.isRequired"
+        input-id="isRequired"
       />
     </div>
   </div>

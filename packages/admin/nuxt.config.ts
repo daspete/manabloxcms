@@ -4,19 +4,24 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   debug: true,
 
-  css: ["~/assets/css/base.css"],
+  css: ['~/assets/css/base.css'],
 
-  modules: ["@nuxtjs/apollo", "@nuxtjs/tailwindcss", "nuxt-primevue"],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxtjs/apollo',
+    '@nuxtjs/tailwindcss',
+    'nuxt-primevue',
+  ],
 
   apollo: {
     clients: {
       default: {
-        httpEndpoint: "http://api.manablox.test/graphql",
+        httpEndpoint: 'http://api.manablox.test/graphql',
         defaultOptions: {
           query: {
-            fetchPolicy: "network-only"
-          }
-        }
+            fetchPolicy: 'network-only',
+          },
+        },
       },
     },
   },
@@ -26,6 +31,6 @@ export default defineNuxtConfig({
       unstyled: true,
       ripple: true,
     },
-    importPT: { as: "ManabloxUi", from: "~/ui/presets/manablox-ui" },
+    importPT: { as: 'ManabloxUi', from: '~/ui/presets/manablox-ui' },
   },
 });

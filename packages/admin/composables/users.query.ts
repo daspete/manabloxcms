@@ -1,22 +1,25 @@
-import type { User } from "~/generated/graphql/graphql";
-import usersQuery from "~/graphql/users/users.query.gql";
+import type { User } from '~/generated/graphql/graphql';
+import usersQuery from '~/graphql/users/users.query.gql';
 
 export const useUsersQuery = (variables = {}) => {
   const users = ref<Array<User>>([]);
   const loading = ref(true);
 
-  const refetch = async (_variables: any) => {
+  const refetch = async (_variables = {}) => {
     loading.value = true;
 
     try {
-      const { data } = await useAsyncQuery<{ users: Array<User> }>(usersQuery, _variables);
+      const { data } = await useAsyncQuery<{ users: Array<User> }>(
+        usersQuery,
+        _variables,
+      );
 
-      if(data.value?.users) {
+      if (data.value?.users) {
         users.value = clone(data.value.users);
       }
-    }catch(err){
+    } catch (err) {
       console.log(err);
-    }finally {
+    } finally {
       loading.value = false;
     }
   };
