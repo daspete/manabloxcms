@@ -19,7 +19,11 @@ export class ContentRelationField {
   type: 'ContentRelationField' = 'ContentRelationField';
 
   @Field(() => Content, { nullable: true })
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Content', required: false })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Content',
+    required: false,
+  })
   content: string;
 }
 

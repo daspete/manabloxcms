@@ -8,10 +8,10 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(["select"]);
+defineEmits(['select']);
 
 const contentTypeSelectionMenu = ref();
-const toggleContentTypeSelectionMenu = (event: any) => {
+const toggleContentTypeSelectionMenu = (event: MouseEvent) => {
   contentTypeSelectionMenu.value.toggle(event);
 };
 </script>
@@ -20,16 +20,16 @@ const toggleContentTypeSelectionMenu = (event: any) => {
   <div>
     <Button
       type="button"
-      @click="toggleContentTypeSelectionMenu"
       :loading="loading"
       label="Add new content"
       icon="i-mdi-plus"
       aria-haspopup="true"
       aria-controls="content-type-selection-menu"
+      @click="toggleContentTypeSelectionMenu"
     />
     <Menu
-      ref="contentTypeSelectionMenu"
       id="content-type-selection-menu"
+      ref="contentTypeSelectionMenu"
       :popup="true"
       :model="
         contentTypes

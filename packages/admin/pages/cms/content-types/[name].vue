@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useToast } from "primevue/usetoast";
-import updateContentTypeMutation from "~/graphql/content-types/update-content-type.mutation.gql";
+import { useToast } from 'primevue/usetoast';
+import updateContentTypeMutation from '~/graphql/content-types/update-content-type.mutation.gql';
 
 const route = useRoute();
 const toast = useToast();
 
-const { loading, contentType } = useContentTypeQuery({
+const { contentType } = useContentTypeQuery({
   name: route.params.name,
 });
 
@@ -16,22 +16,25 @@ const updateContentType = async () => {
 
   const { mutate } = useMutation(updateContentTypeMutation, {
     variables: {
-      contentType: stripTypename(prepareContentTypeForMutation(contentType.value)),
+      contentType: stripTypename(
+        prepareContentTypeForMutation(contentType.value),
+      ),
     },
   });
 
   try {
     await mutate();
     toast.add({
-      severity: "success",
-      summary: "Success",
+      severity: 'success',
+      summary: 'Success',
       detail: `Content type "${contentType.value.name}" updated.`,
       life: 3000,
     });
   } catch (err: any) {
+    //eslint-disable-line @typescript-eslint/no-explicit-any
     toast.add({
-      severity: "error",
-      summary: "Error while updating content type",
+      severity: 'error',
+      summary: 'Error while updating content type',
       detail: err.message,
       life: 5000,
     });
@@ -66,10 +69,10 @@ const updateContentType = async () => {
 
     <Card>
       <template #content>
-        <ContentTypeEditor :contentType="contentType" />
+        <ContentTypeEditor :content-type="contentType" />
       </template>
     </Card>
 
-    <BlockUI :blocked="isUpdating" fullScreen />
+    <BlockUI :blocked="isUpdating" full-screen />
   </div>
 </template>

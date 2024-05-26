@@ -12,7 +12,11 @@ import { Content } from '../../../content/content.model';
 @Schema()
 export class ContentRelationFieldTypeSettings {
   @Field(() => Content, { nullable: true })
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Content', required: false })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Content',
+    required: false,
+  })
   defaultValue?: string;
 }
 

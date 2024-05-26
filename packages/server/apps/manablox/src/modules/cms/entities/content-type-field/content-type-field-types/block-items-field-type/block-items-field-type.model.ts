@@ -1,8 +1,11 @@
-import { Field, ObjectType } from "@nestjs/graphql";
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose from "mongoose";
-import { ContentType } from "../../../content-type/content-type.model";
-import { ContentTypeFieldSettings, ContentTypeFieldSettingsSchema } from "../../content-type-field-settings/content-type-field-settings.model";
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
+import { ContentType } from '../../../content-type/content-type.model';
+import {
+  ContentTypeFieldSettings,
+  ContentTypeFieldSettingsSchema,
+} from '../../content-type-field-settings/content-type-field-settings.model';
 
 @ObjectType()
 @Schema()
@@ -12,7 +15,9 @@ export class BlockItemsFieldTypeSettings {
   possibleBlockTypes: Array<string>;
 }
 
-export const BlockItemsFieldTypeSettingsSchema = SchemaFactory.createForClass(BlockItemsFieldTypeSettings);
+export const BlockItemsFieldTypeSettingsSchema = SchemaFactory.createForClass(
+  BlockItemsFieldTypeSettings,
+);
 
 @ObjectType()
 @Schema()
@@ -37,4 +42,5 @@ export class BlockItemsFieldType {
   blocksSettings: BlockItemsFieldTypeSettings;
 }
 
-export const BlockItemsFieldTypeSchema = SchemaFactory.createForClass(BlockItemsFieldType);
+export const BlockItemsFieldTypeSchema =
+  SchemaFactory.createForClass(BlockItemsFieldType);

@@ -1,22 +1,24 @@
-import type { ContentType } from "~/generated/graphql/graphql";
-import contentTypesQuery from "~/graphql/content-types/content-types.query.gql";
+import type { ContentType } from '~/generated/graphql/graphql';
+import contentTypesQuery from '~/graphql/content-types/content-types.query.gql';
 
 export const useContentTypesQuery = (variables = {}) => {
   const contentTypes = ref<Array<ContentType>>([]);
   const loading = ref(true);
 
-  const refetch = async (_variables: any = {}) => {
+  const refetch = async (_variables = {}) => {
     loading.value = true;
 
     try {
-      const { data } = await useAsyncQuery<{ contentTypes: Array<ContentType>}>(contentTypesQuery, _variables);
+      const { data } = await useAsyncQuery<{
+        contentTypes: Array<ContentType>;
+      }>(contentTypesQuery, _variables);
 
       if (data.value?.contentTypes) {
         contentTypes.value = clone(data.value.contentTypes);
       }
-    }catch(err){
+    } catch (err) {
       console.log(err);
-    }finally {
+    } finally {
       loading.value = false;
     }
   };

@@ -12,8 +12,8 @@ const props = defineProps({
   },
 });
 
-if(!props.field.asset) {
-  if(props.fieldType.assetSettings?.defaultValue) {
+if (!props.field.asset) {
+  if (props.fieldType.assetSettings?.defaultValue) {
     props.field.asset = props.fieldType.assetSettings.defaultValue;
   }
 }
@@ -22,10 +22,17 @@ if(!props.field.asset) {
 <template>
   <div class="flex gap-4 items-center">
     <label :for="fieldType.fieldId">{{ fieldType.name }}</label>
-    <Dropdown v-model="field.asset" :options="assets" showClear filter optionLabel="name" placeholder="Select asset" class="flex-1">
-
+    <Dropdown
+      v-model="field.asset"
+      :options="assets"
+      show-clear
+      filter
+      option-label="name"
+      placeholder="Select asset"
+      class="flex-1"
+    >
       <template #value="{ value, placeholder }">
-        <div class="flex items-center gap-2" v-if="value">
+        <div v-if="value" class="flex items-center gap-2">
           <div>{{ value.type }}</div>
           <div>{{ value.name }}</div>
         </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useToast } from "primevue/usetoast";
-import updateContentMutation from "~/graphql/contents/update-content.mutation.gql";
+import { useToast } from 'primevue/usetoast';
+import updateContentMutation from '~/graphql/contents/update-content.mutation.gql';
 
 const route = useRoute();
 const toast = useToast();
@@ -13,7 +13,9 @@ const { loading: contentLoading, content } = useContentQuery({
   contentId: route.params.contentId,
 });
 
-const isInitializing = computed(() => contentLoading.value || contentTypeLoading.value)
+const isInitializing = computed(
+  () => contentLoading.value || contentTypeLoading.value,
+);
 
 const isUpdating = ref(false);
 
@@ -29,15 +31,16 @@ const updateContent = async () => {
   try {
     await mutate();
     toast.add({
-      severity: "success",
-      summary: "Success",
+      severity: 'success',
+      summary: 'Success',
       detail: `Content updated.`,
       life: 2000,
     });
   } catch (err: any) {
+    //eslint-disable-line @typescript-eslint/no-explicit-any
     toast.add({
-      severity: "error",
-      summary: "Error while updating content",
+      severity: 'error',
+      summary: 'Error while updating content',
       detail: err.message,
       life: 3000,
     });
@@ -73,11 +76,11 @@ const updateContent = async () => {
     <Card>
       <template #content>
         <div v-if="!isInitializing">
-          <ContentEditor :contentType="contentType" :content="content" />
+          <ContentEditor :content-type="contentType" :content="content" />
         </div>
       </template>
     </Card>
 
-    <BlockUI :blocked="isUpdating" fullScreen />
+    <BlockUI :blocked="isUpdating" full-screen />
   </div>
 </template>

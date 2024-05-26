@@ -21,7 +21,7 @@ if (!props.field.stringSettings) {
           id="min-characters"
           v-model="field.stringSettings.minCharacters"
           class="w-full"
-          showButtons
+          show-buttons
         />
         <label for="min-characters">Min. characters</label>
       </FloatLabel>
@@ -30,7 +30,7 @@ if (!props.field.stringSettings) {
           id="max-characters"
           v-model="field.stringSettings.maxCharacters"
           class="w-full"
-          showButtons
+          show-buttons
         />
         <label for="max-characters">Max. characters</label>
       </FloatLabel>
@@ -56,16 +56,40 @@ if (!props.field.stringSettings) {
     </div>
 
     <div class="flex gap-8">
-      <div class="flex gap-4 items-center" v-if="!field.stringSettings.isCodeBlock && !field.stringSettings.isRichText">
-        <InputSwitch id="is-textarea" v-model="field.stringSettings.isTextArea" />
+      <div
+        v-if="
+          !field.stringSettings.isCodeBlock && !field.stringSettings.isRichText
+        "
+        class="flex gap-4 items-center"
+      >
+        <InputSwitch
+          id="is-textarea"
+          v-model="field.stringSettings.isTextArea"
+        />
         <label for="is-textarea">Is a textarea</label>
       </div>
-      <div class="flex gap-4 items-center" v-if="!field.stringSettings.isCodeBlock && !field.stringSettings.isTextArea">
-        <InputSwitch id="is-richtext" v-model="field.stringSettings.isRichText" />
+      <div
+        v-if="
+          !field.stringSettings.isCodeBlock && !field.stringSettings.isTextArea
+        "
+        class="flex gap-4 items-center"
+      >
+        <InputSwitch
+          id="is-richtext"
+          v-model="field.stringSettings.isRichText"
+        />
         <label for="is-richtext">Use a WYSIWYG editor</label>
       </div>
-      <div class="flex gap-4 items-center" v-if="!field.stringSettings.isRichText && !field.stringSettings.isTextArea">
-        <InputSwitch id="is-codeblock" v-model="field.stringSettings.isCodeBlock" />
+      <div
+        v-if="
+          !field.stringSettings.isRichText && !field.stringSettings.isTextArea
+        "
+        class="flex gap-4 items-center"
+      >
+        <InputSwitch
+          id="is-codeblock"
+          v-model="field.stringSettings.isCodeBlock"
+        />
         <label for="is-codeblock">Is a codeblock</label>
       </div>
     </div>

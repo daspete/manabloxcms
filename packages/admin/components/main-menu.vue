@@ -1,39 +1,39 @@
 <script setup lang="ts">
 const mainMenuItems = ref([
   {
-    label: "Home",
-    icon: "i-mdi-home",
-    route: "/",
+    label: 'Home',
+    icon: 'i-mdi-home',
+    route: '/',
   },
   {
-    label: "CMS",
-    icon: "i-mdi-file-document-edit",
+    label: 'CMS',
+    icon: 'i-mdi-file-document-edit',
     items: [
       {
-        label: "Content",
-        icon: "i-mdi-file-tree",
-        route: "/cms/contents",
+        label: 'Content',
+        icon: 'i-mdi-file-tree',
+        route: '/cms/contents',
       },
       {
-        label: "Content Types",
-        icon: "i-mdi-file-cog",
-        route: "/cms/content-types",
+        label: 'Content Types',
+        icon: 'i-mdi-file-cog',
+        route: '/cms/content-types',
       },
     ],
   },
   {
-    label: "User",
-    icon: "i-mdi-account-group",
-    route: "/users",
+    label: 'User',
+    icon: 'i-mdi-account-group',
+    route: '/users',
   },
   {
-    label: "Settings",
-    icon: "i-mdi-cog",
+    label: 'Settings',
+    icon: 'i-mdi-cog',
     items: [
       {
-        label: "Spaces",
-        icon: "i-mdi-cube",
-        route: "/settings/spaces",
+        label: 'Spaces',
+        icon: 'i-mdi-cube',
+        route: '/settings/spaces',
       },
     ],
   },

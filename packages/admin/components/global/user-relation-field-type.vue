@@ -19,7 +19,15 @@ if (!props.field.userSettings) {
 
     <div class="flex gap-4 items-center">
       <label for="user-relation">Default user</label>
-      <Dropdown v-model="field.userSettings.defaultValue" :options="users" showClear filter optionLabel="username" placeholder="Select default user" class="flex-1" />
+      <Dropdown
+        v-model="field.userSettings.defaultValue"
+        :options="users"
+        show-clear
+        filter
+        option-label="username"
+        placeholder="Select default user"
+        class="flex-1"
+      />
     </div>
   </div>
 </template>

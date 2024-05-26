@@ -1,6 +1,6 @@
 mutation createContentType($contentType: ContentTypeInput!) {
-	createContentType(contentType: $contentType) {
-		id
-		name
-	}
+  createContentType(contentType: $contentType) {
+    id
+    name
+  }
 }

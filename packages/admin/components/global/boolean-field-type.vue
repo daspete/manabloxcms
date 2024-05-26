@@ -16,7 +16,10 @@ if (!props.field.booleanSettings) {
     <FieldTypeSettings :field="field" />
 
     <div class="flex gap-4 items-center">
-      <InputSwitch id="boolean-defaultvalue" v-model="field.booleanSettings.defaultValue" />
+      <InputSwitch
+        id="boolean-defaultvalue"
+        v-model="field.booleanSettings.defaultValue"
+      />
       <label for="boolean-defaultvalue">Default value</label>
     </div>
   </div>

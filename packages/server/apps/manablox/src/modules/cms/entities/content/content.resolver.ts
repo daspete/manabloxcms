@@ -14,7 +14,10 @@ import { ContentTypeService } from '../content-type/content-type.service';
 
 @Resolver(() => Content)
 export class ContentResolver {
-  constructor(private readonly contentService: ContentService, private readonly contentTypeService: ContentTypeService) { }
+  constructor(
+    private readonly contentService: ContentService,
+    private readonly contentTypeService: ContentTypeService,
+  ) {}
 
   @Query(() => [Content])
   async contents() {

@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
@@ -18,7 +18,7 @@ type ContentTypeFieldUnionType = (typeof contentTypeFieldTypes)[number];
   },
 })
 export class ContentType {
-  @Field(() => ID)
+  @Field()
   id: string;
 
   @Field()

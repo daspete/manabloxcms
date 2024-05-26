@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Content, ContentType } from "~/generated/graphql/graphql";
-import deleteContentMutation from "~/graphql/contents/delete-content.mutation.gql";
+import type { Content, ContentType } from '~/generated/graphql/graphql';
+import deleteContentMutation from '~/graphql/contents/delete-content.mutation.gql';
 
 const { loading, contents, refetch } = useContentsQuery();
 const router = useRouter();
@@ -23,17 +23,18 @@ const deleteContent = async (content: Partial<Content>) => {
   try {
     await mutate();
     toast.add({
-      severity: "success",
-      summary: "Success",
+      severity: 'success',
+      summary: 'Success',
       detail: `Content type ${content.title} deleted.`,
       life: 2000,
     });
 
     refetch();
   } catch (err: any) {
+    //eslint-disable-line @typescript-eslint/no-explicit-any
     toast.add({
-      severity: "error",
-      summary: "Error while deleting content type",
+      severity: 'error',
+      summary: 'Error while deleting content type',
       detail: err.message,
       life: 3000,
     });
@@ -42,10 +43,10 @@ const deleteContent = async (content: Partial<Content>) => {
   }
 };
 
-const confirmContentDeletion = (event: any, content: Content) => {
+const confirmContentDeletion = (event: MouseEvent, content: Content) => {
   confirm.require({
-    target: event.currentTarget,
-    group: "deleteContentGroup",
+    target: event.currentTarget as HTMLElement,
+    group: 'deleteContentGroup',
     message: `Content ${content.title} will be deleted.`,
     accept: () => {
       deleteContent(content);
@@ -60,7 +61,7 @@ const confirmContentDeletion = (event: any, content: Content) => {
     <div class="flex py-8 justify-between items-center">
       <div class="text-2xl font-bold">Contents</div>
       <ContentTypeSelectionMenu
-        :showBlockTypes="false"
+        :show-block-types="false"
         @select="createContentOfType"
       />
     </div>
@@ -69,13 +70,13 @@ const confirmContentDeletion = (event: any, content: Content) => {
       <div class="shadow">
         <DataTable
           :value="contents"
-          stripedRows
-          removableSort
+          striped-rows
+          removable-sort
           :loading="loading"
           :rows="5"
           paginator
-          paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
-          currentPageReportTemplate="{first} to {last} of {totalRecords}"
+          paginator-template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
+          current-page-report-template="{first} to {last} of {totalRecords}"
         >
           <template #paginatorstart>
             <Button
@@ -88,7 +89,7 @@ const confirmContentDeletion = (event: any, content: Content) => {
             />
           </template>
 
-          <template #paginatorend></template>
+          <template #paginatorend />
 
           <template #empty>No content added yet.</template>
 
@@ -118,7 +119,6 @@ const confirmContentDeletion = (event: any, content: Content) => {
           <Column class="w-16">
             <template #body="{ data }">
               <Button
-                @click="confirmContentDeletion($event, data)"
                 class="w-12"
                 icon="i-mdi-trash"
                 aria-label=""
@@ -126,6 +126,7 @@ const confirmContentDeletion = (event: any, content: Content) => {
                 rounded
                 severity="secondary"
                 size="large"
+                @click="confirmContentDeletion($event, data)"
               />
             </template>
           </Column>
@@ -158,6 +159,6 @@ const confirmContentDeletion = (event: any, content: Content) => {
       </template>
     </ConfirmPopup>
 
-    <BlockUI :blocked="isDeleting" fullScreen />
+    <BlockUI :blocked="isDeleting" full-screen />
   </div>
 </template>
