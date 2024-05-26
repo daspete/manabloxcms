@@ -4,6 +4,7 @@ import type { Content } from '~/generated/graphql/graphql';
 import createContentMutation from '~/graphql/contents/create-content.mutation.gql';
 
 const route = useRoute();
+const router = useRouter();
 const toast = useToast();
 
 const { contentType } = useContentTypeQuery({
@@ -39,6 +40,7 @@ const createContent = async () => {
       detail: `Content created.`,
       life: 2000,
     });
+    router.push(`/cms/contents/${ content.value.type }/${ content.value.contentId }`);
   } catch (err: any) {
     //eslint-disable-line @typescript-eslint/no-explicit-any
     console.error(err);

@@ -4,9 +4,7 @@ import { ContentService } from '../../../content/content.service';
 
 @Resolver(() => ContentRelationField)
 export class ContentRelationFieldResolver {
-  constructor(private readonly contentService: ContentService) {
-    console.log('ContentRelationFieldResolver');
-  }
+  constructor(private readonly contentService: ContentService) {}
 
   @ResolveField()
   async content(@Parent() parent: ContentRelationField) {
