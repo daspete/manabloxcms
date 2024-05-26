@@ -1,7 +1,7 @@
-import { Field, ObjectType } from "@nestjs/graphql";
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Block, BlockSchema } from "../../../block/block.model";
-import mongoose from "mongoose";
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Block } from '../../../block/block.model';
+import mongoose from 'mongoose';
 
 @ObjectType()
 @Schema()
@@ -22,4 +22,5 @@ export class BlockItemsField {
   blocks: Array<Block>;
 }
 
-export const BlockItemsFieldSchema = SchemaFactory.createForClass(BlockItemsField);
+export const BlockItemsFieldSchema =
+  SchemaFactory.createForClass(BlockItemsField);

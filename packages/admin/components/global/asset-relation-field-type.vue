@@ -19,9 +19,17 @@ if (!props.field.assetSettings) {
 
     <div class="flex gap-4 items-center">
       <label for="asset-relation">Default asset</label>
-      <Dropdown v-model="field.assetSettings.defaultValue" :options="assets" showClear filter optionLabel="name" placeholder="Select default asset" class="flex-1">
+      <Dropdown
+        v-model="field.assetSettings.defaultValue"
+        :options="assets"
+        show-clear
+        filter
+        option-label="name"
+        placeholder="Select default asset"
+        class="flex-1"
+      >
         <template #value="{ value, placeholder }">
-          <div class="flex items-center gap-2" v-if="value">
+          <div v-if="value" class="flex items-center gap-2">
             <div>{{ value.type }}</div>
             <div>{{ value.name }}</div>
           </div>

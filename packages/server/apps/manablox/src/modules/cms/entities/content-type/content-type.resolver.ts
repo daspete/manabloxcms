@@ -28,7 +28,7 @@ export class ContentTypeResolver {
   }
 
   @Mutation(() => ContentType)
-  async deleteContentType(@Args('contentTypeId') contentTypeId: string){
+  async deleteContentType(@Args('contentTypeId') contentTypeId: string) {
     return this.contentTypeService.delete(contentTypeId);
   }
 }

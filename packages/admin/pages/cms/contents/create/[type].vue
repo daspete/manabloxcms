@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { v4 as uuid4 } from "uuid";
-import type { Content } from "~/generated/graphql/graphql";
-import createContentMutation from "~/graphql/contents/create-content.mutation.gql";
+import { v4 as uuid4 } from 'uuid';
+import type { Content } from '~/generated/graphql/graphql';
+import createContentMutation from '~/graphql/contents/create-content.mutation.gql';
 
 const route = useRoute();
 const toast = useToast();
 
-const { loading, contentType } = useContentTypeQuery({
+const { contentType } = useContentTypeQuery({
   name: route.params.type,
 });
 
@@ -14,9 +14,9 @@ const content = ref<Partial<Content>>({
   type: `${route.params.type}`,
   contentId: uuid4(),
   parent: null,
-  locale: "de",
-  title: "",
-  slug: "",
+  locale: 'de',
+  title: '',
+  slug: '',
   fields: [],
 });
 
@@ -34,12 +34,13 @@ const createContent = async () => {
   try {
     await mutate();
     toast.add({
-      severity: "success",
-      summary: "Success",
+      severity: 'success',
+      summary: 'Success',
       detail: `Content created.`,
       life: 2000,
     });
   } catch (err: any) {
+    //eslint-disable-line @typescript-eslint/no-explicit-any
     console.error(err);
   } finally {
     isCreating.value = false;
@@ -76,12 +77,12 @@ const createContent = async () => {
       <template #content>
         <ContentEditor
           v-if="contentType.name"
-          :contentType="contentType"
+          :content-type="contentType"
           :content="content"
         />
       </template>
     </Card>
 
-    <BlockUI :blocked="isCreating" fullScreen />
+    <BlockUI :blocked="isCreating" full-screen />
   </div>
 </template>

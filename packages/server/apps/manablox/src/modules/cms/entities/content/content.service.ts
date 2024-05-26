@@ -8,7 +8,7 @@ import { ContentInput } from './content.input';
 export class ContentService {
   constructor(
     @InjectModel('Content') private readonly contentModel: Model<Content>,
-  ) { }
+  ) {}
 
   async findAll(): Promise<Content[]> {
     const items = await this.contentModel.find().exec();
@@ -33,7 +33,7 @@ export class ContentService {
   }
 
   async update(content: ContentInput): Promise<Content> {
-    const { id, contentId, ...dataToUpdate } = content;
+    const { contentId, ...dataToUpdate } = content;
 
     await this.contentModel.updateOne({ contentId }, { $set: dataToUpdate });
 

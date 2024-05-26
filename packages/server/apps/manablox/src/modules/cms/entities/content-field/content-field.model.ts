@@ -38,9 +38,7 @@ export type ContentFieldUnionType = (typeof contentFieldTypes)[number];
 export const ContentFieldUnion = createUnionType({
   name: 'ContentFieldUnion',
   types: () => contentFieldTypes,
-  resolveType: (
-    value: any
-  ) => {
+  resolveType: (value: any) => {
     return value.type;
   },
 });

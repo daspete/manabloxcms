@@ -21,7 +21,7 @@ if (!props.field.numberSettings) {
           id="min-value"
           v-model="field.numberSettings.min"
           class="w-full"
-          showButtons
+          show-buttons
         />
         <label for="min-value">Min. value</label>
       </FloatLabel>
@@ -30,7 +30,7 @@ if (!props.field.numberSettings) {
           id="max-value"
           v-model="field.numberSettings.max"
           class="w-full"
-          showButtons
+          show-buttons
         />
         <label for="max-value">Max. value</label>
       </FloatLabel>
@@ -42,7 +42,7 @@ if (!props.field.numberSettings) {
           id="precision"
           v-model="field.numberSettings.precision"
           class="w-full"
-          showButtons
+          show-buttons
         />
         <label for="precision">Precision</label>
       </FloatLabel>
@@ -51,7 +51,7 @@ if (!props.field.numberSettings) {
           id="default-value"
           v-model="field.numberSettings.defaultValue"
           class="w-full"
-          showButtons
+          show-buttons
         />
         <label for="default-value">Default value</label>
       </FloatLabel>

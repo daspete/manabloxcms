@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { useConfirm } from "primevue/useconfirm";
-import type { ContentType } from "~/generated/graphql/graphql";
-import deleteContentTypeMutation from "~/graphql/content-types/delete-content-type.mutation.gql";
+import { useConfirm } from 'primevue/useconfirm';
+import type { ContentType } from '~/generated/graphql/graphql';
+import deleteContentTypeMutation from '~/graphql/content-types/delete-content-type.mutation.gql';
 
 const { loading, contentTypes, refetch } = useContentTypesQuery();
-const router = useRouter();
+// const router = useRouter();
 const confirm = useConfirm();
 const toast = useToast();
 
 const isDeleting = ref(false);
 
-const onContentTypeSelect = (event: any) => {
-  router.push(`/cms/content-types/${event.data.name}`);
-};
+// const onContentTypeSelect = (event: any) => {
+//   router.push(`/cms/content-types/${event.data.name}`);
+// };
 
 const deleteContentType = async (contentType: Partial<ContentType>) => {
   isDeleting.value = true;
@@ -24,16 +24,17 @@ const deleteContentType = async (contentType: Partial<ContentType>) => {
   try {
     await mutate();
     toast.add({
-      severity: "success",
-      summary: "Success",
+      severity: 'success',
+      summary: 'Success',
       detail: `Content type ${contentType.name} deleted.`,
       life: 2000,
     });
     refetch();
   } catch (err: any) {
+    //eslint-disable-line @typescript-eslint/no-explicit-any
     toast.add({
-      severity: "error",
-      summary: "Error while deleting content type",
+      severity: 'error',
+      summary: 'Error while deleting content type',
       detail: err.message,
       life: 3000,
     });
@@ -42,12 +43,15 @@ const deleteContentType = async (contentType: Partial<ContentType>) => {
   }
 };
 
-const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
+const confirmContentTypeDeletion = (
+  event: MouseEvent,
+  contentType: ContentType,
+) => {
   confirm.require({
-    target: event.currentTarget,
-    group: "deleteContentTypeGroup",
+    target: event.currentTarget as HTMLElement,
+    group: 'deleteContentTypeGroup',
     message: `Content type ${
-      contentType.name ? contentType.name : ""
+      contentType.name ? contentType.name : ''
     } will be deleted.`,
     accept: () => {
       deleteContentType(contentType);
@@ -62,7 +66,7 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
     <div class="flex py-8 justify-between items-center">
       <div class="text-2xl font-bold">Content types</div>
       <NuxtLink to="/cms/content-types/create">
-        <Button label="Add new" icon="i-mdi-plus"></Button>
+        <Button label="Add new" icon="i-mdi-plus" />
       </NuxtLink>
     </div>
 
@@ -72,12 +76,12 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
           :value="contentTypes"
           paginator
           :rows="5"
-          stripedRows
+          striped-rows
           :loading="loading"
-          removableSort
-          :rowsPerPageOptions="[5, 10, 20, 50]"
-          paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
-          currentPageReportTemplate="{first} to {last} of {totalRecords}"
+          removable-sort
+          :rows-per-page-options="[5, 10, 20, 50]"
+          paginator-template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
+          current-page-report-template="{first} to {last} of {totalRecords}"
         >
           <template #paginatorstart>
             <Button
@@ -90,7 +94,7 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
             />
           </template>
 
-          <template #paginatorend></template>
+          <template #paginatorend />
 
           <template #empty>No content types added yet.</template>
 
@@ -111,13 +115,12 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
               <div class="text-center flex-1">Type</div>
             </template>
             <template #body="{ data }">
-              {{ data.isBlockType ? "Block" : "Single" }}
+              {{ data.isBlockType ? 'Block' : 'Single' }}
             </template>
           </Column>
           <Column class="w-16">
             <template #body="{ data }">
               <Button
-                @click="confirmContentTypeDeletion($event, data)"
                 class="w-12"
                 icon="i-mdi-trash"
                 aria-label=""
@@ -125,6 +128,7 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
                 rounded
                 severity="secondary"
                 size="large"
+                @click="confirmContentTypeDeletion($event, data)"
               />
             </template>
           </Column>
@@ -156,6 +160,6 @@ const confirmContentTypeDeletion = (event: any, contentType: ContentType) => {
       </template>
     </ConfirmPopup>
 
-    <BlockUI :blocked="isDeleting" fullScreen />
+    <BlockUI :blocked="isDeleting" full-screen />
   </div>
 </template>

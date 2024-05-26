@@ -1,7 +1,7 @@
-import { Parent, ResolveField, Resolver } from "@nestjs/graphql";
-import { UserRelationFieldTypeSettings } from "./user-relation-field-type.model";
-import { UserService } from "apps/manablox/src/modules/user/user.service";
-import { User } from "apps/manablox/src/modules/user/entities/user/user.model";
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { UserRelationFieldTypeSettings } from './user-relation-field-type.model';
+import { UserService } from 'apps/manablox/src/modules/user/user.service';
+import { User } from 'apps/manablox/src/modules/user/entities/user/user.model';
 
 @Resolver(() => UserRelationFieldTypeSettings)
 export class UserRelationFieldTypeSettingsResolver {
@@ -9,7 +9,7 @@ export class UserRelationFieldTypeSettingsResolver {
 
   @ResolveField(() => User, { nullable: true })
   async defaultValue(@Parent() parent: UserRelationFieldTypeSettings) {
-    if(!parent.defaultValue) return null;
+    if (!parent.defaultValue) return null;
     return this.userService.findOne(parent.defaultValue);
   }
 }

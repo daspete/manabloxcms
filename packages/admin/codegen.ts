@@ -8,10 +8,10 @@ const config: CodegenConfig = {
     './generated/graphql/': {
       preset: 'client',
       config: {
-        useTypeImports: true
-      }
-    }
-  }
-}
+        useTypeImports: true,
+      },
+    },
+  },
+};
 
-export default config
+export default config;

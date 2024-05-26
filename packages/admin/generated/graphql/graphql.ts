@@ -1,20 +1,33 @@
 /* eslint-disable */
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-  DateTime: { input: any; output: any; }
+  DateTime: { input: any; output: any };
 };
 
 export type Asset = {
@@ -23,6 +36,13 @@ export type Asset = {
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
   url: Scalars['String']['output'];
+};
+
+export type AssetInput = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+  url: Scalars['String']['input'];
 };
 
 export type AssetRelationField = {
@@ -44,11 +64,11 @@ export type AssetRelationFieldType = {
 
 export type AssetRelationFieldTypeSettings = {
   __typename?: 'AssetRelationFieldTypeSettings';
-  defaultValue?: Maybe<Scalars['String']['output']>;
+  defaultValue?: Maybe<Asset>;
 };
 
 export type AssetRelationFieldTypeSettingsInput = {
-  defaultValue?: InputMaybe<Scalars['Boolean']['input']>;
+  defaultValue?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Block = {
@@ -73,7 +93,16 @@ export type BlockFieldInput = {
   user?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type BlockFieldUnion = AssetRelationField | BlockItemField | BlockItemsField | BooleanField | ContentRelationField | DateField | NumberField | StringField | UserRelationField;
+export type BlockFieldUnion =
+  | AssetRelationField
+  | BlockItemField
+  | BlockItemsField
+  | BooleanField
+  | ContentRelationField
+  | DateField
+  | NumberField
+  | StringField
+  | UserRelationField;
 
 export type BlockInput = {
   blockId: Scalars['String']['input'];
@@ -171,7 +200,6 @@ export type Content = {
   type: Scalars['String']['output'];
 };
 
-
 export type ContentFieldsArgs = {
   fields?: InputMaybe<Array<Scalars['String']['input']>>;
 };
@@ -191,7 +219,16 @@ export type ContentFieldInput = {
   user?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type ContentFieldUnion = AssetRelationField | BlockItemField | BlockItemsField | BooleanField | ContentRelationField | DateField | NumberField | StringField | UserRelationField;
+export type ContentFieldUnion =
+  | AssetRelationField
+  | BlockItemField
+  | BlockItemsField
+  | BooleanField
+  | ContentRelationField
+  | DateField
+  | NumberField
+  | StringField
+  | UserRelationField;
 
 export type ContentInput = {
   contentId: Scalars['String']['input'];
@@ -223,11 +260,11 @@ export type ContentRelationFieldType = {
 
 export type ContentRelationFieldTypeSettings = {
   __typename?: 'ContentRelationFieldTypeSettings';
-  defaultValue?: Maybe<Scalars['String']['output']>;
+  defaultValue?: Maybe<Content>;
 };
 
 export type ContentRelationFieldTypeSettingsInput = {
-  defaultValue?: InputMaybe<Scalars['Boolean']['input']>;
+  defaultValue?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ContentType = {
@@ -235,7 +272,7 @@ export type ContentType = {
   canBeVisibleInMenu?: Maybe<Scalars['Boolean']['output']>;
   contentTypeId: Scalars['String']['output'];
   fields: Array<ContentTypeFieldUnion>;
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   isBlockType: Scalars['Boolean']['output'];
   isPublishable?: Maybe<Scalars['Boolean']['output']>;
   isVisibleInTree?: Maybe<Scalars['Boolean']['output']>;
@@ -267,13 +304,21 @@ export type ContentTypeFieldSettingsInput = {
   isRequired: Scalars['Boolean']['input'];
 };
 
-export type ContentTypeFieldUnion = AssetRelationFieldType | BlockItemFieldType | BlockItemsFieldType | BooleanFieldType | ContentRelationFieldType | DateFieldType | NumberFieldType | StringFieldType | UserRelationFieldType;
+export type ContentTypeFieldUnion =
+  | AssetRelationFieldType
+  | BlockItemFieldType
+  | BlockItemsFieldType
+  | BooleanFieldType
+  | ContentRelationFieldType
+  | DateFieldType
+  | NumberFieldType
+  | StringFieldType
+  | UserRelationFieldType;
 
 export type ContentTypeInput = {
   canBeVisibleInMenu?: InputMaybe<Scalars['Boolean']['input']>;
   contentTypeId: Scalars['String']['input'];
   fields?: InputMaybe<Array<ContentTypeFieldInput>>;
-  id?: InputMaybe<Scalars['String']['input']>;
   isBlockType: Scalars['Boolean']['input'];
   isPublishable?: InputMaybe<Scalars['Boolean']['input']>;
   isVisibleInTree?: InputMaybe<Scalars['Boolean']['input']>;
@@ -317,6 +362,7 @@ export type DateFieldTypeSettingsInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAsset: Asset;
   createContent: Content;
   createContentType: ContentType;
   createUser: User;
@@ -326,36 +372,33 @@ export type Mutation = {
   updateContentType: ContentType;
 };
 
+export type MutationCreateAssetArgs = {
+  asset: AssetInput;
+};
 
 export type MutationCreateContentArgs = {
   content: ContentInput;
 };
 
-
 export type MutationCreateContentTypeArgs = {
   contentType: ContentTypeInput;
 };
-
 
 export type MutationCreateUserArgs = {
   user: UserInput;
 };
 
-
 export type MutationDeleteContentArgs = {
   contentId: Scalars['String']['input'];
 };
-
 
 export type MutationDeleteContentTypeArgs = {
   contentTypeId: Scalars['String']['input'];
 };
 
-
 export type MutationUpdateContentArgs = {
   content: ContentInput;
 };
-
 
 export type MutationUpdateContentTypeArgs = {
   contentType: ContentTypeInput;
@@ -404,16 +447,13 @@ export type Query = {
   users: Array<User>;
 };
 
-
 export type QueryContentArgs = {
   contentId: Scalars['String']['input'];
 };
 
-
 export type QueryContentTypeArgs = {
   name: Scalars['String']['input'];
 };
-
 
 export type QueryFindContentsArgs = {
   types?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -490,9 +530,9 @@ export type UserRelationFieldType = {
 
 export type UserRelationFieldTypeSettings = {
   __typename?: 'UserRelationFieldTypeSettings';
-  defaultValue?: Maybe<Scalars['String']['output']>;
+  defaultValue?: Maybe<User>;
 };
 
 export type UserRelationFieldTypeSettingsInput = {
-  defaultValue?: InputMaybe<Scalars['Boolean']['input']>;
+  defaultValue?: InputMaybe<Scalars['String']['input']>;
 };

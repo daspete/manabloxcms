@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import createContentTypeMutation from "~/graphql/content-types/create-content-type.mutation.gql";
-import { useToast } from "primevue/usetoast";
-import { v4 as uuid4 } from "uuid";
-import type { ContentType } from "~/generated/graphql/graphql";
+import createContentTypeMutation from '~/graphql/content-types/create-content-type.mutation.gql';
+import { useToast } from 'primevue/usetoast';
+import { v4 as uuid4 } from 'uuid';
+import type { ContentType } from '~/generated/graphql/graphql';
 
 const toast = useToast();
 const router = useRouter();
 
 const contentType = ref<Partial<ContentType>>({
-  name: "",
+  name: '',
   contentTypeId: uuid4(),
   isBlockType: false,
   isPublishable: false,
@@ -32,17 +32,18 @@ const createContentType = async () => {
     await mutate();
 
     toast.add({
-      severity: "success",
-      summary: "Success",
+      severity: 'success',
+      summary: 'Success',
       detail: `Content type "${contentType.value.name}" created.`,
       life: 2000,
     });
 
-    router.push(`/cms/content-types/${ contentType.value.name }`);
+    router.push(`/cms/content-types/${contentType.value.name}`);
   } catch (err: any) {
+    //eslint-disable-line @typescript-eslint/no-explicit-any
     toast.add({
-      severity: "error",
-      summary: "Error while creating content type",
+      severity: 'error',
+      summary: 'Error while creating content type',
       detail: err.message,
       life: 3000,
     });
@@ -77,10 +78,10 @@ const createContentType = async () => {
 
     <Card>
       <template #content>
-        <ContentTypeEditor :contentType="contentType" />
+        <ContentTypeEditor :content-type="contentType" />
       </template>
     </Card>
 
-    <BlockUI :blocked="isCreating" fullScreen />
+    <BlockUI :blocked="isCreating" full-screen />
   </div>
 </template>

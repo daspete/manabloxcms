@@ -48,7 +48,6 @@ import { UserRelationFieldTypeSettingsResolver } from './entities/content-type-f
 import { AssetRelationFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/asset-relation-field-type/asset-relation-field-type-settings.resolver';
 import { ContentRelationFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/content-relation-field-type/content-relation-field-type-settings.resolver';
 
-
 @Module({
   imports: [
     UserModule,
@@ -87,7 +86,10 @@ import { ContentRelationFieldTypeSettingsResolver } from './entities/content-typ
           { name: 'BlockDateField', schema: DateFieldSchema },
           { name: 'BlockUserRelationField', schema: UserRelationFieldSchema },
           { name: 'BlockAssetRelationField', schema: AssetRelationFieldSchema },
-          { name: 'BlockContentRelationField', schema: ContentRelationFieldSchema },
+          {
+            name: 'BlockContentRelationField',
+            schema: ContentRelationFieldSchema,
+          },
           { name: 'SubBlockItemField', schema: BlockItemFieldSchema },
           { name: 'SubBlockItemsField', schema: BlockItemsFieldSchema },
         ],
