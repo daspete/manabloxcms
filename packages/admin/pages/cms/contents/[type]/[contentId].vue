@@ -53,7 +53,7 @@ const updateContent = async () => {
 <template>
   <div class="container pt-8">
     <div class="flex justify-between mb-8 items-center">
-      <span class="text-2xl font-bold"> Update content </span>
+      <span class="text-2xl font-bold"> Update {{ content.title }} </span>
       <div class="flex gap-2">
         <NuxtLink to="/cms/contents">
           <Button

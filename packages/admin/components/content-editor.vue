@@ -7,7 +7,7 @@ const props = defineProps({
     required: true,
   },
   content: {
-    type: Object as PropType<Content>,
+    type: Object as PropType<Partial<Content>>,
     required: true,
   },
 });
@@ -15,7 +15,7 @@ const props = defineProps({
 initContentFields(props.contentType, props.content);
 
 const contentFields = computed(() => {
-  return props.content.fields.filter((field) => {
+  return props.content.fields?.filter((field) => {
     return !!getFieldType(props.contentType, field);
   });
 });
