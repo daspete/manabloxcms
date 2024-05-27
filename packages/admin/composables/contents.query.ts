@@ -20,7 +20,6 @@ export const useContentsQuery = (variables = {}) => {
       );
 
       if (data.value?.contents) {
-        console.log(data.value.contents)
         contents.value = clone(data.value.contents);
       }
     } catch (err) {

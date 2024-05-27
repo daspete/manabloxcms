@@ -147,9 +147,7 @@ export default {
       { 'cursor-default pointer-events-none opacity-60': context.disabled },
     ],
   }),
-  pagebutton: ({ context }) => {
-    console.log(context);
-    return {
+  pagebutton: ({ context }) => ({
     class: [
       'relative',
 
@@ -183,7 +181,7 @@ export default {
       'user-none overflow-hidden',
       { 'cursor-default pointer-events-none opacity-60': context.disabled },
     ],
-  }},
+  }),
   rowperpagedropdown: {
     root: ({ props, state }) => ({
       class: [
