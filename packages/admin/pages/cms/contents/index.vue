@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import type { Content, ContentType } from '~/generated/graphql/graphql';
+import type { PageState } from 'primevue/paginator';
+import { type Content, type ContentType } from '~/generated/graphql/graphql';
 import deleteContentMutation from '~/graphql/contents/delete-content.mutation.gql';
 
-const { loading, contents, refetch } = useContentsQuery();
+const variables = ref<{ page: number, limit: number}>({
+  page: 1,
+  limit: 2,
+});
+const { loading, contents, refetch } = useContentsQuery(variables.value);
 const router = useRouter();
 const confirm = useConfirm();
 const toast = useToast();
 
 const isDeleting = ref(false);
+
+const possiblePageLimits = [2, 10, 20];
 
 const createContentOfType = (contentType: ContentType) => {
   router.push(`/cms/contents/create/${contentType.name}`);
@@ -54,6 +61,18 @@ const confirmContentDeletion = (event: MouseEvent, content: Content) => {
     reject: () => {},
   });
 };
+
+const changePage = (event: PageState) => {
+  console.log(event);
+  variables.value.page = event.page + 1;
+  refetch(variables.value);
+};
+
+const changeLimit = (limit: number) => {
+  variables.value.limit = limit;
+  variables.value.page = 1;
+  refetch(variables.value);
+};
 </script>
 
 <template>
@@ -67,30 +86,15 @@ const confirmContentDeletion = (event: MouseEvent, content: Content) => {
     </div>
 
     <div>
-      <div class="shadow">
+      <div class="shadow flex flex-col gap-2">
+        {{ contents.total }} contents found.
         <DataTable
-          :value="contents"
+          :total-records="contents.total"
+          :value="contents.items"
           striped-rows
           removable-sort
           :loading="loading"
-          :rows="5"
-          paginator
-          paginator-template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
-          current-page-report-template="{first} to {last} of {totalRecords}"
         >
-          <template #paginatorstart>
-            <Button
-              type="button"
-              label="Reload"
-              icon="i-mdi-reload"
-              rounded
-              size="small"
-              @click="refetch"
-            />
-          </template>
-
-          <template #paginatorend />
-
           <template #empty>No content added yet.</template>
 
           <Column field="title" header="Title" sortable>
@@ -131,6 +135,14 @@ const confirmContentDeletion = (event: MouseEvent, content: Content) => {
             </template>
           </Column>
         </DataTable>
+
+        <Paginator
+          :total-records="contents.total"
+          :rows="2"
+          :rows-per-page-options="possiblePageLimits"
+          @page="changePage"
+          @update:rows="changeLimit"
+        />
       </div>
     </div>
 
