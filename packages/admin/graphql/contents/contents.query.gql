@@ -1,13 +1,18 @@
-query contents {
-  contents {
-    id
-    contentId
-    type
-    title
-    slug
-    parent {
+query contents($query: [ContentQueryInput!], $limit: Int, $page: Int) {
+  contents(query: $query, limit: $limit, page: $page) {
+    total
+    page
+    limit
+    items {
       id
+      contentId
+      type
+      title
+      slug
+      parent {
+        id
+      }
+      locale
     }
-    locale
   }
 }

@@ -1,6 +1,9 @@
 import {
   Args,
+  Field,
+  Int,
   Mutation,
+  ObjectType,
   Parent,
   Query,
   ResolveField,
@@ -10,61 +13,45 @@ import mongoose from 'mongoose';
 import { Content } from './content.model';
 import { ContentService } from './content.service';
 import { ContentInput } from './content.input';
-import { ContentTypeService } from '../content-type/content-type.service';
+import { ContentQueryInput } from './content-query.input';
+
+@ObjectType()
+export class PaginatedContents {
+  @Field(() => Number)
+  total: number;
+
+  @Field(() => Number)
+  page: number;
+
+  @Field(() => Number)
+  limit: number;
+
+  @Field(() => [Content])
+  items: Content[];
+}
 
 @Resolver(() => Content)
 export class ContentResolver {
-  constructor(
-    private readonly contentService: ContentService,
-    private readonly contentTypeService: ContentTypeService,
-  ) {}
+  constructor(private readonly contentService: ContentService) {}
 
-  @Query(() => [Content])
-  async contents() {
-    return this.contentService.findAll();
+  @Query(() => PaginatedContents)
+  async contents(
+    @Args('query', {
+      type: () => [ContentQueryInput],
+      defaultValue: [],
+      nullable: true,
+    })
+    @Args('query', { type: () => [ContentQueryInput], nullable: true })
+    query: ContentQueryInput[] = [],
+    @Args('limit', { type: () => Int, defaultValue: 10 }) limit = 10,
+    @Args('page', { type: () => Int, defaultValue: 1 }) page = 1,
+  ) {
+    return this.contentService.find(query, limit, page);
   }
 
   @Query(() => Content)
   async content(@Args('contentId', { type: () => String }) contentId: string) {
     return this.contentService.findOne({ contentId });
-  }
-
-  @Query(() => [Content])
-  async findContents(
-    @Args('types', { type: () => [String], nullable: true })
-    types: string[] = [],
-  ) {
-    const query = {};
-
-    if (types.length > 0) {
-      query['type'] = {
-        $in: types,
-      };
-    }
-
-    return this.contentService.find(query);
-    // return this.contentService.find({
-    //   $and: [
-    //     {
-    //       fields: {
-    //         $elemMatch: {
-    //           name: 'slug',
-    //           string: 'home',
-    //         },
-    //       },
-    //     },
-    //     {
-    //       fields: {
-    //         $elemMatch: {
-    //           name: 'title',
-    //           string: {
-    //             $regex: '^S',
-    //           },
-    //         },
-    //       },
-    //     },
-    //   ],
-    // });
   }
 
   @Mutation(() => Content)
@@ -113,11 +100,6 @@ export class ContentResolver {
 
     return content.fields.filter((field) => fields.includes(field.name));
   }
-
-  // @ResolveField()
-  // async type(@Parent() content: Content) {
-  //   return this.contentTypeService.findOne({ name: content.type });
-  // }
 
   @ResolveField()
   async parent(@Parent() content: Content) {

@@ -147,7 +147,9 @@ export default {
       { 'cursor-default pointer-events-none opacity-60': context.disabled },
     ],
   }),
-  pagebutton: ({ context }) => ({
+  pagebutton: ({ context }) => {
+    console.log(context);
+    return {
     class: [
       'relative',
 
@@ -164,6 +166,8 @@ export default {
       // Color
       'text-surface-500 dark:text-white/60',
 
+      { 'bg-primary-500/20': context.active },
+
       // State
       {
         'hover:bg-surface-50 dark:hover:bg-[rgba(255,255,255,0.03)]':
@@ -179,7 +183,7 @@ export default {
       'user-none overflow-hidden',
       { 'cursor-default pointer-events-none opacity-60': context.disabled },
     ],
-  }),
+  }},
   rowperpagedropdown: {
     root: ({ props, state }) => ({
       class: [

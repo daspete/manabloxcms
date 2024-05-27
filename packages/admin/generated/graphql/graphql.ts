@@ -140,6 +140,10 @@ export type BlockItemsFieldTypeSettingsInput = {
   possibleBlockTypes?: InputMaybe<Array<Scalars['ID']['input']>>;
 };
 
+export type BlockQueryInput = {
+  field?: InputMaybe<ContentFieldQueryInput>;
+};
+
 export type BooleanField = {
   __typename?: 'BooleanField';
   boolean: Scalars['Boolean']['output'];
@@ -198,6 +202,18 @@ export type ContentFieldInput = {
   user?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type ContentFieldQueryInput = {
+  asset?: InputMaybe<Scalars['String']['input']>;
+  block?: InputMaybe<BlockQueryInput>;
+  boolean?: InputMaybe<Scalars['Boolean']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['DateTime']['input']>;
+  name: Scalars['String']['input'];
+  number?: InputMaybe<Scalars['Float']['input']>;
+  string?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ContentFieldUnion = AssetRelationField | BlockItemField | BlockItemsField | BooleanField | ContentRelationField | DateField | NumberField | StringField | UserRelationField;
 
 export type ContentInput = {
@@ -209,6 +225,13 @@ export type ContentInput = {
   slug: Scalars['String']['input'];
   title: Scalars['String']['input'];
   type: Scalars['String']['input'];
+};
+
+export type ContentQueryInput = {
+  fields?: InputMaybe<Array<ContentFieldQueryInput>>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ContentRelationField = {
@@ -405,14 +428,21 @@ export type NumberFieldTypeSettingsInput = {
   precision?: InputMaybe<Scalars['Float']['input']>;
 };
 
+export type PaginatedContents = {
+  __typename?: 'PaginatedContents';
+  items: Array<Content>;
+  limit: Scalars['Float']['output'];
+  page: Scalars['Float']['output'];
+  total: Scalars['Float']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   assets: Array<Asset>;
   content: Content;
   contentType: ContentType;
   contentTypes: Array<ContentType>;
-  contents: Array<Content>;
-  findContents: Array<Content>;
+  contents: PaginatedContents;
   users: Array<User>;
 };
 
@@ -427,8 +457,10 @@ export type QueryContentTypeArgs = {
 };
 
 
-export type QueryFindContentsArgs = {
-  types?: InputMaybe<Array<Scalars['String']['input']>>;
+export type QueryContentsArgs = {
+  limit?: Scalars['Int']['input'];
+  page?: Scalars['Int']['input'];
+  query?: InputMaybe<Array<ContentQueryInput>>;
 };
 
 export type StringField = {
