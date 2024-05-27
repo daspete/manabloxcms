@@ -7,6 +7,7 @@ const variables = ref<{ page: number, limit: number}>({
   page: 1,
   limit: 2,
 });
+
 const { loading, contents, refetch } = useContentsQuery(variables.value);
 const router = useRouter();
 const confirm = useConfirm();
@@ -63,7 +64,6 @@ const confirmContentDeletion = (event: MouseEvent, content: Content) => {
 };
 
 const changePage = (event: PageState) => {
-  console.log(event);
   variables.value.page = event.page + 1;
   refetch(variables.value);
 };
@@ -87,7 +87,6 @@ const changeLimit = (limit: number) => {
 
     <div>
       <div class="shadow flex flex-col gap-2">
-        {{ contents.total }} contents found.
         <DataTable
           :total-records="contents.total"
           :value="contents.items"
@@ -138,7 +137,7 @@ const changeLimit = (limit: number) => {
 
         <Paginator
           :total-records="contents.total"
-          :rows="2"
+          :rows="10"
           :rows-per-page-options="possiblePageLimits"
           @page="changePage"
           @update:rows="changeLimit"
