@@ -8,20 +8,24 @@ export const useUsersQuery = (variables = {}) => {
   const refetch = async (_variables = {}) => {
     loading.value = true;
 
-    try {
-      const { data } = await useAsyncQuery<{ users: Array<User> }>(
-        usersQuery,
-        _variables,
-      );
+    await new Promise((resolve, reject) => {
+      const { onResult } = useQuery(usersQuery, _variables, {
+        fetchPolicy: 'network-only',
+      });
 
-      if (data.value?.users) {
-        users.value = clone(data.value.users);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loading.value = false;
-    }
+      onResult((result) => {
+        if (result.partial) return;
+
+        if (result.error) {
+          reject(result.error);
+        } else {
+          users.value = clone(result.data?.users);
+          resolve(result.data?.users);
+        }
+      });
+    });
+
+    loading.value = false;
   };
 
   refetch(variables);

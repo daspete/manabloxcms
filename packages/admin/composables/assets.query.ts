@@ -8,20 +8,24 @@ export const useAssetsQuery = (variables = {}) => {
   const refetch = async (_variables = {}) => {
     loading.value = true;
 
-    try {
-      const { data } = await useAsyncQuery<{ assets: Array<Asset> }>(
-        assetsQuery,
-        _variables,
-      );
+    await new Promise((resolve, reject) => {
+      const { onResult } = useQuery(assetsQuery, _variables, {
+        fetchPolicy: 'network-only',
+      });
 
-      if (data.value?.assets) {
-        assets.value = clone(data.value.assets);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loading.value = false;
-    }
+      onResult((result) => {
+        if (result.partial) return;
+
+        if (result.error) {
+          reject(result.error);
+        } else {
+          assets.value = clone(result.data?.assets);
+          resolve(result.data?.assets);
+        }
+      });
+    });
+
+    loading.value = false;
   };
 
   refetch(variables);
