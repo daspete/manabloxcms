@@ -5,7 +5,7 @@ import deleteContentMutation from '~/graphql/contents/delete-content.mutation.gq
 
 const variables = ref<{ page: number; limit: number }>({
   page: 1,
-  limit: 2,
+  limit: 10,
 });
 
 const { loading, contents, refetch } = useContentsQuery(variables.value);
@@ -15,7 +15,7 @@ const toast = useToast();
 
 const isDeleting = ref(false);
 
-const possiblePageLimits = [2, 10, 20];
+const possiblePageLimits = [10, 20, 50, 100];
 
 const createContentOfType = (contentType: ContentType) => {
   router.push(`/cms/contents/create/${contentType.name}`);
@@ -86,13 +86,14 @@ const changeLimit = (limit: number) => {
     </div>
 
     <div>
-      <div class="shadow flex flex-col gap-2">
+      <div class="flex flex-col gap-2">
         <DataTable
           :total-records="contents.total"
           :value="contents.items"
           striped-rows
           removable-sort
           :loading="loading"
+          class="shadow"
         >
           <template #empty>No content added yet.</template>
 
@@ -141,6 +142,7 @@ const changeLimit = (limit: number) => {
           :rows-per-page-options="possiblePageLimits"
           @page="changePage"
           @update:rows="changeLimit"
+          class="shadow"
         />
       </div>
     </div>
