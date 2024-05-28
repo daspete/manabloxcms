@@ -8,19 +8,24 @@ export const useContentTypesQuery = (variables = {}) => {
   const refetch = async (_variables = {}) => {
     loading.value = true;
 
-    try {
-      const { data } = await useAsyncQuery<{
-        contentTypes: Array<ContentType>;
-      }>(contentTypesQuery, _variables);
+    await new Promise((resolve, reject) => {
+      const { onResult } = useQuery(contentTypesQuery, _variables, {
+        fetchPolicy: 'network-only',
+      });
 
-      if (data.value?.contentTypes) {
-        contentTypes.value = clone(data.value.contentTypes);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loading.value = false;
-    }
+      onResult((result) => {
+        if (result.partial) return;
+
+        if (result.error) {
+          reject(result.error);
+        } else {
+          contentTypes.value = clone(result.data?.contentTypes);
+          resolve(result.data?.contentTypes);
+        }
+      });
+    });
+
+    loading.value = false;
   };
 
   refetch(variables);
