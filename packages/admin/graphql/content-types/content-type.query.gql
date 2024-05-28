@@ -10,8 +10,8 @@
 
 query contentType($name: String!) {
   contentType(name: $name) {
-    name
     contentTypeId
+    name
     isBlockType
     hasSlug
     isPublishable

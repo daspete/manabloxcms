@@ -4,13 +4,12 @@ query contents($query: [ContentQueryInput!], $limit: Int, $page: Int) {
     page
     limit
     items {
-      id
       contentId
       type
       title
       slug
       parent {
-        id
+        contentId
       }
       locale
     }

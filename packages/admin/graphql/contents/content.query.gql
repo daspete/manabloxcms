@@ -15,7 +15,7 @@ query content($contentId: String!) {
     title
     slug
     parent {
-      id
+      contentId
     }
     locale
     fields {
