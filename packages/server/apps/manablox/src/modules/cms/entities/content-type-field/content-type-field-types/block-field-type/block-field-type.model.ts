@@ -1,6 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
 import { ContentType } from '../../../content-type/content-type.model';
 import {
   ContentTypeFieldSettings,
@@ -11,7 +10,7 @@ import {
 @Schema()
 export class BlockFieldTypeSettings {
   @Field(() => ContentType)
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ContentType' })
+  @Prop()
   blockType: string;
 }
 

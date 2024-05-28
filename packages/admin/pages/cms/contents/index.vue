@@ -140,9 +140,9 @@ const changeLimit = (limit: number) => {
           :total-records="contents.total"
           :rows="10"
           :rows-per-page-options="possiblePageLimits"
+          class="shadow"
           @page="changePage"
           @update:rows="changeLimit"
-          class="shadow"
         />
       </div>
     </div>

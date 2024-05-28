@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
 import { Content } from '../../../content/content.model';
 
 @ObjectType()
@@ -19,11 +18,7 @@ export class ContentRelationField {
   type: 'ContentRelationField' = 'ContentRelationField';
 
   @Field(() => Content, { nullable: true })
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Content',
-    required: false,
-  })
+  @Prop({ required: false })
   content: string;
 }
 

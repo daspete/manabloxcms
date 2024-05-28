@@ -10,6 +10,6 @@ export class ContentRelationFieldTypeSettingsResolver {
   @ResolveField(() => Content, { nullable: true })
   async defaultValue(@Parent() parent: ContentRelationFieldTypeSettings) {
     if (!parent.defaultValue) return null;
-    return this.contentService.findOne(parent.defaultValue);
+    return this.contentService.findOne({ contentId: parent.defaultValue });
   }
 }
