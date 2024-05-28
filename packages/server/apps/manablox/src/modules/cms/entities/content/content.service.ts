@@ -122,8 +122,10 @@ export class ContentService {
     return (await this.contentModel.findOne(query).exec()).toJSON();
   }
 
-  async findById(id: string): Promise<Content> {
-    return (await this.contentModel.findById(id).exec()).toJSON();
+  async findById(contentId: string): Promise<Content> {
+    return (
+      await this.contentModel.findOne({ contentId: contentId }).exec()
+    ).toJSON();
   }
 
   async create(content: ContentInput): Promise<Content> {
@@ -135,7 +137,7 @@ export class ContentService {
 
     await this.contentModel.updateOne({ contentId }, { $set: dataToUpdate });
 
-    return this.contentModel.findOne({ contentId }).exec();
+    return this.findOne(contentId);
   }
 
   async delete(contentId: string): Promise<Content> {

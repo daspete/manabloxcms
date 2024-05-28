@@ -102,13 +102,21 @@ const confirmFieldDeletion = (
 
     <div v-if="!contentType.isBlockType" class="flex gap-16 items-center">
       <div class="flex items-center justify-between">
+        <label for="hasSlug" class="mr-2">Has slug</label>
+        <InputSwitch
+          v-model="contentType.hasSlug"
+          input-id="hasSlug"
+        />
+      </div>
+
+      <div class="flex items-center justify-between" v-if="contentType.hasSlug">
         <label for="ispublishable" class="mr-2">Is publishable</label>
         <InputSwitch
           v-model="contentType.isPublishable"
           input-id="ispublishable"
         />
       </div>
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between" v-if="contentType.hasSlug">
         <label for="canBeVisibleInMenu" class="mr-2"
           >Can be visible in menu</label
         >
@@ -159,6 +167,7 @@ const confirmFieldDeletion = (
         v-else
         v-draggable="[
           contentType.fields,
+          //@ts-ignore
           { handle: '.drag-handle', animation: 150 },
         ]"
         :multiple="true"

@@ -104,6 +104,6 @@ export class ContentResolver {
   @ResolveField()
   async parent(@Parent() content: Content) {
     if (!content.parent) return null;
-    return this.contentService.findOne(content.parent);
+    return this.contentService.findOne({ id: content.parent });
   }
 }
