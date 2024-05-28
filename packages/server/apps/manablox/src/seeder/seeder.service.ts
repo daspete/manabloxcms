@@ -65,7 +65,7 @@ export class SeederService {
 
         const possibleBlockTypes = this.blockTypes.filter((_blockType) =>
           fieldType['blocksSettings']['possibleBlockTypes'].includes(
-            _blockType.id,
+            _blockType.contentTypeId,
           ),
         );
 
@@ -87,7 +87,8 @@ export class SeederService {
       if (type === 'BlockItemField') {
         const blockType = this.blockTypes.find(
           (_blockType) =>
-            _blockType.id === fieldType['blockSettings']['blockType'],
+            _blockType.contentTypeId ===
+            fieldType['blockSettings']['blockType'],
         );
 
         field['block'] = {

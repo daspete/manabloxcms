@@ -8,6 +8,6 @@ export class ContentRelationFieldResolver {
 
   @ResolveField()
   async content(@Parent() parent: ContentRelationField) {
-    return this.contentService.findOne(parent.content);
+    return this.contentService.findOne({ contentId: parent.content });
   }
 }

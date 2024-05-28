@@ -17,7 +17,7 @@ export const prepareContentTypeForMutation = (
         blockItemFieldType.blockSettings.blockType
       ) {
         blockItemFieldType.blockSettings.blockType =
-          blockItemFieldType.blockSettings.blockType.id;
+          blockItemFieldType.blockSettings.blockType.contentTypeId;
       }
     }
 
@@ -31,7 +31,7 @@ export const prepareContentTypeForMutation = (
       ) {
         blockItemsFieldType.blocksSettings.possibleBlockTypes =
           blockItemsFieldType.blocksSettings.possibleBlockTypes.map(
-            (blockType: ContentType) => blockType.id,
+            (blockType: ContentType) => blockType.contentTypeId,
           );
       }
     }

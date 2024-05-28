@@ -10,10 +10,10 @@
 
 query contentType($name: String!) {
   contentType(name: $name) {
-    id
-    name
     contentTypeId
+    name
     isBlockType
+    hasSlug
     isPublishable
     canBeVisibleInMenu
     isVisibleInTree

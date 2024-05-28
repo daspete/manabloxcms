@@ -1,6 +1,5 @@
 query contentTypes {
   contentTypes {
-    id
     contentTypeId
     name
     isBlockType

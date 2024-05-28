@@ -19,9 +19,6 @@ type ContentTypeFieldUnionType = (typeof contentTypeFieldTypes)[number];
 })
 export class ContentType {
   @Field()
-  id: string;
-
-  @Field()
   @Prop()
   contentTypeId: string;
 
@@ -32,6 +29,10 @@ export class ContentType {
   @Field()
   @Prop({ unique: true })
   name: string;
+
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  hasSlug?: boolean;
 
   @Field({ nullable: true })
   @Prop({ required: false })

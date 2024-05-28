@@ -8,20 +8,24 @@ export const useContentQuery = (variables = {}) => {
   const refetch = async (_variables = {}) => {
     loading.value = true;
 
-    try {
-      const { data } = await useAsyncQuery<{ content: Content }>(
-        contentQuery,
-        _variables,
-      );
+    await new Promise((resolve, reject) => {
+      const { onResult } = useQuery(contentQuery, _variables, {
+        fetchPolicy: 'network-only',
+      });
 
-      if (data.value?.content) {
-        content.value = clone(data.value.content);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loading.value = false;
-    }
+      onResult((result) => {
+        if (result.partial) return;
+
+        if (result.error) {
+          reject(result.error);
+        } else {
+          content.value = clone(result.data?.content);
+          resolve(result.data?.content);
+        }
+      });
+    });
+
+    loading.value = false;
   };
 
   refetch(variables);

@@ -13,6 +13,9 @@ export class ContentTypeInput {
   isBlockType: boolean;
 
   @Field({ nullable: true })
+  hasSlug?: boolean;
+
+  @Field({ nullable: true })
   isPublishable?: boolean;
 
   @Field({ nullable: true })

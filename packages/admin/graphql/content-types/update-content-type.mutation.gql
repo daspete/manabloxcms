@@ -1,6 +1,6 @@
 mutation updateContentType($contentType: ContentTypeInput!) {
   updateContentType(contentType: $contentType) {
-    id
+    contentTypeId
     name
   }
 }

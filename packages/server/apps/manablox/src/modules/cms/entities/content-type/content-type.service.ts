@@ -25,8 +25,12 @@ export class ContentTypeService {
     return (await this.contentTypeModel.findOne(query).exec()).toJSON();
   }
 
-  async findById(id: string): Promise<ContentType> {
-    return (await this.contentTypeModel.findById(id).exec()).toJSON();
+  async findById(contentTypeId: string): Promise<ContentType> {
+    return (
+      await this.contentTypeModel
+        .findOne({ contentTypeId: contentTypeId })
+        .exec()
+    ).toJSON();
   }
 
   async create(contentType: ContentTypeInput): Promise<ContentType> {

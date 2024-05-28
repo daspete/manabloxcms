@@ -13,20 +13,24 @@ export const useContentsQuery = (variables = {}) => {
   const refetch = async (_variables = {}) => {
     loading.value = true;
 
-    try {
-      const { data } = await useAsyncQuery<{ contents: PaginatedContents }>(
-        contentsQuery,
-        _variables,
-      );
+    await new Promise((resolve, reject) => {
+      const { onResult } = useQuery(contentsQuery, _variables, {
+        fetchPolicy: 'network-only',
+      });
 
-      if (data.value?.contents) {
-        contents.value = clone(data.value.contents);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loading.value = false;
-    }
+      onResult((result) => {
+        if (result.partial) return;
+
+        if (result.error) {
+          reject(result.error);
+        } else {
+          contents.value = clone(result.data?.contents);
+          resolve(result.data?.contents);
+        }
+      });
+    });
+
+    loading.value = false;
   };
 
   refetch(variables);
