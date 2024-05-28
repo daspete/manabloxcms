@@ -3,7 +3,7 @@ import type { PageState } from 'primevue/paginator';
 import { type Content, type ContentType } from '~/generated/graphql/graphql';
 import deleteContentMutation from '~/graphql/contents/delete-content.mutation.gql';
 
-const variables = ref<{ page: number, limit: number}>({
+const variables = ref<{ page: number; limit: number }>({
   page: 1,
   limit: 2,
 });
@@ -38,8 +38,8 @@ const deleteContent = async (content: Partial<Content>) => {
     });
 
     refetch();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    //eslint-disable-line @typescript-eslint/no-explicit-any
     toast.add({
       severity: 'error',
       summary: 'Error while deleting content type',

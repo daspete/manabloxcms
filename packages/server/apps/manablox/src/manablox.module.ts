@@ -25,5 +25,6 @@ import { MongooseModule } from '@nestjs/mongoose';
   ],
   controllers: [],
   providers: [],
+  exports: [CmsModule],
 })
 export class ManabloxModule {}
