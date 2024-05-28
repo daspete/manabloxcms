@@ -39,8 +39,8 @@ const createContentType = async () => {
     });
 
     router.push(`/cms/content-types/${contentType.value.name}`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    //eslint-disable-line @typescript-eslint/no-explicit-any
     toast.add({
       severity: 'error',
       summary: 'Error while creating content type',

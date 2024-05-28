@@ -36,8 +36,8 @@ const updateContent = async () => {
       detail: `Content updated.`,
       life: 2000,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    //eslint-disable-line @typescript-eslint/no-explicit-any
     toast.add({
       severity: 'error',
       summary: 'Error while updating content',
