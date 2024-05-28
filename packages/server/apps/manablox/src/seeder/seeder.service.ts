@@ -2,55 +2,126 @@ import { Injectable } from '@nestjs/common';
 import { ContentService } from '../modules/cms/entities/content/content.service';
 import { faker } from '@faker-js/faker';
 import { randomUUID } from 'crypto';
+import { ContentTypeService } from '../modules/cms/entities/content-type/content-type.service';
+import { ContentType } from '../modules/cms/entities/content-type/content-type.model';
+import { ContentField } from '../modules/cms/entities/content-field/content-field.model';
 
 @Injectable()
 export class SeederService {
-  constructor(private readonly contentService: ContentService) {}
+  allContentTypes: Array<ContentType> = [];
+  contentTypes: Array<ContentType> = [];
+  blockTypes: Array<ContentType> = [];
+
+  constructor(
+    private readonly contentService: ContentService,
+    private readonly contentTypeService: ContentTypeService,
+  ) {}
 
   async seed() {
+    this.allContentTypes = await this.contentTypeService.find({});
+
+    this.contentTypes = this.allContentTypes.filter(
+      (contentType) => !contentType.isBlockType,
+    );
+
+    this.blockTypes = this.allContentTypes.filter(
+      (contentType) => contentType.isBlockType,
+    );
+
     await this.seedContents(1000);
+  }
+
+  seedContentFields(
+    item: { fields: Array<ContentField> },
+    contentType: ContentType,
+  ) {
+    return contentType.fields.map((fieldType) => {
+      const type = fieldType['type'].replace('Type', '');
+
+      const field = {
+        type,
+        name: fieldType.name,
+        fieldId: fieldType['fieldId'],
+      };
+
+      if (type === 'StringField') {
+        field['string'] = faker.lorem.words(3);
+      }
+
+      if (type === 'BooleanField') {
+        field['boolean'] = faker.datatype.boolean();
+      }
+
+      if (type === 'NumberField') {
+        field['number'] = faker.number.int(100);
+      }
+
+      if (type === 'DateField') {
+        field['date'] = faker.date.recent().toISOString();
+      }
+
+      if (type === 'BlockItemsField') {
+        field['blocks'] = [];
+
+        const possibleBlockTypes = this.blockTypes.filter((_blockType) =>
+          fieldType['blocksSettings']['possibleBlockTypes'].includes(
+            _blockType.id,
+          ),
+        );
+
+        for (let i = 0; i < faker.number.int({ min: 3, max: 6 }); i++) {
+          const blockType = faker.helpers.arrayElement(possibleBlockTypes);
+
+          const block = {
+            blockId: randomUUID(),
+            type: blockType.name,
+            fields: [],
+          };
+
+          block.fields = this.seedContentFields(block, blockType);
+
+          field['blocks'].push(block);
+        }
+      }
+
+      if (type === 'BlockItemField') {
+        const blockType = this.blockTypes.find(
+          (_blockType) =>
+            _blockType.id === fieldType['blockSettings']['blockType'],
+        );
+
+        field['block'] = {
+          blockId: randomUUID(),
+          type: blockType.name,
+          fields: [],
+        };
+
+        field['block'].fields = this.seedContentFields(
+          field['block'],
+          blockType,
+        );
+      }
+
+      return field;
+    });
   }
 
   async seedContents(itemCount: number) {
     for (let i = 0; i < itemCount; i++) {
-      await this.contentService.create({
+      const currentContentType = faker.helpers.arrayElement(this.contentTypes);
+
+      const content = {
         title: faker.lorem.words(3),
-        type: 'Page',
+        type: currentContentType.name,
         contentId: randomUUID(),
         slug: faker.lorem.word(),
         locale: 'de',
-        fields: [
-          {
-            type: 'BlockItemField',
-            name: 'seo',
-            fieldId: '422d6f0c-c1c1-42f4-b02e-f9e5fad96577',
-            block: {
-              blockId: randomUUID(),
-              type: 'SeoSettings',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'StringField',
-                  fieldId: '68fb9859-c93f-461f-aab3-5842014832ee',
-                  string: faker.lorem.words(3),
-                },
-                {
-                  name: 'description',
-                  type: 'StringField',
-                  fieldId: '329e6969-56d8-4ba4-bed1-0e20c11a9580',
-                  string: faker.lorem.words(10),
-                },
-              ],
-            },
-          },
-          {
-            type: 'BlockItemsField',
-            name: 'pagecomponents',
-            fieldId: 'b0bebc29-e74c-4d0b-8351-fc6f43d97c8f',
-            blocks: [],
-          },
-        ],
-      });
+        fields: [],
+      };
+
+      content.fields = this.seedContentFields(content, currentContentType);
+
+      await this.contentService.create(content);
     }
   }
 }
