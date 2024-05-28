@@ -142,5 +142,6 @@ import { ContentRelationFieldTypeSettingsResolver } from './entities/content-typ
     AssetRelationFieldTypeSettingsResolver,
     ContentRelationFieldTypeSettingsResolver,
   ],
+  exports: [ContentService, ContentTypeService],
 })
 export class CmsModule {}

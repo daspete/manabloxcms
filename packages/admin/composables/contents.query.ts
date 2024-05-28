@@ -1,4 +1,4 @@
-import type { Content, PaginatedContents } from '~/generated/graphql/graphql';
+import type { PaginatedContents } from '~/generated/graphql/graphql';
 import contentsQuery from '~/graphql/contents/contents.query.gql';
 
 export const useContentsQuery = (variables = {}) => {

@@ -40,9 +40,11 @@ const createContent = async () => {
       detail: `Content created.`,
       life: 2000,
     });
-    router.push(`/cms/contents/${ content.value.type }/${ content.value.contentId }`);
+    router.push(
+      `/cms/contents/${content.value.type}/${content.value.contentId}`,
+    );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    //eslint-disable-line @typescript-eslint/no-explicit-any
     console.error(err);
   } finally {
     isCreating.value = false;

@@ -30,8 +30,8 @@ const deleteContentType = async (contentType: Partial<ContentType>) => {
       life: 2000,
     });
     refetch();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    //eslint-disable-line @typescript-eslint/no-explicit-any
     toast.add({
       severity: 'error',
       summary: 'Error while deleting content type',
