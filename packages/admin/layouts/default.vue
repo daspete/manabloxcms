@@ -7,11 +7,15 @@ useHead({
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <MainMenu />
-    <div class="content flex justify-center pb-8">
-      <NuxtPage />
+  <div class="flex min-h-screen w-full items-stretch">
+    <AppSidebar />
+    <AppSlidebar />
+    <div class="flex-1 flex flex-col h-screen">
+      <AppTopbar />
+      <div class="content flex-1 overflow-y-auto px-4 py-2">
+        <NuxtPage />
+      </div>
+      <AppBottombar />
     </div>
-    <Toast />
   </div>
 </template>
