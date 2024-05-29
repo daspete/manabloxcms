@@ -5,40 +5,35 @@ const isOpen = ref(false);
 
 const items = ref([
   {
-    label: 'Router',
-    icon: 'pi pi-palette',
+    label: 'CMS',
+    icon: 'i-mdi-file-document-edit',
     items: [
       {
-        label: 'Styled',
-        icon: 'pi pi-eraser',
-        route: '/theming',
+        label: 'Contents',
+        icon: 'i-mdi-file-tree',
+        route: '/cms/contents',
       },
       {
-        label: 'Unstyled',
-        icon: 'pi pi-heart',
-        route: '/unstyled',
+        label: 'Content types',
+        icon: 'i-mdi-file-tree',
+        route: '/cms/content-types',
       },
     ],
   },
   {
-    label: 'Programmatic',
-    icon: 'pi pi-link',
+    label: 'Users',
+    icon: 'i-mdi-account-group',
     command: () => {
       router.push('/introduction');
     },
   },
   {
-    label: 'External',
-    icon: 'pi pi-home',
+    label: 'Settings',
+    icon: 'i-mdi-cog',
     items: [
       {
-        label: 'Vue.js',
-        icon: 'pi pi-star',
-        url: 'https://vuejs.org/',
-      },
-      {
-        label: 'Vite.js',
-        icon: 'pi pi-bookmark',
+        label: 'Spaces',
+        icon: 'i-mdi-cube',
         url: 'https://vuejs.org/',
       },
     ],
@@ -48,7 +43,7 @@ const items = ref([
 
 <template>
   <div
-    :class="`sidebar ${isOpen ? 'w-32' : 'w-16'} bg-surface-950 flex flex-col items-center shadow-lg transition-all`"
+    :class="`sidebar ${isOpen ? 'w-40' : 'w-16'} bg-surface-950 flex flex-col items-center shadow-lg transition-all`"
   >
     <NuxtLink
       to="/"
@@ -77,32 +72,50 @@ const items = ref([
     <div>
       <PanelMenu
         :model="items"
-        class="w-full"
-        :pt="{ headerContent: 'bg-black' }"
+        :pt-options="{
+          mergeProps: true
+        }"
+        :pt="{
+          headerContent: ({ context }) => ({
+            class: {
+              // 'bg-primary': context.active,
+              // 'bg-black': !context.active,
+              'bg-transparent': true,
+              'text-white hover:text-primary': !context.active,
+              'text-primary hover:text-white': context.active,
+            }
+
+          }),
+          panel: 'border-0',
+          menuContent: 'bg-transparent',
+          content: ({ context }) => ({
+            class: {
+              'text-white': !context.active,
+              'text-primary': context.active,
+
+            }
+          })
+        }"
       >
         <template #item="{ item }">
-          <router-link
+          <NuxtLink
             v-if="item.route"
-            v-slot="{ href, navigate }"
             :to="item.route"
-            custom
           >
             <a
               v-ripple
-              class="flex items-center cursor-pointer text-primary px-3 py-2"
-              :href="href"
-              @click="navigate"
+              class="flex items-center cursor-pointer px-3 py-2"
             >
               <span :class="item.icon" />
               <span class="ml-2 text-color" v-if="isOpen">{{
                 item.label
               }}</span>
             </a>
-          </router-link>
+          </NuxtLink>
           <a
             v-else
             v-ripple
-            class="flex items-center cursor-pointer text-primary px-3 py-2"
+            class="flex items-center cursor-pointer px-3 py-2"
             :href="item.url"
             :target="item.target"
           >
@@ -110,7 +123,7 @@ const items = ref([
             <span class="ml-2" v-if="isOpen">{{ item.label }}</span>
             <span
               v-if="item.items"
-              class="pi pi-angle-down text-primary ml-auto"
+              class="pi pi-angle-down ml-auto"
             />
           </a>
         </template>
