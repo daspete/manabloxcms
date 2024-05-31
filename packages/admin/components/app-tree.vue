@@ -1,0 +1,93 @@
+<script setup lang="ts">
+const { isOpen } = useTree();
+</script>
+
+<template>
+  <div class="tree shadow-lg" v-show="isOpen">
+    <ScrollPanel class="w-full h-full">
+      <div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+        <div>bla</div>
+
+      </div>
+    </ScrollPanel>
+  </div>
+</template>

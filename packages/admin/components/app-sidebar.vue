@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const router = useRouter();
 
-const isOpen = ref(false);
+const { isOpen, toggle } = useSidebar();
 
 const items = ref([
   {
@@ -14,8 +14,8 @@ const items = ref([
         route: '/cms/contents',
       },
       {
-        label: 'Content types',
-        icon: 'i-mdi-file-tree',
+        label: 'Types',
+        icon: 'i-mdi-file-cog',
         route: '/cms/content-types',
       },
     ],
@@ -23,9 +23,7 @@ const items = ref([
   {
     label: 'Users',
     icon: 'i-mdi-account-group',
-    command: () => {
-      router.push('/introduction');
-    },
+    route: '/users',
   },
   {
     label: 'Settings',
@@ -34,7 +32,7 @@ const items = ref([
       {
         label: 'Spaces',
         icon: 'i-mdi-cube',
-        url: 'https://vuejs.org/',
+        route: '/settings/spaces',
       },
     ],
   },
@@ -55,13 +53,9 @@ const items = ref([
         B
       </div>
     </NuxtLink>
+
     <div>
-      <Button
-        text
-        aria-label="Filter"
-        title="Toggle menubar"
-        @click="isOpen = !isOpen"
-      >
+      <Button text aria-label="Filter" title="Toggle menubar" @click="toggle">
         <i
           class="i-mdi-chevron-right transition-all"
           :class="isOpen ? 'rotate-180' : ''"
@@ -69,62 +63,58 @@ const items = ref([
       </Button>
     </div>
 
-    <div>
+    <div class="pt-8 w-full">
       <PanelMenu
         :model="items"
         :pt-options="{
-          mergeProps: true
+          mergeProps: true,
         }"
         :pt="{
           headerContent: ({ context }) => ({
             class: {
               // 'bg-primary': context.active,
               // 'bg-black': !context.active,
-              'bg-transparent': true,
-              'text-white hover:text-primary': !context.active,
-              'text-primary hover:text-white': context.active,
-            }
-
+              'bg-transparent rounded-none': true,
+              '!text-white !hover:text-primary': !context.active,
+              '!text-primary !hover:text-white': context.active,
+              'hover:bg-surface-900': true,
+            },
           }),
-          panel: 'border-0',
-          menuContent: 'bg-transparent',
+          panel: 'border-0 rounded-none !mb-2',
+          menuContent: 'bg-transparent !pl-2',
           content: ({ context }) => ({
             class: {
-              'text-white': !context.active,
-              'text-primary': context.active,
-
-            }
-          })
+              '!text-white': !context.active,
+              '!text-primary': context.active,
+            },
+          }),
         }"
+        multiple
       >
         <template #item="{ item }">
-          <NuxtLink
-            v-if="item.route"
-            :to="item.route"
-          >
-            <a
-              v-ripple
-              class="flex items-center cursor-pointer px-3 py-2"
+          <NuxtLink v-if="item.route" :to="item.route" v-ripple>
+            <div
+              :class="`flex items-center cursor-pointer px-3 py-2 ${!isOpen ? 'justify-center' : ''}`"
             >
               <span :class="item.icon" />
               <span class="ml-2 text-color" v-if="isOpen">{{
                 item.label
               }}</span>
-            </a>
+            </div>
           </NuxtLink>
+
           <a
             v-else
             v-ripple
-            class="flex items-center cursor-pointer px-3 py-2"
+            :class="`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} cursor-pointer px-3 w-full py-2`"
             :href="item.url"
             :target="item.target"
           >
-            <span :class="item.icon" />
-            <span class="ml-2" v-if="isOpen">{{ item.label }}</span>
-            <span
-              v-if="item.items"
-              class="pi pi-angle-down ml-auto"
-            />
+            <div class="flex items-center">
+              <span :class="item.icon" />
+              <span class="ml-2" v-if="isOpen">{{ item.label }}</span>
+              <span v-if="item.items" class="pi pi-angle-down ml-auto" />
+            </div>
           </a>
         </template>
       </PanelMenu>
