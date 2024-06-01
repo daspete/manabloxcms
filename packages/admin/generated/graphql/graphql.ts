@@ -201,7 +201,7 @@ export type Content = {
   parent?: Maybe<Content>;
   slug: Scalars['String']['output'];
   title: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  type: ContentType;
 };
 
 export type ContentFieldsArgs = {
@@ -300,6 +300,7 @@ export type ContentType = {
   isPublishable?: Maybe<Scalars['Boolean']['output']>;
   isVisibleInTree?: Maybe<Scalars['Boolean']['output']>;
   name: Scalars['String']['output'];
+  space: Space;
 };
 
 export type ContentTypeFieldInput = {
@@ -347,6 +348,7 @@ export type ContentTypeInput = {
   isPublishable?: InputMaybe<Scalars['Boolean']['input']>;
   isVisibleInTree?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
+  space: Scalars['String']['input'];
 };
 
 export type DateField = {
@@ -395,6 +397,7 @@ export type Mutation = {
   deleteContentType: ContentType;
   updateContent: Content;
   updateContentType: ContentType;
+  updateSpace: Space;
 };
 
 export type MutationCreateAssetArgs = {
@@ -431,6 +434,10 @@ export type MutationUpdateContentArgs = {
 
 export type MutationUpdateContentTypeArgs = {
   contentType: ContentTypeInput;
+};
+
+export type MutationUpdateSpaceArgs = {
+  space: SpaceInput;
 };
 
 export type NumberField = {
@@ -488,6 +495,7 @@ export type Query = {
   contentType: ContentType;
   contentTypes: Array<ContentType>;
   contents: PaginatedContents;
+  space: Space;
   spaces: PaginatedSpaces;
   users: Array<User>;
 };
@@ -506,6 +514,10 @@ export type QueryContentsArgs = {
   query?: InputMaybe<Array<ContentQueryInput>>;
 };
 
+export type QuerySpaceArgs = {
+  spaceId: Scalars['String']['input'];
+};
+
 export type QuerySpacesArgs = {
   limit?: Scalars['Int']['input'];
   page?: Scalars['Int']['input'];
@@ -516,8 +528,8 @@ export type Space = {
   __typename?: 'Space';
   description: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  settings: Block;
-  settingsBlockType: ContentType;
+  settings?: Maybe<Block>;
+  settingsBlockType?: Maybe<ContentType>;
   spaceId: Scalars['String']['output'];
   technicalName: Scalars['String']['output'];
   url: Scalars['String']['output'];
@@ -526,8 +538,8 @@ export type Space = {
 export type SpaceInput = {
   description: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  settings: BlockInput;
-  settingsBlockType: Scalars['String']['input'];
+  settings?: InputMaybe<BlockInput>;
+  settingsBlockType?: InputMaybe<Scalars['String']['input']>;
   spaceId: Scalars['String']['input'];
   technicalName: Scalars['String']['input'];
   url: Scalars['String']['input'];

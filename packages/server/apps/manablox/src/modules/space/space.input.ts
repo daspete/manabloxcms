@@ -18,9 +18,9 @@ export class SpaceInput {
   @Field()
   url: string;
 
-  @Field()
-  settingsBlockType: string;
+  @Field({ nullable: true })
+  settingsBlockType?: string;
 
-  @Field(() => BlockInput)
-  settings: BlockInput;
+  @Field(() => BlockInput, { nullable: true })
+  settings?: BlockInput;
 }

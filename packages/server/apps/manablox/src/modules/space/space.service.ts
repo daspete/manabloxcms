@@ -37,7 +37,7 @@ export class SpaceService {
     return items.map((item) => item.toJSON());
   }
 
-  async find(
+  async findPaginated(
     query: Array<SpaceQueryInput> = [],
     limit: number = 10,
     page: number = 1,
@@ -66,6 +66,11 @@ export class SpaceService {
       limit,
       items: mappedItems,
     };
+  }
+
+  async find(query: any): Promise<Array<Space>> {
+    const spaces = await this.spaceModel.find(query).exec();
+    return spaces.map((space) => space.toJSON());
   }
 
   async findOne(query: any): Promise<Space> {

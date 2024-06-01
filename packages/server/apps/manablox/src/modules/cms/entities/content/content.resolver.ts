@@ -13,10 +13,15 @@ import { ContentService } from './content.service';
 import { ContentInput } from './content.input';
 import { ContentQueryInput } from './content-query.input';
 import { PaginatedContents } from './paginated-contents.type';
+import { ContentType } from '../content-type/content-type.model';
+import { ContentTypeService } from '../content-type/content-type.service';
 
 @Resolver(() => Content)
 export class ContentResolver {
-  constructor(private readonly contentService: ContentService) {}
+  constructor(
+    private readonly contentService: ContentService,
+    private readonly contentTypeService: ContentTypeService,
+  ) {}
 
   @Query(() => PaginatedContents)
   async contents(
@@ -85,7 +90,11 @@ export class ContentResolver {
 
   @ResolveField()
   async parent(@Parent() content: Content) {
-    if (!content.parent) return null;
-    return this.contentService.findOne({ id: content.parent });
+    return this.contentService.findOne({ contentId: content.parent });
+  }
+
+  @ResolveField(() => ContentType)
+  async type(@Parent() content: Content) {
+    return this.contentTypeService.findOne({ name: content.type });
   }
 }

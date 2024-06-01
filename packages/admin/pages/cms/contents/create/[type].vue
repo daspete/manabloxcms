@@ -12,7 +12,6 @@ const { contentType } = useContentTypeQuery({
 });
 
 const content = ref<Partial<Content>>({
-  type: `${route.params.type}`,
   contentId: uuid4(),
   parent: null,
   locale: 'de',
@@ -41,7 +40,7 @@ const createContent = async () => {
       life: 2000,
     });
     router.push(
-      `/cms/contents/${content.value.type}/${content.value.contentId}`,
+      `/cms/contents/${content.value.type?.name}/${content.value.contentId}`,
     );
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {

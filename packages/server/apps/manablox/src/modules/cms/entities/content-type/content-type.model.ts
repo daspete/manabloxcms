@@ -7,6 +7,7 @@ import {
   ContentTypeFieldUnion,
   contentTypeFieldTypes,
 } from '../content-type-field/content-type-field.model';
+import { Space } from '../../../space/space.model';
 
 type ContentTypeFieldUnionType = (typeof contentTypeFieldTypes)[number];
 
@@ -25,6 +26,10 @@ export class ContentType {
   @Field()
   @Prop()
   isBlockType: boolean;
+
+  @Field(() => Space, { nullable: true })
+  @Prop({ nullable: true })
+  space?: string;
 
   @Field()
   @Prop({ unique: true })

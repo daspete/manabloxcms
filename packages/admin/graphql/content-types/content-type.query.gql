@@ -18,6 +18,13 @@ query contentType($name: String!) {
     canBeVisibleInMenu
     isVisibleInTree
 
+    space {
+      spaceId
+      name
+      technicalName
+      description
+    }
+
     fields {
       ...StringFieldTypeFields
       ...NumberFieldTypeFields
