@@ -1,0 +1,13 @@
+query spaces($query: [SpaceQueryInput!], $limit: Int, $page: Int) {
+  spaces(query: $query, limit: $limit, page: $page) {
+    total
+    page
+    limit
+    items {
+      spaceId
+      name
+      technicalName
+      description
+    }
+  }
+}

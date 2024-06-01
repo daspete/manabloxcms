@@ -137,6 +137,7 @@ const changeLimit = (limit: number) => {
         </DataTable>
 
         <Paginator
+          v-if="contents.total > variables.limit"
           :total-records="contents.total"
           :rows="10"
           :rows-per-page-options="possiblePageLimits"

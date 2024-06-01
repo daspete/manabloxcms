@@ -1,11 +1,11 @@
 <script setup lang="ts">
 const tree = useTree();
-const { darkModeEnabled, enableDarkMode, disableDarkMode } = useApp();
+// const { darkModeEnabled, enableDarkMode, disableDarkMode } = useApp();
 </script>
 
 <template>
   <div class="topbar h-12 flex items-stretch bg-white shadow-lg relative z-10">
-    <button class="bg-primary px-4 text-white" v-ripple @click="tree.toggle">
+    <button v-ripple class="bg-primary px-4 text-white" @click="tree.toggle">
       <i class="i-mdi-file-tree" />
     </button>
     <!-- <div class="flex-1"></div>

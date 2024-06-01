@@ -1,0 +1,5 @@
+mutation deleteSpace($spaceId: String!) {
+  deleteSpace(spaceId: $spaceId) {
+    spaceId
+  }
+}

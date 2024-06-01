@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Content } from './content.model';
 import { ContentInput } from './content.input';
 import { ContentQueryInput } from './content-query.input';
-import { PaginatedContents } from './content.resolver';
+import { PaginatedContents } from './paginated-contents.type';
 
 const buildElemMatchObject = (field) => {
   const elem = {
@@ -119,13 +119,17 @@ export class ContentService {
   }
 
   async findOne(query: any): Promise<Content> {
-    return (await this.contentModel.findOne(query).exec()).toJSON();
+    const content = await this.contentModel.findOne(query).exec();
+    if (!content) return null;
+    return content.toJSON();
   }
 
   async findById(contentId: string): Promise<Content> {
-    return (
-      await this.contentModel.findOne({ contentId: contentId }).exec()
-    ).toJSON();
+    const content = await this.contentModel
+      .findOne({ contentId: contentId })
+      .exec();
+    if (!content) return null;
+    return content.toJSON();
   }
 
   async create(content: ContentInput): Promise<Content> {
@@ -137,7 +141,7 @@ export class ContentService {
 
     await this.contentModel.updateOne({ contentId }, { $set: dataToUpdate });
 
-    return this.findOne(contentId);
+    return this.findOne({ contentId });
   }
 
   async delete(contentId: string): Promise<Content> {

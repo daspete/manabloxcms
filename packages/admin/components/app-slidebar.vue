@@ -1,9 +1,7 @@
 <script setup lang="ts">
-const { isOpen, toggle } = useSlidebar();
+const { isOpen } = useSlidebar();
 </script>
 
 <template>
-  <div class="slidebar shadow-lg" v-show="isOpen">
-    slide
-  </div>
+  <div v-show="isOpen" class="slidebar shadow-lg">slide</div>
 </template>

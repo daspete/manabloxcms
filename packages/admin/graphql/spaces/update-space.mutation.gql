@@ -1,0 +1,5 @@
+mutation updateSpaceMutation($space: SpaceInput!) {
+  updateSpace(space: $space) {
+    spaceId
+  }
+}

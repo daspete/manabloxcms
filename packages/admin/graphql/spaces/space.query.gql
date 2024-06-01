@@ -1,0 +1,42 @@
+#import "../contents/fragments/string-field.fragment.gql"
+#import "../contents/fragments/number-field.fragment.gql"
+#import "../contents/fragments/date-field.fragment.gql"
+#import "../contents/fragments/boolean-field.fragment.gql"
+#import "../contents/fragments/user-relation-field.fragment.gql"
+#import "../contents/fragments/content-relation-field.fragment.gql"
+#import "../contents/fragments/asset-relation-field.fragment.gql"
+#import "../contents/fragments/sub-block-item-field.fragment.gql"
+#import "../contents/fragments/sub-block-items-field.fragment.gql"
+
+query space($spaceId: String!) {
+  space(spaceId: $spaceId) {
+    spaceId
+    name
+    technicalName
+    description
+    url
+    settingsBlockType {
+      contentTypeId
+      name
+      isBlockType
+      isPublishable
+      canBeVisibleInMenu
+      isVisibleInTree
+    }
+    settings {
+      blockId
+      type
+      fields {
+        ...StringFieldFields
+        ...NumberFieldFields
+        ...DateFieldFields
+        ...BooleanFieldFields
+        ...UserRelationFieldFields
+        ...ContentRelationFieldFields
+        ...AssetRelationFieldFields
+        ...SubBlockItemFieldFields
+        ...SubBlockItemsFieldFields
+      }
+    }
+  }
+}

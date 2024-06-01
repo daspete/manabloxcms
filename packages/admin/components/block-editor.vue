@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { BlockFieldUnion } from '~/generated/graphql/graphql';
+
 const props = defineProps({
   block: {
     type: Object,
@@ -20,7 +22,7 @@ watch(contentType, () => {
 });
 
 const blockFields = computed(() => {
-  return props.block.fields.filter((field) => {
+  return props.block.fields.filter((field: BlockFieldUnion) => {
     return !!getFieldType(contentType.value, field);
   });
 });

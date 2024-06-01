@@ -26,6 +26,6 @@ useHead({
       </div>
       <!-- <AppBottombar /> -->
     </div>
+    <Toast position="top-center" />
   </div>
 </template>
-
