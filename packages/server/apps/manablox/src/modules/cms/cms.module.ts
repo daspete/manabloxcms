@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { UserModule } from '../user/user.module';
@@ -47,11 +47,13 @@ import { BlockItemsFieldTypeSettingsResolver } from './entities/content-type-fie
 import { UserRelationFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/user-relation-field-type/user-relation-field-type-settings.resolver';
 import { AssetRelationFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/asset-relation-field-type/asset-relation-field-type-settings.resolver';
 import { ContentRelationFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/content-relation-field-type/content-relation-field-type-settings.resolver';
+import { SpaceModule } from '../space/space.module';
 
 @Module({
   imports: [
     UserModule,
     AssetModule,
+    forwardRef(() => SpaceModule),
     MongooseModule.forFeature([
       {
         name: 'Content',

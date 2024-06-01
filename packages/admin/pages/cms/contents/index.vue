@@ -116,7 +116,7 @@ const changeLimit = (limit: number) => {
 
           <Column field="type" header="Type">
             <template #body="{ data }">
-              <div>{{ data.type }}</div>
+              <div>{{ data.type?.name }}</div>
             </template>
           </Column>
 

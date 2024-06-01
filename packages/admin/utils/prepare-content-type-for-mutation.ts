@@ -1,9 +1,12 @@
-import type { ContentType } from '~/generated/graphql/graphql';
+import type { ContentType, Space } from '~/generated/graphql/graphql';
 
 export const prepareContentTypeForMutation = (
   contentType: Partial<ContentType>,
 ) => {
   const _contentType = clone(contentType);
+  _contentType.spaces = _contentType.spaces.map(
+    (space: Space) => space.spaceId,
+  );
 
   for (let i = 0; i < _contentType.fields.length; i++) {
     const contentTypeField = _contentType.fields[i];

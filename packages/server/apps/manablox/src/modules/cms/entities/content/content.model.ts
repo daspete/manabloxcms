@@ -5,7 +5,8 @@ import {
   ContentFieldUnionType,
 } from '../content-field/content-field.model';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
+import { ContentType } from '../content-type/content-type.model';
 
 @ObjectType()
 @Schema({
@@ -22,9 +23,7 @@ export class Content {
   @Prop()
   contentId: string;
 
-  // @Field(() => ContentType)
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ContentType' })
-  @Field()
+  @Field(() => ContentType)
   @Prop()
   type: string;
 
@@ -37,11 +36,7 @@ export class Content {
   slug: string;
 
   @Field(() => Content, { nullable: true })
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Content',
-    nullable: true,
-  })
+  @Prop({ nullable: true })
   parent: string;
 
   @Field()

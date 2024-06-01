@@ -32,7 +32,7 @@ export class SpaceResolver {
     @Args('limit', { type: () => Int, defaultValue: 10 }) limit = 10,
     @Args('page', { type: () => Int, defaultValue: 1 }) page = 1,
   ) {
-    return this.spaceService.find(query, limit, page);
+    return this.spaceService.findPaginated(query, limit, page);
   }
 
   @Query(() => Space)

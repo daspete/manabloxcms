@@ -31,12 +31,12 @@ export class Space {
   @Prop()
   url: string;
 
-  @Field(() => ContentType)
-  @Prop()
+  @Field(() => ContentType, { nullable: true })
+  @Prop({ nullable: true })
   settingsBlockType: string;
 
-  @Field(() => Block)
-  @Prop({ type: BlockSchema })
+  @Field(() => Block, { nullable: true })
+  @Prop({ type: BlockSchema, nullable: true })
   settings: Block;
 }
 

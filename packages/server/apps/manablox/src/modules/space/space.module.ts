@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { SpaceService } from './space.service';
 import { SpaceResolver } from './space.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -7,7 +7,7 @@ import { CmsModule } from '../cms/cms.module';
 
 @Module({
   imports: [
-    CmsModule,
+    forwardRef(() => CmsModule),
     MongooseModule.forFeature([
       {
         name: 'Space',
