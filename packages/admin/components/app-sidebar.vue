@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const router = useRouter();
-
 const { isOpen, toggle } = useSidebar();
 
 const items = ref([
@@ -92,12 +90,12 @@ const items = ref([
         multiple
       >
         <template #item="{ item }">
-          <NuxtLink v-if="item.route" :to="item.route" v-ripple>
+          <NuxtLink v-if="item.route" v-ripple :to="item.route">
             <div
               :class="`flex items-center cursor-pointer px-3 py-2 ${!isOpen ? 'justify-center' : ''}`"
             >
               <span :class="item.icon" />
-              <span class="ml-2 text-color" v-if="isOpen">{{
+              <span v-if="isOpen" class="ml-2 text-color">{{
                 item.label
               }}</span>
             </div>
@@ -112,7 +110,7 @@ const items = ref([
           >
             <div class="flex items-center">
               <span :class="item.icon" />
-              <span class="ml-2" v-if="isOpen">{{ item.label }}</span>
+              <span v-if="isOpen" class="ml-2">{{ item.label }}</span>
               <span v-if="item.items" class="pi pi-angle-down ml-auto" />
             </div>
           </a>

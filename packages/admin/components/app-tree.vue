@@ -3,7 +3,7 @@ const { isOpen } = useTree();
 </script>
 
 <template>
-  <div class="tree shadow-lg" v-show="isOpen">
+  <div v-show="isOpen" class="tree shadow-lg">
     <ScrollPanel class="w-full h-full">
       <div>
         <div>bla</div>
@@ -86,7 +86,6 @@ const { isOpen } = useTree();
         <div>bla</div>
         <div>bla</div>
         <div>bla</div>
-
       </div>
     </ScrollPanel>
   </div>

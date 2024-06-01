@@ -7,6 +7,7 @@ import { CmsModule } from './modules/cms/cms.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { SpaceModule } from './modules/space/space.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     CmsModule,
     UserModule,
     AuthModule,
+    SpaceModule,
   ],
   controllers: [],
   providers: [],
