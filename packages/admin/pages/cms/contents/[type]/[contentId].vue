@@ -24,7 +24,7 @@ const updateContent = async () => {
 
   const { mutate } = useMutation(updateContentMutation, {
     variables: {
-      content: stripTypename(clone(content.value)),
+      content: stripTypename(prepareContentForMutation(clone(content.value))),
     },
   });
 

@@ -135,6 +135,7 @@ const confirmContentTypeDeletion = (
         </DataTable>
       </div>
     </div>
+
     <ConfirmPopup group="deleteContentTypeGroup">
       <template #container="{ message, acceptCallback, rejectCallback }">
         <div class="px-4 py-2">

@@ -13,14 +13,16 @@ export const useApp = () => {
     darkModeEnabled.value = false;
   };
 
-  watch(() => darkModeEnabled.value, (value) => {
-
-    if (value) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  });
+  watch(
+    () => darkModeEnabled.value,
+    (value) => {
+      if (value) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    },
+  );
 
   return {
     darkModeEnabled,

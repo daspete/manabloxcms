@@ -1,6 +1,7 @@
 import type {
   BlockItemField,
   BlockItemFieldType,
+  BlockItemsField,
   BooleanField,
   BooleanFieldType,
   Content,
@@ -66,7 +67,9 @@ export const initContentFields = (
         };
       }
 
-      //TODO: add block injection
+      if (fieldType.type === 'BlockItemsFieldType') {
+        (newField as BlockItemsField).blocks = [];
+      }
 
       content.fields?.push(newField as ContentFieldUnion);
     }

@@ -1,9 +1,7 @@
 import {
   Args,
-  Field,
   Int,
   Mutation,
-  ObjectType,
   Parent,
   Query,
   ResolveField,
@@ -14,21 +12,7 @@ import { Content } from './content.model';
 import { ContentService } from './content.service';
 import { ContentInput } from './content.input';
 import { ContentQueryInput } from './content-query.input';
-
-@ObjectType()
-export class PaginatedContents {
-  @Field(() => Number)
-  total: number;
-
-  @Field(() => Number)
-  page: number;
-
-  @Field(() => Number)
-  limit: number;
-
-  @Field(() => [Content])
-  items: Content[];
-}
+import { PaginatedContents } from './paginated-contents.type';
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -38,10 +22,8 @@ export class ContentResolver {
   async contents(
     @Args('query', {
       type: () => [ContentQueryInput],
-      defaultValue: [],
       nullable: true,
     })
-    @Args('query', { type: () => [ContentQueryInput], nullable: true })
     query: ContentQueryInput[] = [],
     @Args('limit', { type: () => Int, defaultValue: 10 }) limit = 10,
     @Args('page', { type: () => Int, defaultValue: 1 }) page = 1,
