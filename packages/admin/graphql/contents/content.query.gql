@@ -11,7 +11,10 @@
 query content($contentId: String!) {
   content(contentId: $contentId) {
     contentId
-    type
+    type {
+      contentTypeId
+      name
+    }
     title
     slug
     parent {

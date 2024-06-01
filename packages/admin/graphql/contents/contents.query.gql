@@ -5,7 +5,10 @@ query contents($query: [ContentQueryInput!], $limit: Int, $page: Int) {
     limit
     items {
       contentId
-      type
+      type {
+        contentTypeId
+        name
+      }
       title
       slug
       parent {

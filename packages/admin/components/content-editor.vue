@@ -12,6 +12,10 @@ const props = defineProps({
   },
 });
 
+if (!props.content.type) {
+  props.content.type = props.contentType;
+}
+
 initContentFields(props.contentType, props.content);
 
 const contentFields = computed(() => {

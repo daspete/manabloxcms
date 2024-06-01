@@ -1,11 +1,23 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { ContentType } from './content-type.model';
 import { ContentTypeService } from './content-type.service';
 import { ContentTypeInput } from './content-type.input';
+import { Space } from '../../../space/space.model';
+import { SpaceService } from '../../../space/space.service';
 
 @Resolver(() => ContentType)
 export class ContentTypeResolver {
-  constructor(private readonly contentTypeService: ContentTypeService) {}
+  constructor(
+    private readonly contentTypeService: ContentTypeService,
+    private readonly spaceService: SpaceService,
+  ) {}
 
   @Query(() => [ContentType])
   async contentTypes() {
@@ -30,5 +42,10 @@ export class ContentTypeResolver {
   @Mutation(() => ContentType)
   async deleteContentType(@Args('contentTypeId') contentTypeId: string) {
     return this.contentTypeService.delete(contentTypeId);
+  }
+
+  @ResolveField(() => [Space])
+  async space(@Parent() contentType: ContentType) {
+    return this.spaceService.findOne({ spaceId: contentType.space });
   }
 }

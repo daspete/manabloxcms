@@ -6,5 +6,12 @@ query contentTypes {
     isPublishable
     canBeVisibleInMenu
     isVisibleInTree
+
+    space {
+      spaceId
+      name
+      technicalName
+      description
+    }
   }
 }
