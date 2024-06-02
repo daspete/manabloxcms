@@ -7,7 +7,6 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import mongoose from 'mongoose';
 import { Content } from './content.model';
 import { ContentService } from './content.service';
 import { ContentInput } from './content.input';
@@ -43,25 +42,6 @@ export class ContentResolver {
 
   @Mutation(() => Content)
   async createContent(@Args('content') content: ContentInput) {
-    if (content.fields.length > 0) {
-      for (let i = 0; i < content.fields.length; i++) {
-        const field = content.fields[i];
-        switch (field.type) {
-          case 'AssetRelationField':
-            field.asset = new mongoose.Types.ObjectId(`${field.asset}`);
-            break;
-          case 'UserRelationField':
-            field.user = new mongoose.Types.ObjectId(`${field.user}`);
-            break;
-          case 'ContentRelationField':
-            field.content = new mongoose.Types.ObjectId(`${field.content}`);
-            break;
-          default:
-            break;
-        }
-      }
-    }
-
     return this.contentService.create(content);
   }
 
