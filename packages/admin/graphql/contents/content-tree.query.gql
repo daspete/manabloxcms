@@ -1,0 +1,14 @@
+query contentTree($parentId: String) {
+  contentTree(parentId: $parentId) {
+    contentId
+    title
+    slug
+    parent {
+      contentId
+    }
+    type {
+      name
+      contentTypeId
+    }
+  }
+}

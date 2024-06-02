@@ -13,7 +13,10 @@ const { contentType } = useContentTypeQuery({
 
 const content = ref<Partial<Content>>({
   contentId: uuid4(),
-  parent: null,
+  parent:
+    route.params.parentId === 'null'
+      ? null
+      : ({ contentId: route.params.parentId } as Content),
   locale: 'de',
   title: '',
   slug: '',

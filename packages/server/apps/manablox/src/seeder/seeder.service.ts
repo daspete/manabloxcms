@@ -4,7 +4,6 @@ import { faker } from '@faker-js/faker';
 import { randomUUID } from 'crypto';
 import { ContentTypeService } from '../modules/cms/entities/content-type/content-type.service';
 import { ContentType } from '../modules/cms/entities/content-type/content-type.model';
-import { ContentField } from '../modules/cms/entities/content-field/content-field.model';
 
 @Injectable()
 export class SeederService {
@@ -28,13 +27,53 @@ export class SeederService {
       (contentType) => contentType.isBlockType,
     );
 
-    await this.seedContents(1000);
+    await this.seedContents(200);
   }
 
-  seedContentFields(
-    item: { fields: Array<ContentField> },
+  async seedContents(itemCount: number) {
+    for (let i = 0; i < itemCount; i++) {
+      const currentContentType = faker.helpers.arrayElement(this.contentTypes);
+      const content = await this.createContent(currentContentType);
+
+      for (let j = 0; j < faker.number.int({ min: 1, max: 5 }); j++) {
+        const subContentType = faker.helpers.arrayElement(this.contentTypes);
+
+        const subContent = await this.createContent(
+          subContentType,
+          content.contentId,
+        );
+
+        for (let k = 0; k < faker.number.int({ min: 1, max: 5 }); k++) {
+          const subSubContentType = faker.helpers.arrayElement(
+            this.contentTypes,
+          );
+
+          await this.createContent(subSubContentType, subContent.contentId);
+        }
+      }
+    }
+  }
+
+  async createContent(
     contentType: ContentType,
+    parentContentId: string = null,
   ) {
+    const content = {
+      title: faker.lorem.words(3),
+      type: contentType.contentTypeId,
+      parent: parentContentId,
+      contentId: randomUUID(),
+      slug: faker.internet.domainWord(),
+      locale: 'de',
+      fields: [],
+    };
+
+    content.fields = this.seedContentFields(contentType);
+
+    return this.contentService.create(content);
+  }
+
+  seedContentFields(contentType: ContentType) {
     return contentType.fields.map((fieldType) => {
       const type = fieldType['type'].replace('Type', '');
 
@@ -74,11 +113,11 @@ export class SeederService {
 
           const block = {
             blockId: randomUUID(),
-            type: blockType.name,
+            type: blockType.contentTypeId,
             fields: [],
           };
 
-          block.fields = this.seedContentFields(block, blockType);
+          block.fields = this.seedContentFields(blockType);
 
           field['blocks'].push(block);
         }
@@ -93,36 +132,14 @@ export class SeederService {
 
         field['block'] = {
           blockId: randomUUID(),
-          type: blockType.name,
+          type: blockType.contentTypeId,
           fields: [],
         };
 
-        field['block'].fields = this.seedContentFields(
-          field['block'],
-          blockType,
-        );
+        field['block'].fields = this.seedContentFields(blockType);
       }
 
       return field;
     });
-  }
-
-  async seedContents(itemCount: number) {
-    for (let i = 0; i < itemCount; i++) {
-      const currentContentType = faker.helpers.arrayElement(this.contentTypes);
-
-      const content = {
-        title: faker.lorem.words(3),
-        type: currentContentType.name,
-        contentId: randomUUID(),
-        slug: faker.lorem.word(),
-        locale: 'de',
-        fields: [],
-      };
-
-      content.fields = this.seedContentFields(content, currentContentType);
-
-      await this.contentService.create(content);
-    }
   }
 }

@@ -18,7 +18,7 @@ const isDeleting = ref(false);
 const possiblePageLimits = [10, 20, 50, 100];
 
 const createContentOfType = (contentType: ContentType) => {
-  router.push(`/cms/contents/create/${contentType.contentTypeId}`);
+  router.push(`/cms/contents/create/null/${contentType.contentTypeId}`);
 };
 
 const deleteContent = async (content: Partial<Content>) => {
