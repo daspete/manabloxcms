@@ -64,7 +64,7 @@ const confirmContentTypeDeletion = (
 <template>
   <div class="container">
     <div class="flex py-8 justify-between items-center">
-      <div class="text-2xl font-bold">Content types</div>
+      <div class="text-2xl font-bold dark:text-white">Content types</div>
       <NuxtLink to="/cms/content-types/create">
         <Button label="Add new" icon="i-mdi-plus" />
       </NuxtLink>
