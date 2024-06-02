@@ -11,12 +11,16 @@ export const useSpacesQuery = (variables = {}) => {
   const loading = ref(true);
 
   const refetch = async (_variables = {}) => {
-    try {
-      loading.value = true;
+    loading.value = true;
 
+    try {
       await new Promise((resolve, reject) => {
-        const { onResult } = useQuery(spacesQuery, _variables, {
+        const { onResult, onError } = useQuery(spacesQuery, _variables, {
           fetchPolicy: 'network-only',
+        });
+
+        onError((error) => {
+          reject(error);
         });
 
         onResult((result) => {
@@ -30,11 +34,12 @@ export const useSpacesQuery = (variables = {}) => {
           }
         });
       });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      loading.value = false;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error(err.message);
     }
+
+    loading.value = false;
   };
 
   refetch(variables);

@@ -23,8 +23,8 @@ export class Space {
   @Prop()
   technicalName: string;
 
-  @Field()
-  @Prop()
+  @Field({ nullable: true })
+  @Prop({ nullable: true })
   description: string;
 
   @Field()

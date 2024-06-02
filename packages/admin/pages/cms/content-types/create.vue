@@ -18,8 +18,10 @@ const contentType = ref<Partial<ContentType>>({
 });
 
 const isCreating = ref(false);
+const mutationErrors = ref<string[]>([]);
 
 const createContentType = async () => {
+  mutationErrors.value = [];
   isCreating.value = true;
 
   const { mutate } = useMutation(createContentTypeMutation, {
@@ -38,13 +40,15 @@ const createContentType = async () => {
       life: 2000,
     });
 
-    router.push(`/cms/content-types/${contentType.value.name}`);
+    router.push(`/cms/content-types/${contentType.value.contentTypeId}`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
+    mutationErrors.value = err.message.split(',');
+
     toast.add({
       severity: 'error',
       summary: 'Error while creating content type',
-      detail: err.message,
+      detail: 'Have a look at the errors and try again.',
       life: 3000,
     });
   } finally {
@@ -78,6 +82,9 @@ const createContentType = async () => {
 
     <Card>
       <template #content>
+        <Message v-for="error in mutationErrors" :key="error" severity="error">
+          {{ error }}
+        </Message>
         <ContentTypeEditor :content-type="contentType" />
       </template>
     </Card>

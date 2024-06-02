@@ -8,22 +8,31 @@ export const useContentTypeQuery = (variables = {}) => {
   const refetch = async (_variables = {}) => {
     loading.value = true;
 
-    await new Promise((resolve, reject) => {
-      const { onResult } = useQuery(contentTypeQuery, _variables, {
-        fetchPolicy: 'network-only',
-      });
+    try {
+      await new Promise((resolve, reject) => {
+        const { onResult, onError } = useQuery(contentTypeQuery, _variables, {
+          fetchPolicy: 'network-only',
+        });
 
-      onResult((result) => {
-        if (result.partial) return;
+        onError((error) => {
+          reject(error);
+        });
 
-        if (result.error) {
-          reject(result.error);
-        } else {
-          contentType.value = clone(result.data?.contentType);
-          resolve(result.data?.contentType);
-        }
+        onResult((result) => {
+          if (result.partial) return;
+
+          if (result.error) {
+            reject(result.error);
+          } else {
+            contentType.value = clone(result.data?.contentType);
+            resolve(result.data?.contentType);
+          }
+        });
       });
-    });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error(err.message);
+    }
 
     loading.value = false;
   };

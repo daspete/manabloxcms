@@ -6,7 +6,7 @@ const route = useRoute();
 const toast = useToast();
 
 const { loading: contentTypeLoading, contentType } = useContentTypeQuery({
-  name: route.params.type,
+  contentTypeId: route.params.contentTypeId,
 });
 
 const { loading: contentLoading, content } = useContentQuery({
@@ -18,8 +18,10 @@ const isInitializing = computed(
 );
 
 const isUpdating = ref(false);
+const mutationErrors = ref<string[]>([]);
 
 const updateContent = async () => {
+  mutationErrors.value = [];
   isUpdating.value = true;
 
   const { mutate } = useMutation(updateContentMutation, {
@@ -38,10 +40,12 @@ const updateContent = async () => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
+    mutationErrors.value = err.message.split(',');
+
     toast.add({
       severity: 'error',
       summary: 'Error while updating content',
-      detail: err.message,
+      detail: 'Have a look at the errors and try again.',
       life: 3000,
     });
   } finally {
@@ -75,6 +79,9 @@ const updateContent = async () => {
 
     <Card>
       <template #content>
+        <Message v-for="error in mutationErrors" :key="error" severity="error">
+          {{ error }}
+        </Message>
         <div v-if="!isInitializing">
           <ContentEditor :content-type="contentType" :content="content" />
         </div>
