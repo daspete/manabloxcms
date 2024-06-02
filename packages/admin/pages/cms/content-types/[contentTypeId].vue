@@ -6,12 +6,14 @@ const route = useRoute();
 const toast = useToast();
 
 const { contentType } = useContentTypeQuery({
-  name: route.params.name,
+  contentTypeId: route.params.contentTypeId,
 });
 
 const isUpdating = ref(false);
+const mutationErrors = ref<string[]>([]);
 
 const updateContentType = async () => {
+  mutationErrors.value = [];
   isUpdating.value = true;
 
   const { mutate } = useMutation(updateContentTypeMutation, {
@@ -24,7 +26,6 @@ const updateContentType = async () => {
 
   try {
     await mutate();
-    console.log('Bla');
     toast.add({
       severity: 'success',
       summary: 'Success',
@@ -33,10 +34,11 @@ const updateContentType = async () => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
+    mutationErrors.value = err.message.split(',');
     toast.add({
       severity: 'error',
       summary: 'Error while updating content type',
-      detail: err.message,
+      detail: 'Have a look at the errors and try again.',
       life: 5000,
     });
   } finally {
@@ -70,6 +72,9 @@ const updateContentType = async () => {
 
     <Card>
       <template #content>
+        <Message v-for="error in mutationErrors" :key="error" severity="error">
+          {{ error }}
+        </Message>
         <ContentTypeEditor :content-type="contentType" />
       </template>
     </Card>

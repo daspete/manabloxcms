@@ -33,7 +33,7 @@ export class ContentResolver {
     @Args('limit', { type: () => Int, defaultValue: 10 }) limit = 10,
     @Args('page', { type: () => Int, defaultValue: 1 }) page = 1,
   ) {
-    return this.contentService.find(query, limit, page);
+    return this.contentService.findPaginated(query, limit, page);
   }
 
   @Query(() => Content)
@@ -95,6 +95,6 @@ export class ContentResolver {
 
   @ResolveField(() => ContentType)
   async type(@Parent() content: Content) {
-    return this.contentTypeService.findOne({ name: content.type });
+    return this.contentTypeService.findById(content.type);
   }
 }

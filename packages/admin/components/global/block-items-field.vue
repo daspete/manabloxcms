@@ -39,9 +39,17 @@ const blockSelectionMenuItems =
 const addBlock = (blockType: ContentType) => {
   props.field.blocks.push({
     blockId: uuid4(),
-    type: blockType.name,
+    type: blockType.contentTypeId,
     fields: [],
   });
+};
+
+const getBlockType = (contentTypeId: string) => {
+  return props.fieldType.blocksSettings.possibleBlockTypes.find(
+    (blockType: ContentType) => {
+      return blockType.contentTypeId === contentTypeId;
+    },
+  );
 };
 </script>
 
@@ -90,7 +98,7 @@ const addBlock = (blockType: ContentType) => {
                       severity="secondary"
                     />
                   </div>
-                  <div class="flex-1">{{ block.type }}</div>
+                  <div class="flex-1">{{ getBlockType(block.type)?.name }}</div>
                 </div>
               </template>
               <div class="ml-14">

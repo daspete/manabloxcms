@@ -9,8 +9,8 @@ export class ContentTypeInput {
   @Field()
   name: string;
 
-  @Field()
-  space: string;
+  @Field({ nullable: true })
+  space?: string;
 
   @Field()
   isBlockType: boolean;

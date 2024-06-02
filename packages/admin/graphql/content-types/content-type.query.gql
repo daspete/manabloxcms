@@ -8,8 +8,8 @@
 #import "./fragments/block-item-field-type.fragment.gql"
 #import "./fragments/block-items-field-type.fragment.gql"
 
-query contentType($name: String!) {
-  contentType(name: $name) {
+query contentType($contentTypeId: String!) {
+  contentType(contentTypeId: $contentTypeId) {
     contentTypeId
     name
     isBlockType
