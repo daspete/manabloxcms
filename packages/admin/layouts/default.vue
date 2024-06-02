@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { darkModeEnabled } = useApp();
+const { darkModeEnabled } = useDarkmode();
 
 useHead({
   htmlAttrs: {

@@ -78,7 +78,7 @@ const changeLimit = (limit: number) => {
 <template>
   <div class="container">
     <div class="flex py-8 justify-between items-center">
-      <div class="text-2xl font-bold">Contents</div>
+      <div class="text-2xl font-bold dark:text-white">Contents</div>
       <ContentTypeSelectionMenu
         :show-block-types="false"
         @select="createContentOfType"
@@ -100,7 +100,9 @@ const changeLimit = (limit: number) => {
           <Column field="title" header="Title" sortable>
             <template #body="{ data }">
               <div>
-                <NuxtLink :to="`/cms/contents/${data.type}/${data.contentId}`">
+                <NuxtLink
+                  :to="`/cms/contents/${data.type.contentTypeId}/${data.contentId}`"
+                >
                   <div>{{ data.title }}</div>
                   <div class="text-xs">Content ID: {{ data.contentId }}</div>
                 </NuxtLink>

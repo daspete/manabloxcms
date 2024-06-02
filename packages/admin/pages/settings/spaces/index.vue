@@ -72,7 +72,7 @@ const changeLimit = (limit: number) => {
 <template>
   <div class="container">
     <div class="flex py-8 justify-between items-center">
-      <div class="text-2xl font-bold">Spaces</div>
+      <div class="text-2xl font-bold dark:text-white">Spaces</div>
       <NuxtLink to="/settings/spaces/create">
         <Button label="Add new" icon="i-mdi-plus" />
       </NuxtLink>

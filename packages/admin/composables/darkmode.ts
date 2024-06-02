@@ -1,6 +1,6 @@
 const darkModeEnabled = ref(false);
 
-export const useApp = () => {
+export const useDarkmode = () => {
   const toggleDarkMode = () => {
     darkModeEnabled.value = !darkModeEnabled.value;
   };
