@@ -1,5 +1,4 @@
 import { Field, Float, ID, InputType } from '@nestjs/graphql';
-import mongoose from 'mongoose';
 import { BlockInput } from '../block/block.input';
 
 @InputType()
@@ -26,13 +25,13 @@ export class ContentFieldInput {
   date?: Date;
 
   @Field(() => ID, { nullable: true })
-  user?: mongoose.Types.ObjectId;
+  user?: string;
 
   @Field(() => ID, { nullable: true })
-  asset?: mongoose.Types.ObjectId;
+  asset?: string;
 
   @Field(() => ID, { nullable: true })
-  content?: mongoose.Types.ObjectId;
+  content?: string;
 
   @Field(() => BlockInput, { nullable: true })
   block?: BlockInput;

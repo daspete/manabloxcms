@@ -15,11 +15,11 @@ export const mutateRelationFields = (
     const field = fields[i];
 
     if (field?.type === 'UserRelationField') {
-      field.user = (field.user as unknown as User).id;
+      field.user = (field.user as unknown as User)?.id;
     }
 
     if (field?.type === 'AssetRelationField') {
-      field.asset = (field.asset as unknown as Asset).id;
+      field.asset = (field.asset as unknown as Asset)?.id;
     }
 
     if (field?.type === 'ContentRelationField') {
