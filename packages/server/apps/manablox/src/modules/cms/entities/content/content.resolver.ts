@@ -35,6 +35,11 @@ export class ContentResolver {
     return this.contentService.findPaginated(query, limit, page);
   }
 
+  @Query(() => [Content])
+  async contentTree(@Args('parentId', { nullable: true }) parentId?: string) {
+    return this.contentService.find({ parent: parentId || null });
+  }
+
   @Query(() => Content)
   async content(@Args('contentId', { type: () => String }) contentId: string) {
     return this.contentService.findOne({ contentId });
