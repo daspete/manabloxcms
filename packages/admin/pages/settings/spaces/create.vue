@@ -48,7 +48,7 @@ const createSpace = async () => {
 <template>
   <div class="container pt-8">
     <div class="flex justify-between mb-8 items-center">
-      <span class="text-2xl font-bold">Create a new space</span>
+      <span class="text-2xl font-bold dark:text-white">Create a new space</span>
       <div class="flex gap-2">
         <NuxtLink to="/settings/spaces">
           <Button
