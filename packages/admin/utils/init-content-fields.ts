@@ -13,6 +13,8 @@ import type {
   NumberFieldType,
   StringField,
   StringFieldType,
+  UserRelationField,
+  UserRelationFieldType,
   // UserRelationField,
   // UserRelationFieldType,
 } from '~/generated/graphql/graphql';
@@ -22,6 +24,8 @@ export const initContentFields = (
   contentType: ContentType,
   content: Partial<Content>,
 ) => {
+  const contentFields = [];
+
   for (let i = 0; i < contentType.fields.length; i++) {
     const fieldType = contentType.fields[i];
     const fieldId = fieldType.fieldId;
@@ -57,6 +61,12 @@ export const initContentFields = (
           (fieldType as DateFieldType).dateSettings?.defaultValue || null;
       }
 
+      if (fieldType.type === 'UserRelationFieldType') {
+        (newField as UserRelationField).user =
+          (fieldType as UserRelationFieldType).userSettings?.defaultValue ||
+          null;
+      }
+
       if (fieldType.type === 'BlockItemFieldType') {
         (newField as BlockItemField).block = {
           blockId: uuid4(),
@@ -71,9 +81,13 @@ export const initContentFields = (
         (newField as BlockItemsField).blocks = [];
       }
 
-      content.fields?.push(newField as ContentFieldUnion);
+      contentFields.push(newField as ContentFieldUnion);
+    } else {
+      contentFields.push(field);
     }
   }
+
+  content.fields = contentFields;
 
   return content;
 };
