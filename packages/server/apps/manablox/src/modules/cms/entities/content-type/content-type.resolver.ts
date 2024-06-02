@@ -25,8 +25,10 @@ export class ContentTypeResolver {
   }
 
   @Query(() => ContentType)
-  async contentType(@Args('name', { type: () => String }) name: string) {
-    return this.contentTypeService.findOne({ name });
+  async contentType(
+    @Args('contentTypeId', { type: () => String }) contentTypeId: string,
+  ) {
+    return this.contentTypeService.findById(contentTypeId);
   }
 
   @Mutation(() => ContentType)

@@ -21,7 +21,7 @@ const onSettingsBlockTypeChange = (value: ContentType) => {
   } else {
     props.space.settings = {
       blockId: uuid4(),
-      type: value.name,
+      type: value.contentTypeId,
       fields: [],
     };
   }

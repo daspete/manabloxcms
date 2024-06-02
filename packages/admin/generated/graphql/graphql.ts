@@ -300,7 +300,7 @@ export type ContentType = {
   isPublishable?: Maybe<Scalars['Boolean']['output']>;
   isVisibleInTree?: Maybe<Scalars['Boolean']['output']>;
   name: Scalars['String']['output'];
-  space: Space;
+  space?: Maybe<Space>;
 };
 
 export type ContentTypeFieldInput = {
@@ -526,7 +526,7 @@ export type QuerySpacesArgs = {
 
 export type Space = {
   __typename?: 'Space';
-  description: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   settings?: Maybe<Block>;
   settingsBlockType?: Maybe<ContentType>;

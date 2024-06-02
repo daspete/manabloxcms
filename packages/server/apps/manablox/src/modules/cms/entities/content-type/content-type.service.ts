@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ContentType } from './content-type.model';
 import { Model } from 'mongoose';
 import { ContentTypeInput } from './content-type.input';
+import { isUUID, minLength } from 'class-validator';
+import { ContentTypeFieldInput } from '../content-type-field/content-type-field.input';
 
 @Injectable()
 export class ContentTypeService {
@@ -36,6 +38,8 @@ export class ContentTypeService {
   }
 
   async create(contentType: ContentTypeInput): Promise<ContentType> {
+    await this.validateInput(contentType);
+
     if (contentType.fields) {
       for (let i = 0; i < contentType.fields.length; i++) {
         const field = contentType.fields[i];
@@ -82,6 +86,8 @@ export class ContentTypeService {
   }
 
   async update(contentType: ContentTypeInput): Promise<ContentType> {
+    await this.validateInput(contentType, true);
+
     const { contentTypeId, ...dataToUpdate } = contentType;
 
     await this.contentTypeModel.updateOne(
@@ -94,5 +100,196 @@ export class ContentTypeService {
 
   async delete(contentTypeId: string): Promise<ContentType> {
     return this.contentTypeModel.findOneAndDelete({ contentTypeId }).exec();
+  }
+
+  async validateInput(input: ContentTypeInput, isUpdate = false) {
+    const errors = [];
+
+    if (!isUUID(input.contentTypeId, 'all')) {
+      errors.push('contentType.contentTypeId.invalid');
+    } else {
+      if (!isUpdate) {
+        const existingContentType = await this.contentTypeModel.findOne({
+          contentTypeId: input.contentTypeId,
+        });
+
+        if (existingContentType) {
+          errors.push('contentType.contentTypeId.unique');
+        }
+      }
+    }
+
+    if (!minLength(input.name, 3)) {
+      errors.push('contentType.name.required');
+    }
+
+    if (!input.space) {
+      const existingContentType = await this.contentTypeModel.findOne({
+        contentTypeId: { $ne: input.contentTypeId },
+        name: input.name,
+      });
+
+      if (existingContentType) {
+        errors.push('contentType.name.unique');
+      }
+    } else {
+      if (!isUUID(input.space, 'all')) {
+        errors.push('contentType.space.invalid');
+      } else {
+        const existingContentType = await this.contentTypeModel.findOne({
+          contentTypeId: { $ne: input.contentTypeId },
+          name: input.name,
+          space: input.space,
+        });
+
+        if (existingContentType) {
+          errors.push('contentType.name.unique');
+        }
+      }
+    }
+
+    if (input.isBlockType) {
+      if (input.hasSlug) {
+        errors.push('contentType.hasSlug.invalid');
+      }
+
+      if (input.isPublishable) {
+        errors.push('contentType.isPublishable.invalid');
+      }
+
+      if (input.canBeVisibleInMenu) {
+        errors.push('contentType.canBeVisibleInMenu.invalid');
+      }
+
+      if (input.isVisibleInTree) {
+        errors.push('contentType.isVisibleInTree.invalid');
+      }
+    }
+
+    errors.push(...(await this.validateFieldTypesInput(input.fields)));
+
+    if (errors.length > 0) {
+      throw new Error(errors.join(','));
+    }
+  }
+
+  async validateFieldTypesInput(fields: Array<ContentTypeFieldInput>) {
+    const errors = [];
+
+    for (let i = 0; i < fields.length; i++) {
+      const field = fields[i];
+
+      if (!field.name || !minLength(field.name, 1)) {
+        errors.push(`contentType.fields[${i}].name.required`);
+      } else {
+        for (let j = 0; j < i; j++) {
+          if (fields[j].name === field.name) {
+            errors.push(`contentType.fields[${i}].name.unique`);
+          }
+        }
+      }
+
+      if (!field.type) {
+        errors.push('contentType.fields[${i}].type.required');
+      }
+
+      if (
+        [
+          'StringFieldType',
+          'NumberFieldType',
+          'BooleanFieldType',
+          'DateFieldType',
+          'AssetRelationFieldType',
+          'ContentRelationFieldType',
+          'UserRelationFieldType',
+          'BlockItemsFieldType',
+          'BlockItemFieldType',
+        ].indexOf(field.type) === -1
+      ) {
+        errors.push(`contentType.fields[${i}].type.invalid`);
+      }
+
+      switch (field.type) {
+        case 'StringFieldType':
+          if (!field.stringSettings) {
+            errors.push(`contentType.fields[${i}].stringSettings.missing`);
+          }
+          break;
+        case 'NumberFieldType':
+          if (!field.numberSettings) {
+            errors.push(`contentType.fields[${i}].numberSettings.missing`);
+          }
+          break;
+        case 'BooleanFieldType':
+          if (!field.booleanSettings) {
+            errors.push(`contentType.fields[${i}].booleanSettings.missing`);
+          }
+          break;
+        case 'DateFieldType':
+          if (!field.dateSettings) {
+            errors.push(`contentType.fields[${i}].dateSettings.missing`);
+          }
+          break;
+        case 'AssetRelationFieldType':
+          if (!field.assetSettings) {
+            errors.push(`contentType.fields[${i}].assetSettings.missing`);
+          }
+          break;
+        case 'ContentRelationFieldType':
+          if (!field.contentSettings) {
+            errors.push(`contentType.fields[${i}].contentSettings.missing`);
+          }
+          break;
+        case 'UserRelationFieldType':
+          if (!field.userSettings) {
+            errors.push(`contentType.fields[${i}].userSettings.missing`);
+          }
+          break;
+        case 'BlockItemsFieldType':
+          if (!field.blocksSettings) {
+            errors.push(`contentType.fields[${i}].blocksSettings.missing`);
+          } else {
+            if (!field.blocksSettings.possibleBlockTypes) {
+              errors.push(
+                `contentType.fields[${i}].blocksSettings.possibleBlockTypes.missing`,
+              );
+            } else {
+              for (
+                let j = 0;
+                j < field.blocksSettings.possibleBlockTypes.length;
+                j++
+              ) {
+                if (
+                  !isUUID(field.blocksSettings.possibleBlockTypes[j], 'all')
+                ) {
+                  errors.push(
+                    `contentType.fields[${i}].blocksSettings.possibleBlockTypes[${j}].invalid`,
+                  );
+                }
+              }
+            }
+          }
+          break;
+        case 'BlockItemFieldType':
+          if (!field.blockSettings) {
+            errors.push(`contentType.fields[${i}].blockSettings.missing`);
+          } else {
+            if (!field.blockSettings.blockType) {
+              errors.push(
+                `contentType.fields[${i}].blockSettings.blockType.missing`,
+              );
+            } else {
+              if (!isUUID(field.blockSettings.blockType, 'all')) {
+                errors.push(
+                  `contentType.fields[${i}].blockSettings.blockType.invalid`,
+                );
+              }
+            }
+          }
+          break;
+      }
+    }
+
+    return errors;
   }
 }

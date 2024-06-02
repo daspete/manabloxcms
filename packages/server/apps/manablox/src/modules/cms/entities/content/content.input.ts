@@ -3,9 +3,6 @@ import { ContentFieldInput } from '../content-field/content-field.input';
 
 @InputType()
 export class ContentInput {
-  @Field({ nullable: true })
-  id?: string;
-
   @Field()
   contentId: string;
 

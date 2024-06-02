@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import {
   ContentFieldSchema,
   ContentFieldUnion,
@@ -16,9 +16,6 @@ import { ContentType } from '../content-type/content-type.model';
   },
 })
 export class Content {
-  @Field(() => ID)
-  id: string;
-
   @Field()
   @Prop()
   contentId: string;

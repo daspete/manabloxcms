@@ -5,6 +5,8 @@ import { Content } from './content.model';
 import { ContentInput } from './content.input';
 import { ContentQueryInput } from './content-query.input';
 import { PaginatedContents } from './paginated-contents.type';
+import { isUUID, minLength } from 'class-validator';
+import { ContentTypeService } from '../content-type/content-type.service';
 
 const buildElemMatchObject = (field) => {
   const elem = {
@@ -78,6 +80,7 @@ export const buildQueryObject = (query: Array<ContentQueryInput>) => {
 export class ContentService {
   constructor(
     @InjectModel('Content') private readonly contentModel: Model<Content>,
+    private readonly contentTypeService: ContentTypeService,
   ) {}
 
   async findAll(): Promise<Content[]> {
@@ -85,7 +88,7 @@ export class ContentService {
     return items.map((item) => item.toJSON());
   }
 
-  async find(
+  async findPaginated(
     query: Array<ContentQueryInput> = [],
     limit: number = 10,
     page: number = 1,
@@ -118,6 +121,11 @@ export class ContentService {
     };
   }
 
+  async find(query: any): Promise<Content[]> {
+    const items = await this.contentModel.find(query).exec();
+    return items.map((item) => item.toJSON());
+  }
+
   async findOne(query: any): Promise<Content> {
     const content = await this.contentModel.findOne(query).exec();
     if (!content) return null;
@@ -133,10 +141,12 @@ export class ContentService {
   }
 
   async create(content: ContentInput): Promise<Content> {
+    await this.validateInput(content);
     return this.contentModel.create(content);
   }
 
   async update(content: ContentInput): Promise<Content> {
+    await this.validateInput(content, true);
     const { contentId, ...dataToUpdate } = content;
 
     await this.contentModel.updateOne({ contentId }, { $set: dataToUpdate });
@@ -146,5 +156,75 @@ export class ContentService {
 
   async delete(contentId: string): Promise<Content> {
     return this.contentModel.findOneAndDelete({ contentId }).exec();
+  }
+
+  async validateInput(input: ContentInput, isUpdate = false) {
+    const errors = [];
+
+    if (!isUUID(input.contentId, 'all')) {
+      errors.push('content.contentId.invalid');
+    } else {
+      if (!isUpdate) {
+        const existingContent = await this.findById(input.contentId);
+
+        if (existingContent) {
+          errors.push('content.contentId.unique');
+        }
+      }
+    }
+
+    if (!input.type) {
+      errors.push('content.type.required');
+    } else {
+      if (!isUUID(input.type, 'all')) {
+        errors.push('content.type.invalid');
+      } else {
+        const existingContentType = await this.contentTypeService.findById(
+          input.type,
+        );
+
+        if (!existingContentType) {
+          errors.push('content.type.notFound');
+        }
+      }
+    }
+
+    if (!minLength(input.title, 1)) {
+      errors.push('content.title.required');
+    }
+
+    if (!minLength(input.slug, 1)) {
+      errors.push('content.slug.required');
+    } else {
+      const existingContent = await this.findOne({
+        contentId: { $ne: input.contentId },
+        parent: input.parent,
+        slug: input.slug,
+      });
+
+      if (existingContent) {
+        errors.push('content.slug.unique');
+      }
+    }
+
+    if (input.parent) {
+      if (!isUUID(input.parent, 'all')) {
+        errors.push('content.parent.invalid');
+      } else {
+        const existingContent = await this.findById(input.parent);
+
+        if (!existingContent) {
+          errors.push('content.parent.notFound');
+        }
+      }
+    }
+
+    if (!minLength(input.locale, 1)) {
+      errors.push('content.locale.required');
+    }
+
+    if (errors.length > 0) {
+      throw new Error(errors.join(', '));
+    }
   }
 }

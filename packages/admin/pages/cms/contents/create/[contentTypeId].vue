@@ -8,7 +8,7 @@ const router = useRouter();
 const toast = useToast();
 
 const { contentType } = useContentTypeQuery({
-  name: route.params.type,
+  contentTypeId: route.params.contentTypeId,
 });
 
 const content = ref<Partial<Content>>({
@@ -21,6 +21,7 @@ const content = ref<Partial<Content>>({
 });
 
 const isCreating = ref(false);
+const mutationErrors = ref<string[]>([]);
 
 const createContent = async () => {
   isCreating.value = true;
@@ -40,11 +41,17 @@ const createContent = async () => {
       life: 2000,
     });
     router.push(
-      `/cms/contents/${content.value.type?.name}/${content.value.contentId}`,
+      `/cms/contents/${content.value.type?.contentTypeId}/${content.value.contentId}`,
     );
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    console.error(err);
+    mutationErrors.value = err.message.split(',');
+    toast.add({
+      severity: 'error',
+      summary: 'Error while updating content',
+      detail: 'Have a look at the errors and try again.',
+      life: 3000,
+    });
   } finally {
     isCreating.value = false;
   }
@@ -55,7 +62,7 @@ const createContent = async () => {
   <div class="container pt-8">
     <div class="flex justify-between mb-8 items-center">
       <span class="text-2xl font-bold"
-        >Create a new {{ route.params.type }}</span
+        >Create a new {{ contentType.name }}</span
       >
       <div class="flex gap-2">
         <NuxtLink to="/cms/contents">
@@ -78,6 +85,9 @@ const createContent = async () => {
 
     <Card>
       <template #content>
+        <Message v-for="error in mutationErrors" :key="error" severity="error">
+          {{ error }}
+        </Message>
         <ContentEditor
           v-if="contentType.name"
           :content-type="contentType"

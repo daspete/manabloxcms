@@ -5,6 +5,8 @@ import { Space } from './space.model';
 import { SpaceInput } from './space.input';
 import { SpaceQueryInput } from './space-query.input';
 import { PaginatedSpaces } from './paginated-spaces.type';
+import { isURL, isUUID, minLength } from 'class-validator';
+import { ContentTypeService } from '../cms/entities/content-type/content-type.service';
 
 export const buildQueryObject = (query: Array<SpaceQueryInput>) => {
   return query.map((q) => {
@@ -30,6 +32,7 @@ export const buildQueryObject = (query: Array<SpaceQueryInput>) => {
 export class SpaceService {
   constructor(
     @InjectModel('Space') private readonly spaceModel: Model<Space>,
+    private readonly contentTypeService: ContentTypeService,
   ) {}
 
   async findAll(): Promise<Space[]> {
@@ -86,10 +89,12 @@ export class SpaceService {
   }
 
   async create(space: SpaceInput): Promise<Space> {
+    await this.validateInput(space);
     return this.spaceModel.create(space);
   }
 
   async update(space: SpaceInput): Promise<Space> {
+    await this.validateInput(space, true);
     const { spaceId, ...dataToUpdate } = space;
 
     await this.spaceModel.updateOne({ spaceId }, { $set: dataToUpdate });
@@ -99,5 +104,60 @@ export class SpaceService {
 
   async delete(id: string): Promise<Space> {
     return this.spaceModel.findByIdAndDelete(id).exec();
+  }
+
+  async validateInput(input: SpaceInput, isUpdate = false) {
+    const errors = [];
+
+    if (!isUUID(input.spaceId, 'all')) {
+      errors.push('space.spaceId.invalid');
+    } else {
+      if (!isUpdate) {
+        const existingSpace = await this.spaceModel.findOne({
+          spaceId: input.spaceId,
+        });
+
+        if (existingSpace) {
+          errors.push('space.spaceId.unique');
+        }
+      }
+    }
+
+    if (!minLength(input.name, 3)) {
+      errors.push('space.name.length');
+    }
+
+    if (!minLength(input.technicalName, 3)) {
+      errors.push('space.technicalName.length');
+    }
+
+    const existingSpace = await this.spaceModel.findOne({
+      spaceId: { $ne: input.spaceId },
+      technicalName: input.technicalName,
+    });
+
+    if (existingSpace) {
+      errors.push('space.technicalName.unique');
+    }
+
+    if (!isURL(input.url)) {
+      errors.push('space.url.invalid');
+    }
+
+    if (input.settingsBlockType) {
+      const existingContentType = await this.contentTypeService.findById(
+        input.settingsBlockType,
+      );
+
+      if (!existingContentType) {
+        errors.push('space.settingsBlockType.notFound');
+      }
+
+      // TODO: validate settings block fields with the content type input validator
+    }
+
+    if (errors.length > 0) {
+      throw new Error(errors.join(','));
+    }
   }
 }

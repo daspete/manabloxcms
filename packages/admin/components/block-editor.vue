@@ -9,7 +9,7 @@ const props = defineProps({
 });
 
 const { contentType } = useContentTypeQuery({
-  name: props.block.type,
+  contentTypeId: props.block.type,
 });
 
 const isInitializing = ref(true);

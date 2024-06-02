@@ -61,8 +61,8 @@ export const initContentFields = (
         (newField as BlockItemField).block = {
           blockId: uuid4(),
           type:
-            (fieldType as BlockItemFieldType).blockSettings?.blockType.name ||
-            'undefined',
+            (fieldType as BlockItemFieldType).blockSettings?.blockType
+              ?.contentTypeId || 'undefined',
           fields: [],
         };
       }
