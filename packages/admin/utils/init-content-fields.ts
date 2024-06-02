@@ -1,4 +1,6 @@
 import type {
+  AssetRelationField,
+  AssetRelationFieldType,
   BlockItemField,
   BlockItemFieldType,
   BlockItemsField,
@@ -6,6 +8,8 @@ import type {
   BooleanFieldType,
   Content,
   ContentFieldUnion,
+  ContentRelationField,
+  ContentRelationFieldType,
   ContentType,
   DateField,
   DateFieldType,
@@ -15,8 +19,6 @@ import type {
   StringFieldType,
   UserRelationField,
   UserRelationFieldType,
-  // UserRelationField,
-  // UserRelationFieldType,
 } from '~/generated/graphql/graphql';
 import { v4 as uuid4 } from 'uuid';
 
@@ -65,6 +67,18 @@ export const initContentFields = (
         (newField as UserRelationField).user =
           (fieldType as UserRelationFieldType).userSettings?.defaultValue ||
           null;
+      }
+
+      if (fieldType.type === 'AssetRelationFieldType') {
+        (newField as AssetRelationField).asset =
+          (fieldType as AssetRelationFieldType).assetSettings?.defaultValue ||
+          null;
+      }
+
+      if (fieldType.type === 'ContentRelationFieldType') {
+        (newField as ContentRelationField).content =
+          (fieldType as ContentRelationFieldType).contentSettings
+            ?.defaultValue || null;
       }
 
       if (fieldType.type === 'BlockItemFieldType') {
