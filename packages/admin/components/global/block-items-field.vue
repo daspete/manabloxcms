@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { useDraggable } from 'vue-draggable-plus';
 import { vDraggable } from 'vue-draggable-plus';
 import { v4 as uuid4 } from 'uuid';
 import type { ContentType } from '~/generated/graphql/graphql';
@@ -57,7 +56,7 @@ const getBlockType = (contentTypeId: string) => {
   <div>
     <Fieldset :legend="field.name" :toggleable="true">
       <div class="flex flex-col gap-4">
-        <div>
+        <div v-if="fieldType.blocksSettings.possibleBlockTypes.length > 1">
           <Button
             type="button"
             label="Add new block"
@@ -73,6 +72,20 @@ const getBlockType = (contentTypeId: string) => {
             ref="blockSelectionMenu"
             :popup="true"
             :model="blockSelectionMenuItems"
+          />
+        </div>
+        <div
+          v-else-if="fieldType.blocksSettings.possibleBlockTypes.length === 1"
+        >
+          <Button
+            type="button"
+            :label="`Add new ${fieldType.blocksSettings.possibleBlockTypes[0].name}`"
+            icon="i-mdi-plus"
+            size="small"
+            aria-haspopup="true"
+            aria-controls="block-selection-menu"
+            severity="secondary"
+            @click="addBlock(fieldType.blocksSettings.possibleBlockTypes[0])"
           />
         </div>
 

@@ -14,6 +14,8 @@ export const mutateRelationFields = (
   for (let i = 0; i < fields?.length; i++) {
     const field = fields[i];
 
+    console.log(field);
+
     if (field?.type === 'UserRelationField') {
       field.user = (field.user as unknown as User)?.id;
     }
@@ -23,7 +25,7 @@ export const mutateRelationFields = (
     }
 
     if (field?.type === 'ContentRelationField') {
-      field.content = (field.content as unknown as Content)?.id;
+      field.content = (field.content as unknown as Content)?.contentId;
     }
 
     if (field?.type === 'BlockItemField') {

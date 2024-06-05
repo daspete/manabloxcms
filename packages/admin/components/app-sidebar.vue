@@ -50,7 +50,7 @@ const items = ref([
           <div class="flex flex-col gap-4 items-center">
             <NuxtLink
               to="/"
-              class="flex gap-2 items-center h-12 bg-surface-800 w-full justify-center"
+              class="flex gap-2 items-center h-12 bg-surface-800 w-full justify-center logo"
             >
               <div class="flex justify-center items-center">
                 <div
@@ -110,7 +110,7 @@ const items = ref([
 </template>
 
 <style scoped>
-.router-link-active {
+.router-link-active:not(.logo) {
   @apply bg-primary text-white;
 }
 </style>
