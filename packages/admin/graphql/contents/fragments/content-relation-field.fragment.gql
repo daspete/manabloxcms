@@ -4,6 +4,15 @@ fragment ContentRelationFieldFields on ContentRelationField {
   type
   content {
     contentId
+    type {
+      contentTypeId
+      name
+    }
     title
+    slug
+    parent {
+      contentId
+    }
+    locale
   }
 }

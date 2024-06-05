@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lintfix": "eslint . --fix && prettier --write --list-different ."
+    "format": "prettier --write --list-different .",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@egoist/tailwindcss-icons": "^1.8.0",
