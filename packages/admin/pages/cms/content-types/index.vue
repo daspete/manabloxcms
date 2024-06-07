@@ -101,10 +101,18 @@ const confirmContentTypeDeletion = (
           <Column field="name" header="Name" sortable>
             <template #body="{ data }">
               <div>
-                <NuxtLink :to="`/cms/content-types/${data.contentTypeId}`">
-                  <div>{{ data.name }}</div>
-                  <div class="text-xs">
-                    Content type ID: {{ data.contentTypeId }}
+                <NuxtLink
+                  :to="`/cms/content-types/${data.contentTypeId}`"
+                  class="flex items-center gap-2"
+                >
+                  <div v-if="data.icon" class="flex items-center">
+                    <i :class="data.icon" />
+                  </div>
+                  <div>
+                    <div>{{ data.name }}</div>
+                    <div class="text-xs">
+                      Content type ID: {{ data.contentTypeId }}
+                    </div>
                   </div>
                 </NuxtLink>
               </div>

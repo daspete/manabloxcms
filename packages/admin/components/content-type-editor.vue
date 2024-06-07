@@ -89,6 +89,24 @@ const confirmFieldDeletion = (
         />
       </div>
 
+      <div class="flex flex-col">
+        <label for="content-type-icon">Icon</label>
+        <InputText
+          id="content-type-icon"
+          v-model="contentType.icon"
+          class="w-full"
+        />
+        <div class="text-xs">
+          Choose from
+          <a
+            href="https://icones.js.org/collection/mdi"
+            target="_blank"
+            class="underline"
+            >icones.js.org</a
+          >
+        </div>
+      </div>
+
       <div class="flex flex-col gap-2 w-64">
         <div class="flex items-center justify-between mt-7">
           <label for="isBlockType" class="mr-2">Is a block type</label>
@@ -159,19 +177,23 @@ const confirmFieldDeletion = (
 
     <div>
       <div v-if="!contentType.fields?.length">No fields added yet.</div>
-
-      <Accordion
+      <div
         v-else
         v-draggable="[
           contentType.fields,
           //@ts-ignore
           { handle: '.drag-handle', animation: 150 },
         ]"
-        :multiple="true"
+        class="flex flex-col gap-2"
       >
-        <AccordionTab v-for="field in contentType.fields" :key="field.fieldId">
+        <Panel
+          v-for="field in contentType.fields"
+          :key="field.fieldId"
+          toggleable
+          collapsed
+        >
           <template #header>
-            <div class="flex items-center gap-2 w-full">
+            <div class="flex-1 flex items-center gap-2">
               <div class="drag-handle">
                 <Button
                   class="w-12 h-4"
@@ -184,9 +206,28 @@ const confirmFieldDeletion = (
 
               <div class="flex-1">
                 <div class="flex gap-2 items-center">
-                  <span v-if="field.name" class="font-bold">{{
-                    field.name
-                  }}</span>
+                  <span
+                    v-if="field.name"
+                    class="font-bold flex items-center gap-2"
+                  >
+                    <span class="flex items-center">
+                      <i
+                        :class="
+                          appConfig.content.fieldTypes[
+                            getFieldTypeKey(field.type)
+                          ].icon
+                        "
+                      />
+                    </span>
+                    <span>{{ field.name }}</span>
+                    <span class="font-normal text-xs">
+                      ({{
+                        appConfig.content.fieldTypes[
+                          getFieldTypeKey(field.type)
+                        ].label
+                      }})
+                    </span>
+                  </span>
                   <Tag v-else value="Unnamed field" severity="danger" />
                   <Tag
                     v-if="field.fieldSettings.isRequired"
@@ -198,32 +239,20 @@ const confirmFieldDeletion = (
                   Field ID: {{ field.fieldId }}
                 </div>
               </div>
-
-              <div class="w-64">
-                <Chip
-                  :label="
-                    appConfig.content.fieldTypes[getFieldTypeKey(field.type)]
-                      .label
-                  "
-                  class="text-sm"
-                  :icon="
-                    appConfig.content.fieldTypes[getFieldTypeKey(field.type)]
-                      .icon
-                  "
-                />
-              </div>
-
-              <div class="w-12">
-                <Button
-                  class="w-12 relative"
-                  icon="i-mdi-trash"
-                  text
-                  rounded
-                  severity="secondary"
-                  @click="confirmFieldDeletion($event, field)"
-                />
-              </div>
             </div>
+          </template>
+
+          <template #icons>
+            <button
+              class="text-surface-600 dark:text-surface-0/80"
+              @click="confirmFieldDeletion($event, field)"
+            >
+              <i class="i-mdi-trash" />
+            </button>
+          </template>
+
+          <template #togglericon="{ collapsed }">
+            <i :class="collapsed ? 'i-mdi-chevron-down' : 'i-mdi-chevron-up'" />
           </template>
 
           <div>
@@ -231,8 +260,8 @@ const confirmFieldDeletion = (
               <component :is="field.type" :field="field" />
             </div>
           </div>
-        </AccordionTab>
-      </Accordion>
+        </Panel>
+      </div>
     </div>
 
     <ConfirmPopup group="deleteFieldGroup">

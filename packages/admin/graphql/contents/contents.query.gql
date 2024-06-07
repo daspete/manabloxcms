@@ -8,6 +8,7 @@ query contents($query: [ContentQueryInput!], $limit: Int, $page: Int) {
       type {
         contentTypeId
         name
+        icon
       }
       title
       slug

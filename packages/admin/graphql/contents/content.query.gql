@@ -14,6 +14,7 @@ query content($contentId: String!) {
     type {
       contentTypeId
       name
+      icon
     }
     title
     slug

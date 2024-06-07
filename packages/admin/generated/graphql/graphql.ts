@@ -294,6 +294,7 @@ export type ContentType = {
   contentTypeId: Scalars['String']['output'];
   fields: Array<ContentTypeFieldUnion>;
   hasSlug?: Maybe<Scalars['Boolean']['output']>;
+  icon?: Maybe<Scalars['String']['output']>;
   isBlockType: Scalars['Boolean']['output'];
   isPublishable?: Maybe<Scalars['Boolean']['output']>;
   isVisibleInTree?: Maybe<Scalars['Boolean']['output']>;
@@ -342,6 +343,7 @@ export type ContentTypeInput = {
   contentTypeId: Scalars['String']['input'];
   fields?: InputMaybe<Array<ContentTypeFieldInput>>;
   hasSlug?: InputMaybe<Scalars['Boolean']['input']>;
+  icon?: InputMaybe<Scalars['String']['input']>;
   isBlockType: Scalars['Boolean']['input'];
   isPublishable?: InputMaybe<Scalars['Boolean']['input']>;
   isVisibleInTree?: InputMaybe<Scalars['Boolean']['input']>;
