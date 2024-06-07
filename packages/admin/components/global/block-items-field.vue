@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { vDraggable } from 'vue-draggable-plus';
 import { v4 as uuid4 } from 'uuid';
-import type { ContentType } from '~/generated/graphql/graphql';
+import type {
+  BlockInput,
+  ContentType,
+} from '~/generated/graphql/graphql';
+
+const confirm = useConfirm();
 
 const props = defineProps({
   fieldType: {
@@ -50,6 +55,24 @@ const getBlockType = (contentTypeId: string) => {
     },
   );
 };
+
+const confirmBlockDeletion = (event: MouseEvent, block: BlockInput) => {
+  confirm.require({
+    target: event.currentTarget as HTMLElement,
+    group: 'deleteBlockGroup',
+    message: `Block will be deleted.`,
+    accept: () => {
+      deleteBlock(block);
+    },
+    reject: () => {},
+  });
+};
+
+const deleteBlock = async (block: BlockInput) => {
+  props.field.blocks = props.field.blocks.filter((blockItem: BlockInput) => {
+    return blockItem.blockId !== block.blockId;
+  });
+};
 </script>
 
 <template>
@@ -91,36 +114,83 @@ const getBlockType = (contentTypeId: string) => {
 
         <div>
           <div v-if="!field.blocks?.length">No blocks added yet.</div>
-          <Accordion
+          <div
             v-else
             v-draggable="[
               field.blocks,
               { handle: '.drag-handle', animation: 150 },
             ]"
-            :multiple="true"
+            class="flex flex-col gap-2"
           >
-            <AccordionTab v-for="block in field.blocks" :key="block.blockId">
+            <Panel
+              v-for="block in field.blocks"
+              :key="block.blockId"
+              toggleable
+              collapsed
+            >
               <template #header>
                 <div class="flex items-center gap-2">
                   <div class="drag-handle">
-                    <Button
-                      class="w-12 h-4"
-                      icon="i-mdi-menu"
-                      text
-                      rounded
-                      severity="secondary"
-                    />
+                    <button class="flex items-center">
+                      <i class="i-mdi-menu" />
+                    </button>
                   </div>
-                  <div class="flex-1">{{ getBlockType(block.type)?.name }}</div>
+                  <div class="flex-1 flex gap-2 items-center">
+                    <span
+                      v-if="getBlockType(block.type)?.icon"
+                      class="flex items-center"
+                      ><i :class="getBlockType(block.type)?.icon"
+                    /></span>
+                    <span>{{ getBlockType(block.type)?.name }}</span>
+                  </div>
                 </div>
               </template>
-              <div class="ml-14">
-                <BlockEditor :block="block" />
-              </div>
-            </AccordionTab>
-          </Accordion>
+
+              <template #icons>
+                <button
+                  class="text-surface-600 dark:text-surface-0/80"
+                  @click="confirmBlockDeletion($event, block)"
+                >
+                  <i class="i-mdi-trash" />
+                </button>
+              </template>
+
+              <template #togglericon="{ collapsed }">
+                <i
+                  :class="collapsed ? 'i-mdi-chevron-down' : 'i-mdi-chevron-up'"
+                />
+              </template>
+
+              <BlockEditor :block="block" />
+            </Panel>
+          </div>
         </div>
       </div>
     </Fieldset>
+
+    <ConfirmPopup group="deleteBlockGroup">
+      <template #container="{ message, acceptCallback, rejectCallback }">
+        <div class="px-4 py-2">
+          <div class="text-center font-bold">Are you sure?</div>
+          <div>{{ message.message }}</div>
+          <div class="flex gap-2 items-center justify-center mt-2">
+            <Button
+              label="Yes"
+              size="small"
+              icon="i-mdi-check"
+              severity="danger"
+              @click="acceptCallback"
+            />
+            <Button
+              label="No"
+              size="small"
+              icon="i-mdi-window-close"
+              severity="success"
+              @click="rejectCallback"
+            />
+          </div>
+        </div>
+      </template>
+    </ConfirmPopup>
   </div>
 </template>

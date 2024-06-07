@@ -42,6 +42,7 @@ const toggleContentTypeSelectionMenu = (event: MouseEvent) => {
           })
           .map((contentType) => ({
             label: contentType.name,
+            icon: contentType.icon || undefined,
             command: () => $emit('select', contentType),
           }))
       "

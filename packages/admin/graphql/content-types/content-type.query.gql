@@ -18,6 +18,8 @@ query contentType($contentTypeId: String!) {
     canBeVisibleInMenu
     isVisibleInTree
 
+    icon
+
     space {
       spaceId
       name

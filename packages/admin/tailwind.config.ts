@@ -1,5 +1,6 @@
 import { getIconCollections, iconsPlugin } from '@egoist/tailwindcss-icons';
 import type { Config } from 'tailwindcss';
+import mdiIcons from '@iconify/json/json/mdi.json';
 
 export default <Partial<Config>>{
   darkMode: 'class',
@@ -9,6 +10,7 @@ export default <Partial<Config>>{
     'components/**/*.{js,vue,ts}',
     'layouts/**/*.{js,vue,ts}',
   ],
+  safelist: Object.keys(mdiIcons.icons).map((icon) => `i-mdi-${icon}`),
   theme: {
     extend: {
       colors: {
