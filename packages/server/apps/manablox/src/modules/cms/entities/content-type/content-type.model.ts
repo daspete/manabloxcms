@@ -51,6 +51,10 @@ export class ContentType {
   @Prop({ required: false })
   isVisibleInTree?: boolean;
 
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  icon?: string;
+
   @Field(() => [ContentTypeFieldUnion])
   @Prop({ type: [ContentTypeFieldSchema] })
   fields: Array<ContentTypeFieldUnionType>;

@@ -13,6 +13,9 @@ fragment BlockItemsFieldTypeFields on BlockItemsFieldType {
       isPublishable
       canBeVisibleInMenu
       isVisibleInTree
+
+      icon
+
       space {
         spaceId
         name

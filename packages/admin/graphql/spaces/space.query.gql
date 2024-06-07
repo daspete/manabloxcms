@@ -22,6 +22,7 @@ query space($spaceId: String!) {
       isPublishable
       canBeVisibleInMenu
       isVisibleInTree
+      icon
     }
     settings {
       blockId

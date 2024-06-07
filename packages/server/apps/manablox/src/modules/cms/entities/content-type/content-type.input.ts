@@ -27,6 +27,9 @@ export class ContentTypeInput {
   @Field({ nullable: true })
   isVisibleInTree?: boolean;
 
+  @Field({ nullable: true })
+  icon?: string;
+
   @Field(() => [ContentTypeFieldInput], { nullable: true })
   fields: Array<ContentTypeFieldInput>;
 }
