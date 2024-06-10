@@ -48,6 +48,9 @@ export class Content {
   @Field(() => [ContentFieldUnion])
   @Prop({ type: [ContentFieldSchema] })
   fields: Array<ContentFieldUnionType>;
+
+  @Field(() => Content, { nullable: true })
+  publishedContent?: Content;
 }
 
 export const ContentSchema = SchemaFactory.createForClass(Content);

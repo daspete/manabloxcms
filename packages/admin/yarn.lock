@@ -37,6 +37,26 @@
     "@types/json-schema" "^7.0.15"
     js-yaml "^4.1.0"
 
+"@apollo/client@^3.10.4":
+  version "3.10.4"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.10.4.tgz#1abc488c79cf37dc63edf041aee6f9dc5aabc692"
+  integrity sha512-51gk0xOwN6Ls1EbTG5svFva1kdm2APHYTzmFhaAdvUQoJFDxfc0UwQgDxGptzH84vkPlo1qunY1FuboyF9LI3Q==
+  dependencies:
+    "@graphql-typed-document-node/core" "^3.1.1"
+    "@wry/caches" "^1.0.0"
+    "@wry/equality" "^0.5.6"
+    "@wry/trie" "^0.5.0"
+    graphql-tag "^2.12.6"
+    hoist-non-react-statics "^3.3.2"
+    optimism "^0.18.0"
+    prop-types "^15.7.2"
+    rehackt "^0.1.0"
+    response-iterator "^0.2.6"
+    symbol-observable "^4.0.0"
+    ts-invariant "^0.10.3"
+    tslib "^2.3.0"
+    zen-observable-ts "^1.2.5"
+
 "@apollo/client@^3.9.5":
   version "3.10.3"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.10.3.tgz#07b90daea8a2cc83b1aca992caed55e5e9572c9d"
@@ -2603,7 +2623,7 @@
     local-pkg "^0.5.0"
     magic-string-ast "^0.5.0"
 
-"@vue/apollo-composable@^4.0.1":
+"@vue/apollo-composable@^4.0.1", "@vue/apollo-composable@^4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@vue/apollo-composable/-/apollo-composable-4.0.2.tgz#ea3c001d25b3bf659aad5ae7a849fed3928aaa35"
   integrity sha512-/yfEktliXw+oMy/6n9C0J05woYoKlM+kcffVXMh0qljbXdrioyj0WkR/LgPdpnRf6TglFnjIgCKKicd5Gyzpnw==

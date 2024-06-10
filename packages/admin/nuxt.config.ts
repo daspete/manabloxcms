@@ -1,8 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
+
   devtools: { enabled: true },
+
   debug: true,
+
+  runtimeConfig: {
+    public: {
+      API_URL: 'http://localhost',
+    },
+  },
 
   css: ['~/assets/css/base.css'],
 
@@ -16,7 +24,7 @@ export default defineNuxtConfig({
   apollo: {
     clients: {
       default: {
-        httpEndpoint: 'http://api.manablox.test/graphql',
+        httpEndpoint: 'http://localhost',
         defaultOptions: {
           query: {
             fetchPolicy: 'network-only',
