@@ -2,6 +2,7 @@
 import { v4 as uuid4 } from 'uuid';
 import type { Content } from '~/generated/graphql/graphql';
 import createContentMutation from '~/graphql/contents/create-content.mutation.gql';
+import publishContentMutation from '~/graphql/contents/publish-content.mutation.gql';
 
 const route = useRoute();
 const router = useRouter();
@@ -18,6 +19,7 @@ const content = ref<Partial<Content>>({
       ? null
       : ({ contentId: route.params.parentId } as Content),
   locale: 'de',
+  localizationId: uuid4(),
   title: '',
   slug: '',
   fields: [],
@@ -26,7 +28,39 @@ const content = ref<Partial<Content>>({
 const isCreating = ref(false);
 const mutationErrors = ref<string[]>([]);
 
-const createContent = async () => {
+const createAndPublishContent = async () => {
+  const createSuccess = await createContent(false);
+
+  if (!createSuccess) return;
+
+  isCreating.value = true;
+
+  const { mutate } = useMutation(publishContentMutation, {
+    variables: {
+      contentId: content.value.contentId,
+    },
+  });
+
+  try {
+    await mutate();
+    router.push(
+      `/cms/contents/${content.value.type?.contentTypeId}/${content.value.contentId}`,
+    );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    mutationErrors.value = err.message.split(',');
+    toast.add({
+      severity: 'error',
+      summary: 'Error while publishing content',
+      detail: 'Have a look at the errors and try again.',
+      life: 3000,
+    });
+  }
+
+  isCreating.value = false;
+};
+
+const createContent = async (redirect = true) => {
   isCreating.value = true;
 
   const { mutate } = useMutation(createContentMutation, {
@@ -43,9 +77,17 @@ const createContent = async () => {
       detail: `Content created.`,
       life: 2000,
     });
-    router.push(
-      `/cms/contents/${content.value.type?.contentTypeId}/${content.value.contentId}`,
-    );
+
+    isCreating.value = false;
+
+    if (redirect) {
+      router.push(
+        `/cms/contents/${content.value.type?.contentTypeId}/${content.value.contentId}`,
+      );
+    } else {
+      return true;
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     mutationErrors.value = err.message.split(',');
@@ -55,8 +97,9 @@ const createContent = async () => {
       detail: 'Have a look at the errors and try again.',
       life: 3000,
     });
-  } finally {
+
     isCreating.value = false;
+    return false;
   }
 };
 </script>
@@ -81,12 +124,33 @@ const createContent = async () => {
             outlined
           />
         </NuxtLink>
+
         <Button
+          v-if="!contentType.isPublishable"
           type="button"
-          label="Create"
+          label="Create and publish"
           icon="i-mdi-content-save"
-          @click="createContent"
+          @click="createAndPublishContent"
         />
+        <SplitButton
+          :model="[
+            {
+              label: 'Create and publish',
+              icon: 'i-mdi-content-save',
+              command: createAndPublishContent,
+            },
+          ]"
+          @click="
+            () => {
+              createContent();
+            }
+          "
+        >
+          <div class="flex items-center gap-2">
+            <i class="i-mdi-content-save" />
+            <span>Create</span>
+          </div>
+        </SplitButton>
       </div>
     </div>
 
