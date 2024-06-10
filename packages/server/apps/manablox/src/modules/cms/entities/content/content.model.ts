@@ -11,6 +11,7 @@ import { ContentType } from '../content-type/content-type.model';
 @ObjectType()
 @Schema({
   collection: 'contents',
+  timestamps: true,
   toJSON: {
     virtuals: true,
   },
@@ -39,6 +40,10 @@ export class Content {
   @Field()
   @Prop()
   locale: string;
+
+  @Field()
+  @Prop()
+  localizationId: string;
 
   @Field(() => [ContentFieldUnion])
   @Prop({ type: [ContentFieldSchema] })

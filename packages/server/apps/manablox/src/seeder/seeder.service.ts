@@ -63,6 +63,7 @@ export class SeederService {
       type: contentType.contentTypeId,
       parent: parentContentId,
       contentId: randomUUID(),
+      localizationId: randomUUID(),
       slug: faker.internet.domainWord(),
       locale: 'de',
       fields: [],

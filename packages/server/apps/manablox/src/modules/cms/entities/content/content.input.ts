@@ -21,6 +21,9 @@ export class ContentInput {
   @Field()
   locale: string;
 
+  @Field({ nullable: true })
+  localizationId?: string;
+
   @Field(() => [ContentFieldInput], { nullable: true })
   fields: Array<ContentFieldInput>;
 }

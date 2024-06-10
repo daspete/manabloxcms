@@ -1,0 +1,5 @@
+mutation publishContent($contentId: String!) {
+  publishContent(contentId: $contentId) {
+    contentId
+  }
+}

@@ -197,6 +197,7 @@ export type Content = {
   contentId: Scalars['String']['output'];
   fields: Array<ContentFieldUnion>;
   locale: Scalars['String']['output'];
+  localizationId: Scalars['String']['output'];
   parent?: Maybe<Content>;
   slug: Scalars['String']['output'];
   title: Scalars['String']['output'];
@@ -249,6 +250,7 @@ export type ContentInput = {
   contentId: Scalars['String']['input'];
   fields?: InputMaybe<Array<ContentFieldInput>>;
   locale: Scalars['String']['input'];
+  localizationId?: InputMaybe<Scalars['String']['input']>;
   parent?: InputMaybe<Scalars['String']['input']>;
   slug: Scalars['String']['input'];
   title: Scalars['String']['input'];
@@ -286,6 +288,12 @@ export type ContentRelationFieldTypeSettings = {
 
 export type ContentRelationFieldTypeSettingsInput = {
   defaultValue?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ContentTree = {
+  __typename?: 'ContentTree';
+  children: Array<Content>;
+  content: Content;
 };
 
 export type ContentType = {
@@ -395,6 +403,7 @@ export type Mutation = {
   createUser: User;
   deleteContent: Content;
   deleteContentType: ContentType;
+  publishContent: PublishedContent;
   updateContent: Content;
   updateContentType: ContentType;
   updateSpace: Space;
@@ -426,6 +435,10 @@ export type MutationDeleteContentArgs = {
 
 export type MutationDeleteContentTypeArgs = {
   contentTypeId: Scalars['String']['input'];
+};
+
+export type MutationPublishContentArgs = {
+  contentId: Scalars['String']['input'];
 };
 
 export type MutationUpdateContentArgs = {
@@ -488,11 +501,27 @@ export type PaginatedSpaces = {
   total: Scalars['Float']['output'];
 };
 
+export type PublishedContent = {
+  __typename?: 'PublishedContent';
+  contentId: Scalars['String']['output'];
+  fields: Array<ContentFieldUnion>;
+  locale: Scalars['String']['output'];
+  localizationId: Scalars['String']['output'];
+  parent?: Maybe<Content>;
+  slug: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  type: ContentType;
+};
+
+export type PublishedContentFieldsArgs = {
+  fields?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
 export type Query = {
   __typename?: 'Query';
   assets: Array<Asset>;
   content: Content;
-  contentTree: Array<Content>;
+  contentTree: Array<ContentTree>;
   contentType: ContentType;
   contentTypes: Array<ContentType>;
   contents: PaginatedContents;

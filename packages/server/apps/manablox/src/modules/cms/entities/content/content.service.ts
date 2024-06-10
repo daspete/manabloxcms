@@ -7,6 +7,8 @@ import { ContentQueryInput } from './content-query.input';
 import { PaginatedContents } from './paginated-contents.type';
 import { isUUID, minLength } from 'class-validator';
 import { ContentTypeService } from '../content-type/content-type.service';
+import { ContentTree } from './content-tree.type';
+import { PublishedContent } from './published-content.model';
 
 const buildElemMatchObject = (field) => {
   const elem = {
@@ -80,6 +82,8 @@ export const buildQueryObject = (query: Array<ContentQueryInput>) => {
 export class ContentService {
   constructor(
     @InjectModel('Content') private readonly contentModel: Model<Content>,
+    @InjectModel('PublishedContent')
+    private readonly publishedContentModel: Model<PublishedContent>,
     private readonly contentTypeService: ContentTypeService,
   ) {}
 
@@ -140,6 +144,26 @@ export class ContentService {
     return content.toJSON();
   }
 
+  async findTreeItems(query: any): Promise<ContentTree[]> {
+    let items = await this.contentModel.find(query).exec();
+    items = items.map((item) => item.toJSON());
+
+    const treeItems = await Promise.all(
+      (items as Content[]).map(async (item) => {
+        const children = await this.contentModel
+          .find({ parent: item.contentId })
+          .exec();
+
+        return {
+          content: item,
+          children: children.map((child) => child.toJSON()),
+        };
+      }),
+    );
+
+    return treeItems;
+  }
+
   async create(content: ContentInput): Promise<Content> {
     await this.validateInput(content);
     return this.contentModel.create(content);
@@ -156,6 +180,36 @@ export class ContentService {
 
   async delete(contentId: string): Promise<Content> {
     return this.contentModel.findOneAndDelete({ contentId }).exec();
+  }
+
+  async publish(contentId: string): Promise<PublishedContent> {
+    const content = await this.findById(contentId);
+
+    if (!content) {
+      throw new Error('content.notFound');
+    }
+
+    const existingContent = await this.publishedContentModel.findOne({
+      contentId,
+    });
+
+    if (existingContent) {
+      await this.publishedContentModel.updateOne(
+        {
+          contentId,
+        },
+        {
+          $set: content,
+        },
+      );
+      const publishedContent = await this.publishedContentModel.findOne({
+        contentId,
+      });
+      return publishedContent.toJSON();
+    } else {
+      const publishedContent = await this.publishedContentModel.create(content);
+      return publishedContent.toJSON();
+    }
   }
 
   async validateInput(input: ContentInput, isUpdate = false) {
@@ -185,6 +239,16 @@ export class ContentService {
 
         if (!existingContentType) {
           errors.push('content.type.notFound');
+        }
+      }
+    }
+
+    if (!isUpdate) {
+      if (!input.localizationId) {
+        errors.push('content.localizationId.required');
+      } else {
+        if (!isUUID(input.localizationId, 'all')) {
+          errors.push('content.localizationId.invalid');
         }
       }
     }
