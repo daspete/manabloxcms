@@ -48,6 +48,7 @@ import { UserRelationFieldTypeSettingsResolver } from './entities/content-type-f
 import { AssetRelationFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/asset-relation-field-type/asset-relation-field-type-settings.resolver';
 import { ContentRelationFieldTypeSettingsResolver } from './entities/content-type-field/content-type-field-types/content-relation-field-type/content-relation-field-type-settings.resolver';
 import { SpaceModule } from '../space/space.module';
+import { PublishedContentSchema } from './entities/content/published-content.model';
 
 @Module({
   imports: [
@@ -58,6 +59,10 @@ import { SpaceModule } from '../space/space.module';
       {
         name: 'Content',
         schema: ContentSchema,
+      },
+      {
+        name: 'PublishedContent',
+        schema: PublishedContentSchema,
       },
       {
         name: 'ContentField',

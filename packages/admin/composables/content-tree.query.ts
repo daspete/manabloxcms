@@ -1,8 +1,8 @@
-import type { Content } from '~/generated/graphql/graphql';
+import type { ContentTree } from '~/generated/graphql/graphql';
 import contentTreeQuery from '~/graphql/contents/content-tree.query.gql';
 
 export const useContentTreeQuery = (variables = {}) => {
-  const contentTree = ref<Content[]>([]);
+  const contentTree = ref<ContentTree[]>([]);
   const loading = ref(true);
 
   const refetch = async (_variables = {}) => {

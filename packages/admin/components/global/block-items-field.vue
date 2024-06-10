@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { vDraggable } from 'vue-draggable-plus';
 import { v4 as uuid4 } from 'uuid';
-import type {
-  BlockInput,
-  ContentType,
-} from '~/generated/graphql/graphql';
+import type { BlockInput, ContentType } from '~/generated/graphql/graphql';
 
 const confirm = useConfirm();
 
@@ -73,100 +70,122 @@ const deleteBlock = async (block: BlockInput) => {
     return blockItem.blockId !== block.blockId;
   });
 };
+
+const getFirstStringFieldInBlock = (block: BlockInput) => {
+  const firstStringField = block.fields.find((field) => {
+    return field.type === 'StringField';
+  });
+
+  return firstStringField?.string || '';
+};
 </script>
 
 <template>
   <div>
-    <Fieldset :legend="field.name" :toggleable="true">
-      <div class="flex flex-col gap-4">
-        <div v-if="fieldType.blocksSettings.possibleBlockTypes.length > 1">
-          <Button
-            type="button"
-            label="Add new block"
-            icon="i-mdi-plus"
-            size="small"
-            aria-haspopup="true"
-            aria-controls="block-selection-menu"
-            severity="secondary"
-            @click="toggleBlockTypeDropdown"
-          />
-          <Menu
-            id="block-selection-menu"
-            ref="blockSelectionMenu"
-            :popup="true"
-            :model="blockSelectionMenuItems"
-          />
-        </div>
+    <Panel toggleable collapsed>
+      <template #header>
+        {{ field.name }}
+      </template>
+
+      <template #togglericon="{ collapsed }">
+        <i :class="collapsed ? 'i-mdi-chevron-down' : 'i-mdi-chevron-up'" />
+      </template>
+
+      <div v-if="fieldType.blocksSettings.possibleBlockTypes.length > 1">
+        <Button
+          type="button"
+          label="Add new block"
+          icon="i-mdi-plus"
+          size="small"
+          aria-haspopup="true"
+          aria-controls="block-selection-menu"
+          severity="secondary"
+          @click="toggleBlockTypeDropdown"
+        />
+        <Menu
+          id="block-selection-menu"
+          ref="blockSelectionMenu"
+          :popup="true"
+          :model="blockSelectionMenuItems"
+        />
+      </div>
+
+      <div v-else-if="fieldType.blocksSettings.possibleBlockTypes.length === 1">
+        <Button
+          type="button"
+          :label="`Add new ${fieldType.blocksSettings.possibleBlockTypes[0].name}`"
+          icon="i-mdi-plus"
+          size="small"
+          aria-haspopup="true"
+          aria-controls="block-selection-menu"
+          severity="secondary"
+          @click="addBlock(fieldType.blocksSettings.possibleBlockTypes[0])"
+        />
+      </div>
+
+      <div class="mt-4">
+        <div v-if="!field.blocks?.length">No blocks added yet.</div>
         <div
-          v-else-if="fieldType.blocksSettings.possibleBlockTypes.length === 1"
+          v-else
+          v-draggable="[
+            field.blocks,
+            { handle: '.drag-handle', animation: 150 },
+          ]"
+          class="flex flex-col gap-2"
         >
-          <Button
-            type="button"
-            :label="`Add new ${fieldType.blocksSettings.possibleBlockTypes[0].name}`"
-            icon="i-mdi-plus"
-            size="small"
-            aria-haspopup="true"
-            aria-controls="block-selection-menu"
-            severity="secondary"
-            @click="addBlock(fieldType.blocksSettings.possibleBlockTypes[0])"
-          />
-        </div>
-
-        <div>
-          <div v-if="!field.blocks?.length">No blocks added yet.</div>
-          <div
-            v-else
-            v-draggable="[
-              field.blocks,
-              { handle: '.drag-handle', animation: 150 },
-            ]"
-            class="flex flex-col gap-2"
+          <Panel
+            v-for="block in field.blocks"
+            :key="block.blockId"
+            toggleable
+            collapsed
           >
-            <Panel
-              v-for="block in field.blocks"
-              :key="block.blockId"
-              toggleable
-              collapsed
-            >
-              <template #header>
-                <div class="flex items-center gap-2">
-                  <div class="drag-handle">
-                    <button class="flex items-center">
-                      <i class="i-mdi-menu" />
-                    </button>
-                  </div>
-                  <div class="flex-1 flex gap-2 items-center">
-                    <span
-                      v-if="getBlockType(block.type)?.icon"
-                      class="flex items-center"
-                      ><i :class="getBlockType(block.type)?.icon"
-                    /></span>
-                    <span>{{ getBlockType(block.type)?.name }}</span>
-                  </div>
+            <template #header>
+              <div class="flex items-center gap-2">
+                <div class="drag-handle">
+                  <button class="flex items-center">
+                    <i class="i-mdi-menu" />
+                  </button>
                 </div>
-              </template>
+                <div class="flex-1 flex gap-2 items-center">
+                  <span
+                    v-if="getBlockType(block.type)?.icon"
+                    class="flex items-center"
+                    ><i :class="getBlockType(block.type)?.icon"
+                  /></span>
+                  <span>
+                    {{ getBlockType(block.type)?.name }}
+                    <span class="ml-2 text-xs">
+                      {{
+                        getFirstStringFieldInBlock(block)
+                          ? `(${getFirstStringFieldInBlock(block)})`
+                          : `(${block.blockId})`
+                      }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </template>
 
-              <template #icons>
-                <button
-                  class="text-surface-600 dark:text-surface-0/80"
-                  @click="confirmBlockDeletion($event, block)"
-                >
-                  <i class="i-mdi-trash" />
-                </button>
-              </template>
+            <template #icons>
+              <button
+                class="text-surface-600 dark:text-surface-0/80"
+                @click="confirmBlockDeletion($event, block)"
+              >
+                <i class="i-mdi-trash" />
+              </button>
+            </template>
 
-              <template #togglericon="{ collapsed }">
-                <i
-                  :class="collapsed ? 'i-mdi-chevron-down' : 'i-mdi-chevron-up'"
-                />
-              </template>
+            <template #togglericon="{ collapsed }">
+              <i
+                :class="collapsed ? 'i-mdi-chevron-down' : 'i-mdi-chevron-up'"
+              />
+            </template>
 
-              <BlockEditor :block="block" />
-            </Panel>
-          </div>
+            <BlockEditor :block="block" />
+          </Panel>
         </div>
       </div>
-    </Fieldset>
+    </Panel>
 
     <ConfirmPopup group="deleteBlockGroup">
       <template #container="{ message, acceptCallback, rejectCallback }">

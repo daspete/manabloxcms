@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useToast } from 'primevue/usetoast';
 import updateContentMutation from '~/graphql/contents/update-content.mutation.gql';
+import publishContentMutation from '~/graphql/contents/publish-content.mutation.gql';
 
 const route = useRoute();
 const toast = useToast();
@@ -20,6 +21,36 @@ const isInitializing = computed(
 const isUpdating = ref(false);
 const mutationErrors = ref<string[]>([]);
 
+const updateAndPublishContent = async () => {
+  const updateSuccess = await updateContent();
+
+  if (!updateSuccess) return;
+
+  isUpdating.value = true;
+
+  const { mutate } = useMutation(publishContentMutation, {
+    variables: {
+      contentId: content.value.contentId,
+    },
+  });
+
+  try {
+    await mutate();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    mutationErrors.value = err.message.split(',');
+    toast.add({
+      severity: 'error',
+      summary: 'Error while publishing content',
+      detail: 'Have a look at the errors and try again.',
+      life: 3000,
+    });
+  }
+
+  isUpdating.value = false;
+};
+
 const updateContent = async () => {
   mutationErrors.value = [];
   isUpdating.value = true;
@@ -38,6 +69,11 @@ const updateContent = async () => {
       detail: `Content updated.`,
       life: 2000,
     });
+
+    isUpdating.value = false;
+
+    return true;
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     mutationErrors.value = err.message.split(',');
@@ -48,8 +84,9 @@ const updateContent = async () => {
       detail: 'Have a look at the errors and try again.',
       life: 3000,
     });
-  } finally {
+
     isUpdating.value = false;
+    return false;
   }
 };
 </script>
@@ -73,12 +110,37 @@ const updateContent = async () => {
             outlined
           />
         </NuxtLink>
+
         <Button
+          v-if="!contentType.isPublishable"
           type="button"
           label="Update"
           icon="i-mdi-content-save"
-          @click="updateContent"
+          @click="
+            () => {
+              updateAndPublishContent();
+            }
+          "
         />
+        <SplitButton
+          :model="[
+            {
+              label: 'Update and publish',
+              icon: 'i-mdi-content-save',
+              command: updateAndPublishContent,
+            },
+          ]"
+          @click="
+            () => {
+              updateContent();
+            }
+          "
+        >
+          <div class="flex items-center gap-2">
+            <i class="i-mdi-content-save" />
+            <span>Update</span>
+          </div>
+        </SplitButton>
       </div>
     </div>
 

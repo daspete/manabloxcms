@@ -104,9 +104,9 @@ const changeLimit = (limit: number) => {
                   :to="`/cms/contents/${data.type.contentTypeId}/${data.contentId}`"
                   class="flex items-center gap-2"
                 >
-                  <span v-if="data.type.icon" class="flex items-center"
-                    ><i :class="data.type.icon"
-                  /></span>
+                  <span v-if="data.type.icon" class="flex items-center">
+                    <i :class="data.type.icon" />
+                  </span>
                   <div>
                     <div>{{ data.title }}</div>
                     <div class="text-xs">Content ID: {{ data.contentId }}</div>

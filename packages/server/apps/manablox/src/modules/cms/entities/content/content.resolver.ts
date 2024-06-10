@@ -14,6 +14,8 @@ import { ContentQueryInput } from './content-query.input';
 import { PaginatedContents } from './paginated-contents.type';
 import { ContentType } from '../content-type/content-type.model';
 import { ContentTypeService } from '../content-type/content-type.service';
+import { ContentTree } from './content-tree.type';
+import { PublishedContent } from './published-content.model';
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -35,9 +37,9 @@ export class ContentResolver {
     return this.contentService.findPaginated(query, limit, page);
   }
 
-  @Query(() => [Content])
+  @Query(() => [ContentTree])
   async contentTree(@Args('parentId', { nullable: true }) parentId?: string) {
-    return this.contentService.find({ parent: parentId || null });
+    return this.contentService.findTreeItems({ parent: parentId || null });
   }
 
   @Query(() => Content)
@@ -58,6 +60,11 @@ export class ContentResolver {
   @Mutation(() => Content)
   async deleteContent(@Args('contentId') contentId: string) {
     return this.contentService.delete(contentId);
+  }
+
+  @Mutation(() => PublishedContent)
+  async publishContent(@Args('contentId') contentId: string) {
+    return this.contentService.publish(contentId);
   }
 
   @ResolveField()
