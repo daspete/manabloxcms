@@ -130,6 +130,14 @@ export class ContentService {
     return items.map((item) => item.toJSON());
   }
 
+  async findPublishedContentById(contentId: string): Promise<Content> {
+    const content = await this.publishedContentModel
+      .findOne({ contentId: contentId })
+      .exec();
+    if (!content) return null;
+    return content.toJSON();
+  }
+
   async findOne(query: any): Promise<Content> {
     const content = await this.contentModel.findOne(query).exec();
     if (!content) return null;
@@ -182,12 +190,14 @@ export class ContentService {
     return this.contentModel.findOneAndDelete({ contentId }).exec();
   }
 
-  async publish(contentId: string): Promise<PublishedContent> {
+  async publish(contentId: string): Promise<Content> {
     const content = await this.findById(contentId);
 
     if (!content) {
       throw new Error('content.notFound');
     }
+
+    delete content['_id'];
 
     const existingContent = await this.publishedContentModel.findOne({
       contentId,

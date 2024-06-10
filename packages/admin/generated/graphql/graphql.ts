@@ -199,6 +199,7 @@ export type Content = {
   locale: Scalars['String']['output'];
   localizationId: Scalars['String']['output'];
   parent?: Maybe<Content>;
+  publishedContent?: Maybe<Content>;
   slug: Scalars['String']['output'];
   title: Scalars['String']['output'];
   type: ContentType;
@@ -403,7 +404,7 @@ export type Mutation = {
   createUser: User;
   deleteContent: Content;
   deleteContentType: ContentType;
-  publishContent: PublishedContent;
+  publishContent: Content;
   updateContent: Content;
   updateContentType: ContentType;
   updateSpace: Space;
@@ -499,22 +500,6 @@ export type PaginatedSpaces = {
   limit: Scalars['Float']['output'];
   page: Scalars['Float']['output'];
   total: Scalars['Float']['output'];
-};
-
-export type PublishedContent = {
-  __typename?: 'PublishedContent';
-  contentId: Scalars['String']['output'];
-  fields: Array<ContentFieldUnion>;
-  locale: Scalars['String']['output'];
-  localizationId: Scalars['String']['output'];
-  parent?: Maybe<Content>;
-  slug: Scalars['String']['output'];
-  title: Scalars['String']['output'];
-  type: ContentType;
-};
-
-export type PublishedContentFieldsArgs = {
-  fields?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type Query = {

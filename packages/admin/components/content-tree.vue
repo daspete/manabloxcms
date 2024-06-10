@@ -136,7 +136,7 @@ const confirmContentDeletion = (event: MouseEvent, content: Content) => {
                 "
               />
             </button>
-            <div v-else class="w-4"/>
+            <div v-else class="w-4" />
 
             <span v-if="item.content.type.icon" class="flex items-center">
               <i :class="item.content.type.icon" />

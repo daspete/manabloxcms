@@ -1,9 +1,7 @@
-import { ObjectType } from '@nestjs/graphql';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Content } from './content.model';
 import { HydratedDocument } from 'mongoose';
+import { Content } from './content.model';
 
-@ObjectType()
 @Schema({
   collection: 'published-contents',
   timestamps: true,

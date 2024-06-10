@@ -15,7 +15,6 @@ import { PaginatedContents } from './paginated-contents.type';
 import { ContentType } from '../content-type/content-type.model';
 import { ContentTypeService } from '../content-type/content-type.service';
 import { ContentTree } from './content-tree.type';
-import { PublishedContent } from './published-content.model';
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -62,7 +61,7 @@ export class ContentResolver {
     return this.contentService.delete(contentId);
   }
 
-  @Mutation(() => PublishedContent)
+  @Mutation(() => Content)
   async publishContent(@Args('contentId') contentId: string) {
     return this.contentService.publish(contentId);
   }
@@ -88,5 +87,10 @@ export class ContentResolver {
   @ResolveField(() => ContentType)
   async type(@Parent() content: Content) {
     return this.contentTypeService.findById(content.type);
+  }
+
+  @ResolveField(() => Content)
+  async publishedContent(@Parent() content: Content) {
+    return this.contentService.findPublishedContentById(content.contentId);
   }
 }
