@@ -174,6 +174,15 @@ export class ContentService {
 
   async create(content: ContentInput): Promise<Content> {
     await this.validateInput(content);
+
+    const contentType = await this.contentTypeService.findById(content.type);
+    if (contentType.hasSlug) {
+      const permalink = await this.generatePermalinkToParent(content.parent);
+      content.permalink = permalink
+        ? `${permalink}/${content.slug}`
+        : content.slug;
+    }
+
     return this.contentModel.create(content);
   }
 
@@ -181,7 +190,21 @@ export class ContentService {
     await this.validateInput(content, true);
     const { contentId, ...dataToUpdate } = content;
 
+    const contentType = await this.contentTypeService.findById(
+      dataToUpdate.type,
+    );
+    if (contentType.hasSlug) {
+      const permalink = await this.generatePermalinkToParent(
+        dataToUpdate.parent,
+      );
+      dataToUpdate.permalink = permalink
+        ? `${permalink}/${dataToUpdate.slug}`
+        : dataToUpdate.slug;
+    }
+
     await this.contentModel.updateOne({ contentId }, { $set: dataToUpdate });
+
+    this.updateChildrenPermalinks(contentId, dataToUpdate.permalink);
 
     return this.findOne({ contentId });
   }
@@ -199,27 +222,113 @@ export class ContentService {
 
     delete content['_id'];
 
-    const existingContent = await this.publishedContentModel.findOne({
+    const existingPublishedContent = await this.publishedContentModel.findOne({
       contentId,
     });
 
-    if (existingContent) {
+    if (existingPublishedContent) {
       await this.publishedContentModel.updateOne(
-        {
-          contentId,
-        },
-        {
-          $set: content,
-        },
+        { contentId },
+        { $set: content },
       );
+
+      if (
+        content.permalink &&
+        content.permalink !== existingPublishedContent.permalink
+      ) {
+        await this.updatePublishedChildrenPermalinks(
+          contentId,
+          content.permalink,
+        );
+      }
+
       const publishedContent = await this.publishedContentModel.findOne({
         contentId,
       });
+
       return publishedContent.toJSON();
     } else {
       const publishedContent = await this.publishedContentModel.create(content);
       return publishedContent.toJSON();
     }
+  }
+
+  async generatePermalinkToParent(parentId: string | null) {
+    if (!parentId) {
+      return null;
+    }
+
+    const parent = await this.findById(parentId);
+    if (!parent) {
+      return null;
+    }
+
+    if (parent.permalink) {
+      return parent.permalink;
+    }
+
+    return await this.generatePermalinkToParent(parent.parent);
+  }
+
+  async updateChildrenPermalinks(contentId: string, newPermalink: string) {
+    const childContents = await this.find({ parent: contentId });
+
+    await Promise.all(
+      childContents.map(async (childContent) => {
+        const childContentType = await this.contentTypeService.findById(
+          childContent.type,
+        );
+
+        if (childContentType.hasSlug) {
+          const _newPermalink = newPermalink
+            ? `${newPermalink}/${childContent.slug}`
+            : childContent.slug;
+
+          await this.contentModel.updateOne(
+            { contentId: childContent.contentId },
+            { $set: { permalink: _newPermalink } },
+          );
+        }
+
+        await this.updateChildrenPermalinks(
+          childContent.contentId,
+          newPermalink,
+        );
+      }),
+    );
+  }
+
+  async updatePublishedChildrenPermalinks(
+    contentId: string,
+    newPermalink: string,
+  ) {
+    const childContents = await this.publishedContentModel.find({
+      parent: contentId,
+    });
+
+    await Promise.all(
+      childContents.map(async (childContent) => {
+        const childContentType = await this.contentTypeService.findById(
+          childContent.type,
+        );
+
+        if (childContentType.hasSlug) {
+          const _newPermalink = newPermalink
+            ? `${newPermalink}/${childContent.slug}`
+            : childContent.slug;
+
+          await this.publishedContentModel.updateOne(
+            { contentId: childContent.contentId },
+            { $set: { permalink: _newPermalink } },
+          );
+        }
+
+        await this.updatePublishedChildrenPermalinks(
+          childContent.contentId,
+          newPermalink,
+        );
+      }),
+    );
   }
 
   async validateInput(input: ContentInput, isUpdate = false) {

@@ -133,6 +133,7 @@ const createContent = async (redirect = true) => {
           @click="createAndPublishContent"
         />
         <SplitButton
+          v-else
           :model="[
             {
               label: 'Create and publish',

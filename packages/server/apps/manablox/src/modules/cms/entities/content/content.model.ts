@@ -49,6 +49,10 @@ export class Content {
   @Prop({ type: [ContentFieldSchema] })
   fields: Array<ContentFieldUnionType>;
 
+  @Field({ nullable: true })
+  @Prop({ nullable: true })
+  permalink?: string;
+
   @Field(() => Content, { nullable: true })
   publishedContent?: Content;
 }

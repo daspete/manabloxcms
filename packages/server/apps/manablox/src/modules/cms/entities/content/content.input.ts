@@ -24,6 +24,9 @@ export class ContentInput {
   @Field({ nullable: true })
   localizationId?: string;
 
+  @Field({ nullable: true })
+  permalink?: string;
+
   @Field(() => [ContentFieldInput], { nullable: true })
   fields: Array<ContentFieldInput>;
 }
