@@ -123,6 +123,7 @@ const updateContent = async () => {
           "
         />
         <SplitButton
+          v-else
           :model="[
             {
               label: 'Update and publish',
