@@ -21,6 +21,7 @@ const refreshTree = async () => {
         <Button
           size="small"
           text
+          title="Refresh tree"
           icon="i-mdi-refresh"
           severity="secondary"
           @click="refreshTree"
@@ -28,7 +29,9 @@ const refreshTree = async () => {
       </div>
       <div class="flex-1 overflow-hidden">
         <ScrollPanel class="w-full h-full px-2">
-          <ContentTree v-if="isTreeVisible" :content-types="contentTypes" />
+          <div class="border-b">
+            <ContentTree v-if="isTreeVisible" :content-types="contentTypes" />
+          </div>
         </ScrollPanel>
       </div>
 

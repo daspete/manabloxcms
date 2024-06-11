@@ -210,7 +210,28 @@ export class ContentService {
   }
 
   async delete(contentId: string): Promise<Content> {
+    // delete all children recursively
+    const childContents = await this.find({ parent: contentId });
+    await Promise.all(
+      childContents.map(async (childContent) => {
+        await this.delete(childContent.contentId);
+      }),
+    );
+
+    this.deletePublished(contentId);
+
     return this.contentModel.findOneAndDelete({ contentId }).exec();
+  }
+
+  async deletePublished(contentId: string): Promise<Content> {
+    // delete all children recursively
+    const childContents = await this.find({ parent: contentId });
+    await Promise.all(
+      childContents.map(async (childContent) => {
+        await this.deletePublished(childContent.contentId);
+      }),
+    );
+    return this.publishedContentModel.findOneAndDelete({ contentId }).exec();
   }
 
   async publish(contentId: string): Promise<Content> {
