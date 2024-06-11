@@ -14,7 +14,7 @@ const refreshTree = async () => {
 <template>
   <div
     v-show="isOpen"
-    class="tree shadow-lg bg-white dark:bg-surface-900 dark:opacity-80"
+    class="tree shadow-lg bg-white dark:bg-surface-900 dark:opacity-80 w-72"
   >
     <div class="flex flex-col w-full h-full">
       <div class="flex gap-2 items-center justify-end">

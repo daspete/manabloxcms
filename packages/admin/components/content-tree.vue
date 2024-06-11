@@ -112,8 +112,9 @@ const confirmContentDeletion = (event: MouseEvent, content: Content) => {
         <Skeleton />
       </div>
     </div>
-    <div v-else>
-      <ul class="list-none p-0 m-0 dark:text-white">
+    <div v-else class="dark:text-white">
+      <div v-if="contentTree.length === 0">No content added yet.</div>
+      <ul v-else class="list-none p-0 m-0">
         <li
           v-for="(item, itemIndex) in contentTree"
           :key="item.content.contentId"
@@ -138,11 +139,14 @@ const confirmContentDeletion = (event: MouseEvent, content: Content) => {
             </button>
             <div v-else class="w-4" />
 
-            <span v-if="item.content.type.icon" class="flex items-center">
+            <span
+              v-if="item.content.type.icon"
+              class="flex items-center relative"
+            >
               <i :class="item.content.type.icon" />
             </span>
 
-            <div class="flex-1 text-sm">
+            <div class="flex-1 text-sm truncate">
               <NuxtLink
                 :to="`/cms/contents/${item.content.type.contentTypeId}/${item.content.contentId}`"
               >
@@ -150,12 +154,21 @@ const confirmContentDeletion = (event: MouseEvent, content: Content) => {
               </NuxtLink>
             </div>
 
+            <div class="flex items-center gap-1">
+              <Badge
+                value=""
+                :severity="
+                  item.content.publishedContent ? 'success' : 'warning'
+                "
+              />
+            </div>
+
             <div>
               <Button
                 text
                 size="small"
                 severity="info"
-                :pt="{ root: 'pl-6' }"
+                :pt="{ root: 'px-1' }"
                 @click="toggleMenuOverlay($event, itemIndex)"
               >
                 <i class="i-mdi-dots-vertical" />

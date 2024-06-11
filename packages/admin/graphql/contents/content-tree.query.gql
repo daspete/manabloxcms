@@ -12,6 +12,9 @@ query contentTree($parentId: String) {
         contentTypeId
         icon
       }
+      publishedContent {
+        contentId
+      }
     }
     children {
       contentId
