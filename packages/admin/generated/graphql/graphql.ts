@@ -199,6 +199,7 @@ export type Content = {
   locale: Scalars['String']['output'];
   localizationId: Scalars['String']['output'];
   parent?: Maybe<Content>;
+  permalink?: Maybe<Scalars['String']['output']>;
   publishedContent?: Maybe<Content>;
   slug: Scalars['String']['output'];
   title: Scalars['String']['output'];
@@ -253,6 +254,7 @@ export type ContentInput = {
   locale: Scalars['String']['input'];
   localizationId?: InputMaybe<Scalars['String']['input']>;
   parent?: InputMaybe<Scalars['String']['input']>;
+  permalink?: InputMaybe<Scalars['String']['input']>;
   slug: Scalars['String']['input'];
   title: Scalars['String']['input'];
   type: Scalars['String']['input'];
