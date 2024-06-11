@@ -4,7 +4,7 @@ import { Prop } from '@nestjs/mongoose';
 @InputType()
 export class UserInput {
   @Field({ nullable: true })
-  id?: string;
+  userId?: string;
 
   @Field()
   @Prop()
