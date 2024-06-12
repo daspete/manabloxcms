@@ -3,7 +3,7 @@ fragment UserRelationFieldFields on UserRelationField {
   fieldId
   type
   user {
-    id
+    userId
     username
     email
   }

@@ -4,6 +4,7 @@ import { User } from './entities/user/user.model';
 import { Model } from 'mongoose';
 import { UserInput } from './entities/user/user.input';
 import { isEmail, isStrongPassword, isUUID } from 'class-validator';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -23,12 +24,18 @@ export class UserService {
   async create(user: UserInput): Promise<User> {
     await this.validateInput(user);
 
+    user.password = await hash(user.password, 10);
+
     return this.userModel.create(user);
   }
 
   async update(user: UserInput): Promise<User> {
     await this.validateInput(user, true);
     const { userId, ...dataToUpdate } = user;
+
+    if (dataToUpdate.password) {
+      dataToUpdate.password = await hash(dataToUpdate.password, 10);
+    }
 
     await this.userModel.updateOne({ userId }, { $set: dataToUpdate }).exec();
 
@@ -74,7 +81,7 @@ export class UserService {
 
     if (
       input.password &&
-      isStrongPassword(input.password, {
+      !isStrongPassword(input.password, {
         minLength: 8,
         minNumbers: 1,
         minSymbols: 1,

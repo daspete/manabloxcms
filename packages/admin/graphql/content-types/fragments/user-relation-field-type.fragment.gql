@@ -7,7 +7,7 @@ fragment UserRelationFieldTypeFields on UserRelationFieldType {
   }
   userSettings {
     defaultValue {
-      id
+      userId
       username
       email
     }

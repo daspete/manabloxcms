@@ -13,9 +13,17 @@ export class User {
   @Prop()
   userId: string;
 
-  @Field()
-  @Prop()
-  username: string;
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  gender: string;
+
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  firstname: string;
+
+  @Field({ nullable: true })
+  @Prop({ required: false })
+  lastname: string;
 
   @Field()
   @Prop()
