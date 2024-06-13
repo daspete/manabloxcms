@@ -9,6 +9,6 @@ export class UserRelationFieldResolver {
   @ResolveField()
   async user(@Parent() parent: UserRelationField) {
     if (!parent.user) return null;
-    return this.userService.findOne(parent.user);
+    return this.userService.findById(parent.user);
   }
 }

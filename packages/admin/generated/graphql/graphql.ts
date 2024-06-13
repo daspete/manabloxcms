@@ -71,6 +71,12 @@ export type AssetRelationFieldTypeSettingsInput = {
   defaultValue?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type AuthTokens = {
+  __typename?: 'AuthTokens';
+  accessToken: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
+};
+
 export type Block = {
   __typename?: 'Block';
   blockId: Scalars['String']['output'];
@@ -397,6 +403,11 @@ export type DateFieldTypeSettingsInput = {
   useTime?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type LoginInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createAsset: Asset;
@@ -406,10 +417,14 @@ export type Mutation = {
   createUser: User;
   deleteContent: Content;
   deleteContentType: ContentType;
+  deleteUser: User;
   publishContent: Content;
+  refreshTokens: AuthTokens;
+  signUp: AuthTokens;
   updateContent: Content;
   updateContentType: ContentType;
   updateSpace: Space;
+  updateUser: User;
 };
 
 export type MutationCreateAssetArgs = {
@@ -440,8 +455,16 @@ export type MutationDeleteContentTypeArgs = {
   contentTypeId: Scalars['String']['input'];
 };
 
+export type MutationDeleteUserArgs = {
+  userId: Scalars['String']['input'];
+};
+
 export type MutationPublishContentArgs = {
   contentId: Scalars['String']['input'];
+};
+
+export type MutationSignUpArgs = {
+  user: UserInput;
 };
 
 export type MutationUpdateContentArgs = {
@@ -454,6 +477,10 @@ export type MutationUpdateContentTypeArgs = {
 
 export type MutationUpdateSpaceArgs = {
   space: SpaceInput;
+};
+
+export type MutationUpdateUserArgs = {
+  user: UserInput;
 };
 
 export type NumberField = {
@@ -512,6 +539,8 @@ export type Query = {
   contentType: ContentType;
   contentTypes: Array<ContentType>;
   contents: PaginatedContents;
+  logout: Scalars['Boolean']['output'];
+  signIn: AuthTokens;
   space: Space;
   spaces: PaginatedSpaces;
   users: Array<User>;
@@ -533,6 +562,10 @@ export type QueryContentsArgs = {
   limit?: Scalars['Int']['input'];
   page?: Scalars['Int']['input'];
   query?: InputMaybe<Array<ContentQueryInput>>;
+};
+
+export type QuerySignInArgs = {
+  loginInput: LoginInput;
 };
 
 export type QuerySpaceArgs = {
@@ -613,15 +646,19 @@ export type StringFieldTypeSettingsInput = {
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  username: Scalars['String']['output'];
+  firstname?: Maybe<Scalars['String']['output']>;
+  gender?: Maybe<Scalars['String']['output']>;
+  lastname?: Maybe<Scalars['String']['output']>;
+  userId: Scalars['String']['output'];
 };
 
 export type UserInput = {
   email: Scalars['String']['input'];
-  id?: InputMaybe<Scalars['String']['input']>;
-  password: Scalars['String']['input'];
-  username: Scalars['String']['input'];
+  firstname?: InputMaybe<Scalars['String']['input']>;
+  gender?: InputMaybe<Scalars['String']['input']>;
+  lastname?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserRelationField = {

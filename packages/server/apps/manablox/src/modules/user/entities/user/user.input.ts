@@ -1,20 +1,24 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { Prop } from '@nestjs/mongoose';
 
 @InputType()
 export class UserInput {
   @Field({ nullable: true })
-  id?: string;
+  userId?: string;
+
+  @Field({ nullable: true })
+  gender?: string;
+
+  @Field({ nullable: true })
+  firstname?: string;
+
+  @Field({ nullable: true })
+  lastname?: string;
 
   @Field()
-  @Prop()
-  username: string;
-
-  @Field()
-  @Prop()
   email: string;
 
-  @Field()
-  @Prop()
+  @Field({ nullable: true })
   password: string;
+
+  refreshToken?: string;
 }

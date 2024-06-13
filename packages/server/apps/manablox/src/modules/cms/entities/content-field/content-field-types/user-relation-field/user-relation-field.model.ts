@@ -2,7 +2,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from 'apps/manablox/src/modules/user/entities/user/user.model';
-import mongoose from 'mongoose';
 
 @ObjectType()
 @Schema()
@@ -19,7 +18,7 @@ export class UserRelationField {
   type: 'UserRelationField' = 'UserRelationField';
 
   @Field(() => User, { nullable: true })
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false })
+  @Prop({ required: false })
   user: string;
 }
 

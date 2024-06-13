@@ -75,7 +75,7 @@ const confirmContentTypeDeletion = (
         <DataTable
           :value="contentTypes"
           paginator
-          :rows="5"
+          :rows="10"
           striped-rows
           :loading="loading"
           removable-sort

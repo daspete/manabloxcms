@@ -6,13 +6,12 @@ import {
   ContentTypeFieldSettingsSchema,
 } from '../../content-type-field-settings/content-type-field-settings.model';
 import { User } from 'apps/manablox/src/modules/user/entities/user/user.model';
-import mongoose from 'mongoose';
 
 @ObjectType()
 @Schema()
 export class UserRelationFieldTypeSettings {
   @Field(() => User, { nullable: true })
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false })
+  @Prop({ required: false })
   defaultValue?: string;
 }
 
