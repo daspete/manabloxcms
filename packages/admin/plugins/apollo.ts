@@ -88,7 +88,7 @@ export default defineNuxtPlugin((nuxtApp) => {
                 }
               })();
             });
-          break;
+            break;
         }
       }
     }

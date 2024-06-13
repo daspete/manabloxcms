@@ -20,7 +20,7 @@ export const useMeQuery = () => {
           if (result.partial) return;
 
           if (result.error) {
-            console.log('error', result.error.message)
+            console.log('error', result.error.message);
             reject(result.error);
           } else {
             resolve(result.data?.me);
@@ -35,7 +35,7 @@ export const useMeQuery = () => {
     loading.value = false;
   };
 
-  if(!me.value) {
+  if (!me.value) {
     refetch();
   }
 

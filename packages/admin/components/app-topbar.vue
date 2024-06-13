@@ -2,7 +2,6 @@
 const tree = useTree();
 const { darkModeEnabled, enableDarkMode, disableDarkMode } = useDarkmode();
 const { me } = useMeQuery();
-
 </script>
 
 <template>

@@ -86,7 +86,7 @@ const items = ref([
 
         <template #submenuheader="{ item }">
           <span
-            :title="`${ item.label || '' }`"
+            :title="`${item.label || ''}`"
             :class="`text-white font-bold leading-none flex gap-2 items-center ${!isOpen ? 'justify-center' : ''}`"
           >
             <i :class="item.icon" />
