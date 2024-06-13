@@ -14,10 +14,8 @@ export const mutateRelationFields = (
   for (let i = 0; i < fields?.length; i++) {
     const field = fields[i];
 
-    console.log(field);
-
     if (field?.type === 'UserRelationField') {
-      field.user = (field.user as unknown as User)?.id;
+      field.user = (field.user as unknown as User)?.userId;
     }
 
     if (field?.type === 'AssetRelationField') {

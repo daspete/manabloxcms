@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { UserInput } from '../user/entities/user/user.input';
 import { compare, hash } from 'bcrypt';
 import { LoginInput } from './entities/login.input';
+import { AuthTokens } from './entities/authtokens.type';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
     return tokens;
   }
 
-  async signIn(loginInput: LoginInput) {
+  async signIn(loginInput: LoginInput): Promise<AuthTokens> {
     const user = await this.userService.findOne({ email: loginInput.email });
     if (!user) {
       throw new Error('auth.user.notFound');

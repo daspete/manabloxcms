@@ -3,6 +3,10 @@ import type { PageState } from 'primevue/paginator';
 import type { Space } from '~/generated/graphql/graphql';
 import deleteSpaceMutation from '~/graphql/spaces/delete-space.mutation.gql';
 
+definePageMeta({
+  middleware: ['is-authenticated'],
+});
+
 const variables = ref<{ page: number; limit: number }>({
   page: 1,
   limit: 10,

@@ -4,6 +4,10 @@ import type { Content } from '~/generated/graphql/graphql';
 import createContentMutation from '~/graphql/contents/create-content.mutation.gql';
 import publishContentMutation from '~/graphql/contents/publish-content.mutation.gql';
 
+definePageMeta({
+  middleware: ['is-authenticated'],
+});
+
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();
