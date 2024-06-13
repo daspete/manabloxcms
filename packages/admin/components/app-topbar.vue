@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const tree = useTree();
 const { darkModeEnabled, enableDarkMode, disableDarkMode } = useDarkmode();
+const { me } = useMeQuery();
 </script>
 
 <template>
@@ -13,6 +14,7 @@ const { darkModeEnabled, enableDarkMode, disableDarkMode } = useDarkmode();
     <div class="flex-1" />
     <div class="flex items-center">
       <div class="flex gap-2 items-center">
+        <div>{{ me }}</div>
         <button @click="disableDarkMode">
           <i class="i-mdi-weather-sunny dark:text-white" />
         </button>

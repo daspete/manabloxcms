@@ -26,6 +26,12 @@ export class AuthResolver {
     return this.authService.logout(user.userId);
   }
 
+  @UseGuards(AccessTokenGuard)
+  @Query(() => User)
+  async me(@RequestUser() user: User) {
+    return user;
+  }
+
   @Mutation(() => AuthTokens)
   async signUp(@Args('user') user: UserInput) {
     return this.authService.signUp(user);
