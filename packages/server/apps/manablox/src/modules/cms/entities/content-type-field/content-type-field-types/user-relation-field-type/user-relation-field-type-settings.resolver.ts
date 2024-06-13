@@ -10,6 +10,6 @@ export class UserRelationFieldTypeSettingsResolver {
   @ResolveField(() => User, { nullable: true })
   async defaultValue(@Parent() parent: UserRelationFieldTypeSettings) {
     if (!parent.defaultValue) return null;
-    return this.userService.findOne(parent.defaultValue);
+    return this.userService.findById(parent.defaultValue);
   }
 }

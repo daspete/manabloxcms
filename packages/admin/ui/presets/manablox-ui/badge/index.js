@@ -16,7 +16,7 @@ export default {
       // Size
       'p-0 px-1',
       {
-        'min-w-[1.5rem] h-[1.5rem]': props.size == null,
+        'min-w-[0.5rem] h-[0.5rem]': props.size == null,
         'min-w-[2.25rem] h-[2.25rem]': props.size == 'large',
         'min-w-[3rem] h-[3rem]': props.size == 'xlarge',
       },
