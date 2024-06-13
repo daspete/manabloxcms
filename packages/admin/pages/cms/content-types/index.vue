@@ -3,6 +3,10 @@ import { useConfirm } from 'primevue/useconfirm';
 import type { ContentType } from '~/generated/graphql/graphql';
 import deleteContentTypeMutation from '~/graphql/content-types/delete-content-type.mutation.gql';
 
+definePageMeta({
+  middleware: ['is-authenticated'],
+});
+
 const { loading, contentTypes, refetch } = useContentTypesQuery();
 // const router = useRouter();
 const confirm = useConfirm();

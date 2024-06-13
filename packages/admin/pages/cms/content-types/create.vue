@@ -4,6 +4,10 @@ import { useToast } from 'primevue/usetoast';
 import { v4 as uuid4 } from 'uuid';
 import type { ContentType } from '~/generated/graphql/graphql';
 
+definePageMeta({
+  middleware: ['is-authenticated'],
+});
+
 const toast = useToast();
 const router = useRouter();
 

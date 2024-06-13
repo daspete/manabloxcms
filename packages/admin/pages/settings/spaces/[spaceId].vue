@@ -9,6 +9,10 @@ const { loading: spaceLoading, space } = useSpaceQuery({
   spaceId: route.params.spaceId,
 });
 
+definePageMeta({
+  middleware: ['is-authenticated'],
+});
+
 const isInitializing = computed(() => spaceLoading.value);
 
 const isUpdating = ref(false);

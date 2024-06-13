@@ -8,7 +8,9 @@ fragment UserRelationFieldTypeFields on UserRelationFieldType {
   userSettings {
     defaultValue {
       userId
-      username
+      gender
+      firstname
+      lastname
       email
     }
   }
