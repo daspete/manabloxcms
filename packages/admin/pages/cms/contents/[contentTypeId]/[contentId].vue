@@ -3,6 +3,10 @@ import { useToast } from 'primevue/usetoast';
 import updateContentMutation from '~/graphql/contents/update-content.mutation.gql';
 import publishContentMutation from '~/graphql/contents/publish-content.mutation.gql';
 
+definePageMeta({
+  middleware: ['is-authenticated'],
+});
+
 const route = useRoute();
 const toast = useToast();
 

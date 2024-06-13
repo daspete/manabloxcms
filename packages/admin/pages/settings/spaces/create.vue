@@ -6,6 +6,10 @@ import createSpaceMutation from '~/graphql/spaces/create-space.mutation.gql';
 const router = useRouter();
 const toast = useToast();
 
+definePageMeta({
+  middleware: ['is-authenticated'],
+});
+
 const space = ref<Partial<Space>>({
   spaceId: uuid4(),
   name: '',

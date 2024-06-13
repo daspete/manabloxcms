@@ -24,10 +24,31 @@ if (!props.field.userSettings) {
         :options="users"
         show-clear
         filter
-        option-label="username"
+        :filter-fields="['firstname', 'lastname', 'email']"
         placeholder="Select default user"
         class="flex-1"
-      />
+      >
+        <template #option="{ option }">
+          <div v-if="option.firstname || option.lastname" class="flex gap-1">
+            <span v-if="option.firstname">{{ option.firstname }}</span>
+            <span v-if="option.lastname">{{ option.lastname }}</span>
+          </div>
+          <div v-else>{{ option.email }}</div>
+        </template>
+
+        <template #value="{ value, placeholder }">
+          <div v-if="!value">
+            {{ placeholder }}
+          </div>
+          <div v-else>
+            <div v-if="value.firstname || value.lastname" class="flex gap-1">
+              <span v-if="value.firstname">{{ value.firstname }}</span>
+              <span v-if="value.lastname">{{ value.lastname }}</span>
+            </div>
+            <div v-else>{{ value.email }}</div>
+          </div>
+        </template>
+      </Dropdown>
     </div>
   </div>
 </template>

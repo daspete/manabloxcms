@@ -4,7 +4,9 @@ fragment UserRelationFieldFields on UserRelationField {
   type
   user {
     userId
-    username
+    gender
+    firstname
+    lastname
     email
   }
 }
