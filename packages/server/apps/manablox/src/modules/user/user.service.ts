@@ -15,8 +15,19 @@ export class UserService {
     return items.map((item) => item.toJSON());
   }
 
+  async find(query: any): Promise<User[]> {
+    const items = await this.userModel.find(query).exec();
+    return items.map((item) => item.toJSON());
+  }
+
   async findById(userId: string): Promise<User> {
     const user = await this.userModel.findOne({ userId }).exec();
+    if (!user) return null;
+    return user.toJSON();
+  }
+
+  async findOne(query: any): Promise<User> {
+    const user = await this.userModel.findOne(query).exec();
     if (!user) return null;
     return user.toJSON();
   }
@@ -29,7 +40,7 @@ export class UserService {
     return this.userModel.create(user);
   }
 
-  async update(user: UserInput): Promise<User> {
+  async update(user: Partial<UserInput>): Promise<User> {
     await this.validateInput(user, true);
     const { userId, ...dataToUpdate } = user;
 
@@ -46,7 +57,13 @@ export class UserService {
     return this.userModel.findOneAndDelete({ userId }).exec();
   }
 
-  async validateInput(input: UserInput, isUpdate = false) {
+  async updateRefreshToken(userId: string, refreshToken: string) {
+    return this.userModel
+      .updateOne({ userId }, { $set: { refreshToken } })
+      .exec();
+  }
+
+  async validateInput(input: Partial<UserInput>, isUpdate = false) {
     const errors = [];
 
     if (!isUUID(input.userId, 'all')) {
@@ -64,6 +81,7 @@ export class UserService {
     }
 
     if (!isEmail(input.email)) {
+      console.log('input', input);
       errors.push('user.email.invalid');
     } else {
       const existingUser = await this.userModel

@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @ObjectType()
 @Schema({
   collection: 'users',
+  timestamps: true,
   toJSON: {
     virtuals: true,
   },
@@ -31,6 +32,9 @@ export class User {
 
   @Prop()
   password: string;
+
+  @Prop({ isRequired: false })
+  refreshToken?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

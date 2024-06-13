@@ -19,4 +19,6 @@ export class UserInput {
 
   @Field({ nullable: true })
   password: string;
+
+  refreshToken?: string;
 }
