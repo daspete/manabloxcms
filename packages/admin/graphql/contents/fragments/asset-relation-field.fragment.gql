@@ -3,9 +3,8 @@ fragment AssetRelationFieldFields on AssetRelationField {
   fieldId
   type
   asset {
-    id
+    assetId
     name
     type
-    url
   }
 }

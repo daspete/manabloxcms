@@ -5,14 +5,13 @@ import {
   ContentTypeFieldSettings,
   ContentTypeFieldSettingsSchema,
 } from '../../content-type-field-settings/content-type-field-settings.model';
-import mongoose from 'mongoose';
 import { Asset } from 'apps/manablox/src/modules/asset/entities/asset/asset.model';
 
 @ObjectType()
 @Schema()
 export class AssetRelationFieldTypeSettings {
   @Field(() => Asset, { nullable: true })
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Asset', required: false })
+  @Prop({ required: false })
   defaultValue?: string;
 }
 

@@ -18,6 +18,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/manablox/tsconfig.app.json"
       }
+    },
+    "manablox-files": {
+      "type": "application",
+      "root": "apps/manablox-files",
+      "entryFile": "main",
+      "sourceRoot": "apps/manablox-files/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/manablox-files/tsconfig.app.json"
+      }
     }
   }
 }

@@ -32,17 +32,9 @@ export type Scalars = {
 
 export type Asset = {
   __typename?: 'Asset';
-  id: Scalars['String']['output'];
+  assetId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  url: Scalars['String']['output'];
-};
-
-export type AssetInput = {
-  id?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-  type: Scalars['String']['input'];
-  url: Scalars['String']['input'];
 };
 
 export type AssetRelationField = {
@@ -410,7 +402,6 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createAsset: Asset;
   createContent: Content;
   createContentType: ContentType;
   createSpace: Space;
@@ -425,10 +416,6 @@ export type Mutation = {
   updateContentType: ContentType;
   updateSpace: Space;
   updateUser: User;
-};
-
-export type MutationCreateAssetArgs = {
-  asset: AssetInput;
 };
 
 export type MutationCreateContentArgs = {
@@ -540,6 +527,7 @@ export type Query = {
   contentTypes: Array<ContentType>;
   contents: PaginatedContents;
   logout: Scalars['Boolean']['output'];
+  me: User;
   signIn: AuthTokens;
   space: Space;
   spaces: PaginatedSpaces;
