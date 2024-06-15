@@ -6,7 +6,7 @@ map $sent_http_content_type $expires {
 
 server {
   listen 80;
-  server_name api.manablox.test;
+  server_name files.manablox.test;
 
   gzip on;
   gzip_types text/plain application/xml text/css application/javascript;
@@ -15,7 +15,7 @@ server {
   client_max_body_size 100M;
 
   resolver 127.0.0.11 valid=3s;
-  set $backend "http://manablox-server:3000";
+  set $backend "http://manablox-files:3000";
 
   location / {
     expires $expires;

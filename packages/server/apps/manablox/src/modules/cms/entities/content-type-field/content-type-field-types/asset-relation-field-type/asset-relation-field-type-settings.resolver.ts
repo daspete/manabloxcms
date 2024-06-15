@@ -10,6 +10,6 @@ export class AssetRelationFieldTypeSettingsResolver {
   @ResolveField(() => Asset, { nullable: true })
   async defaultValue(@Parent() parent: AssetRelationFieldTypeSettings) {
     if (!parent.defaultValue) return null;
-    return this.assetService.findOne(parent.defaultValue);
+    return this.assetService.findById(parent.defaultValue);
   }
 }

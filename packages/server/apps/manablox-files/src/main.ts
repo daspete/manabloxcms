@@ -1,11 +1,10 @@
 import { NestFactory } from '@nestjs/core';
-import { ManabloxModule } from './manablox.module';
-import { ValidationPipe } from '@nestjs/common';
-// import * as graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
+import { ManabloxFilesModule } from './manablox-files.module';
 import { Transport } from '@nestjs/microservices';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(ManabloxModule);
+  const app = await NestFactory.create(ManabloxFilesModule);
 
   app.useGlobalPipes(new ValidationPipe());
 
@@ -14,15 +13,6 @@ async function bootstrap() {
       ? process.env.CORS_DOMAINS.split(',')
       : ['http://admin.manablox.test'],
   });
-
-  // app.use(
-  //   graphqlUploadExpress({
-  //     maxFileSize: process.env.FILE_MAX_SIZE
-  //       ? parseInt(process.env.FILE_MAX_SIZE) * 1024 * 1024
-  //       : 10 * 1024 * 1024,
-  //     maxFiles: 10,
-  //   }),
-  // );
 
   app.connectMicroservice({
     transport: Transport.TCP,
@@ -36,5 +26,4 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
-
 bootstrap();

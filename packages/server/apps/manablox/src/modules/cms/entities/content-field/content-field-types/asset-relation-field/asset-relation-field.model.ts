@@ -2,7 +2,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Asset } from 'apps/manablox/src/modules/asset/entities/asset/asset.model';
-import mongoose from 'mongoose';
 
 @ObjectType()
 @Schema()
@@ -19,7 +18,7 @@ export class AssetRelationField {
   type: 'AssetRelationField' = 'AssetRelationField';
 
   @Field(() => Asset, { nullable: true })
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Asset', required: false })
+  @Prop({ required: false })
   asset?: string;
 }
 
