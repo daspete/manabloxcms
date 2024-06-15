@@ -3,9 +3,12 @@ import { ManabloxFilesController } from './manablox-files.controller';
 import { ManabloxFilesService } from './manablox-files.service';
 import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
+    JwtModule.register({}),
     ConfigModule.forRoot({ isGlobal: true }),
     ClientsModule.register([
       {
@@ -17,6 +20,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         },
       },
     ]),
+    AuthModule,
   ],
   controllers: [ManabloxFilesController],
   providers: [ManabloxFilesService],

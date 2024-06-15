@@ -8,11 +8,13 @@ import {
   ParseFilePipe,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ManabloxFilesService } from './manablox-files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ClientProxy } from '@nestjs/microservices';
+import { AccessTokenGuard } from 'apps/manablox/src/guards/access-token.guard';
 
 @Controller()
 export class ManabloxFilesController {
@@ -28,6 +30,7 @@ export class ManabloxFilesController {
   }
 
   @Post('upload/:space')
+  @UseGuards(AccessTokenGuard)
   @UseInterceptors(FileInterceptor('file'))
   async upload(
     @Param('space') space: string,
