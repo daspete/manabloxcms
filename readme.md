@@ -31,6 +31,10 @@ Go to http://api.manablox.test/graphql
 
 and run the ```signUp``` mutation
 
+### Getting access token
+
+After you created the user with the signUp mutation, you can obtain an access token with the ```signIn``` query.
+
 ### Upload files
 
 The file upload is handled through the manablox-files service, which is located at http://files.manablox.test
@@ -39,3 +43,4 @@ the upload is running through a multipart form post to the endpoint http://files
 
 The space parameter is a spaceId. The space must be created before in the admin or through the createSpace mutation.
 
+You will also need an access token to be able to upload files.
