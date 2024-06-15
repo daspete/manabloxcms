@@ -10,7 +10,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 })
 export class Asset {
   @Field()
-  id: string;
+  @Prop()
+  assetId: string;
 
   @Field()
   @Prop()
@@ -20,9 +21,11 @@ export class Asset {
   @Prop()
   type: string;
 
-  @Field()
   @Prop()
-  url: string;
+  path: string;
+
+  @Prop()
+  filename: string;
 }
 
 export const AssetSchema = SchemaFactory.createForClass(Asset);

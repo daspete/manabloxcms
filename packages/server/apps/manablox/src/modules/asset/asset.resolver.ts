@@ -1,7 +1,7 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { /* Args, Mutation,*/ Query, Resolver } from '@nestjs/graphql';
 import { Asset } from './entities/asset/asset.model';
 import { AssetService } from './asset.service';
-import { AssetInput } from './entities/asset/asset.input';
+// import { AssetInput } from './entities/asset/asset.input';
 
 @Resolver(() => Asset)
 export class AssetResolver {
@@ -12,8 +12,8 @@ export class AssetResolver {
     return this.assetService.findAll();
   }
 
-  @Mutation(() => Asset)
-  async createAsset(@Args('asset') asset: AssetInput) {
-    return this.assetService.create(asset);
-  }
+  // @Mutation(() => Asset)
+  // async createAsset(@Args('asset') asset: AssetInput) {
+  //   return this.assetService.create(asset);
+  // }
 }

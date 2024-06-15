@@ -41,9 +41,9 @@ export const prepareContentTypeForMutation = (
       const userRelationFieldType = contentTypeField as any;
 
       if (userRelationFieldType.userSettings) {
-        if (userRelationFieldType.userSettings.defaultValue?.id) {
+        if (userRelationFieldType.userSettings.defaultValue?.userId) {
           userRelationFieldType.userSettings.defaultValue =
-            userRelationFieldType.userSettings.defaultValue.id;
+            userRelationFieldType.userSettings.defaultValue.userId;
         } else {
           userRelationFieldType.userSettings.defaultValue = null;
         }
@@ -55,9 +55,9 @@ export const prepareContentTypeForMutation = (
       const assetRelationFieldType = contentTypeField as any;
 
       if (assetRelationFieldType.assetSettings) {
-        if (assetRelationFieldType.assetSettings.defaultValue?.id) {
+        if (assetRelationFieldType.assetSettings.defaultValue?.assetId) {
           assetRelationFieldType.assetSettings.defaultValue =
-            assetRelationFieldType.assetSettings.defaultValue.id;
+            assetRelationFieldType.assetSettings.defaultValue.assetId;
         } else {
           assetRelationFieldType.assetSettings.defaultValue = null;
         }

@@ -19,7 +19,7 @@ export const mutateRelationFields = (
     }
 
     if (field?.type === 'AssetRelationField') {
-      field.asset = (field.asset as unknown as Asset)?.id;
+      field.asset = (field.asset as unknown as Asset)?.assetId;
     }
 
     if (field?.type === 'ContentRelationField') {

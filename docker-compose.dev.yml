@@ -48,6 +48,21 @@ services:
       - manablox-network
     command: sh -c 'yarn && exec yarn start:dev manablox'
 
+  manablox-files:
+    image: node:20
+    hostname: manablox-files
+    volumes:
+      - ./packages/server:/app
+      - ./data/uploads:/uploads
+    working_dir: /app
+    env_file:
+      - ./packages/server/.env
+    depends_on:
+      - mongodb
+    networks:
+      - manablox-network
+    command: sh -c 'yarn && exec yarn start:dev manablox-files'
+
 networks:
   manablox-network:
     driver: bridge
