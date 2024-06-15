@@ -38,6 +38,7 @@
     "class-validator": "^0.14.1",
     "graphql": "^16.8.1",
     "graphql-upload": "14",
+    "image-size": "^1.1.1",
     "mongoose": "^8.3.3",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",

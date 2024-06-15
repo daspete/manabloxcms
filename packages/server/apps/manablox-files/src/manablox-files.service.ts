@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { accessSync, mkdirSync, writeFileSync } from 'fs';
+import { accessSync, mkdirSync, statSync, writeFileSync } from 'fs';
+import sizeOf from 'image-size';
 
 @Injectable()
 export class ManabloxFilesService {
@@ -65,6 +66,18 @@ export class ManabloxFilesService {
     // write the file buffer to the disk
     writeFileSync(filePath, file.buffer);
 
+    const fileStats = statSync(filePath);
+
+    // get width and height of image when it is an image
+    let width = null;
+    let height = null;
+
+    if (file.mimetype.includes('image')) {
+      const dimensions = sizeOf(filePath);
+      width = dimensions.width;
+      height = dimensions.height;
+    }
+
     return {
       assetId: crypto.randomUUID(),
       name: filename,
@@ -72,6 +85,9 @@ export class ManabloxFilesService {
       type: file.mimetype,
       path: filePath.replace(`${rootPath}/`, ''),
       space: space,
+      size: fileStats.size,
+      width,
+      height,
     };
   }
 }

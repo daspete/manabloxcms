@@ -16,6 +16,11 @@ const items = ref([
         icon: 'i-mdi-file-cog',
         route: '/cms/content-types',
       },
+      {
+        label: 'Assets',
+        icon: 'i-mdi-files',
+        route: '/cms/assets',
+      },
     ],
   },
   {

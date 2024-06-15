@@ -26,6 +26,22 @@ export class Asset {
 
   @Prop()
   filename: string;
+
+  @Prop()
+  @Field()
+  size: number;
+
+  @Prop({ nullable: true })
+  @Field({ nullable: true })
+  width?: number;
+
+  @Prop({ nullable: true })
+  @Field({ nullable: true })
+  height?: number;
+
+  @Prop({ nullable: true })
+  @Field({ nullable: true })
+  length?: number;
 }
 
 export const AssetSchema = SchemaFactory.createForClass(Asset);
