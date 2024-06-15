@@ -10,4 +10,12 @@ export class AssetInput {
   name: string;
 
   type: string;
+
+  size: number;
+
+  width?: number;
+
+  height?: number;
+
+  length?: number;
 }

@@ -3,5 +3,8 @@ query assets {
     assetId
     name
     type
+    size
+    width
+    height
   }
 }
