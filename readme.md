@@ -18,6 +18,24 @@ Add following host entries to your hosts file:
 ``` 
 127.0.0.1 api.manablox.test
 127.0.0.1 admin.manablox.test
+127.0.0.1 files.manablox.test
 ```
 
 Start Manablox with docker compose: ``` docker compose -f docker-compose.dev.yml up -d ```
+
+Go to http://admin.manablox.test
+
+### Create first user
+
+Go to http://api.manablox.test/graphql
+
+and run the ```signUp``` mutation
+
+### Upload files
+
+The file upload is handled through the manablox-files service, which is located at http://files.manablox.test
+
+the upload is running through a multipart form post to the endpoint http://files.manablox.test/upload/:space
+
+The space parameter is a spaceId. The space must be created before in the admin or through the createSpace mutation.
+
