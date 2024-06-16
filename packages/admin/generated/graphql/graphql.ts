@@ -33,8 +33,12 @@ export type Scalars = {
 export type Asset = {
   __typename?: 'Asset';
   assetId: Scalars['String']['output'];
+  height?: Maybe<Scalars['Float']['output']>;
+  length?: Maybe<Scalars['Float']['output']>;
   name: Scalars['String']['output'];
+  size: Scalars['Float']['output'];
   type: Scalars['String']['output'];
+  width?: Maybe<Scalars['Float']['output']>;
 };
 
 export type AssetRelationField = {
@@ -247,7 +251,7 @@ export type ContentFieldUnion =
   | UserRelationField;
 
 export type ContentInput = {
-  contentId: Scalars['String']['input'];
+  contentId?: InputMaybe<Scalars['String']['input']>;
   fields?: InputMaybe<Array<ContentFieldInput>>;
   locale: Scalars['String']['input'];
   localizationId?: InputMaybe<Scalars['String']['input']>;
@@ -349,7 +353,7 @@ export type ContentTypeFieldUnion =
 
 export type ContentTypeInput = {
   canBeVisibleInMenu?: InputMaybe<Scalars['Boolean']['input']>;
-  contentTypeId: Scalars['String']['input'];
+  contentTypeId?: InputMaybe<Scalars['String']['input']>;
   fields?: InputMaybe<Array<ContentTypeFieldInput>>;
   hasSlug?: InputMaybe<Scalars['Boolean']['input']>;
   icon?: InputMaybe<Scalars['String']['input']>;
@@ -582,7 +586,7 @@ export type SpaceInput = {
   name: Scalars['String']['input'];
   settings?: InputMaybe<BlockInput>;
   settingsBlockType?: InputMaybe<Scalars['String']['input']>;
-  spaceId: Scalars['String']['input'];
+  spaceId?: InputMaybe<Scalars['String']['input']>;
   technicalName: Scalars['String']['input'];
   url: Scalars['String']['input'];
 };

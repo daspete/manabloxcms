@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { ContentTypeInput } from './content-type.input';
 import { isUUID, minLength } from 'class-validator';
 import { ContentTypeFieldInput } from '../content-type-field/content-type-field.input';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class ContentTypeService {
@@ -38,7 +39,7 @@ export class ContentTypeService {
   }
 
   async create(contentType: ContentTypeInput): Promise<ContentType> {
-    await this.validateInput(contentType);
+    await this.validateAndSanitizeInput(contentType);
 
     if (contentType.fields) {
       for (let i = 0; i < contentType.fields.length; i++) {
@@ -86,7 +87,7 @@ export class ContentTypeService {
   }
 
   async update(contentType: ContentTypeInput): Promise<ContentType> {
-    await this.validateInput(contentType, true);
+    await this.validateAndSanitizeInput(contentType, true);
 
     const { contentTypeId, ...dataToUpdate } = contentType;
 
@@ -102,27 +103,32 @@ export class ContentTypeService {
     return this.contentTypeModel.findOneAndDelete({ contentTypeId }).exec();
   }
 
-  async validateInput(input: ContentTypeInput, isUpdate = false) {
+  async validateAndSanitizeInput(input: ContentTypeInput, isUpdate = false) {
     const errors = [];
 
-    if (!isUUID(input.contentTypeId, 'all')) {
-      errors.push('contentType.contentTypeId.invalid');
-    } else {
-      if (!isUpdate) {
-        const existingContentType = await this.contentTypeModel.findOne({
-          contentTypeId: input.contentTypeId,
-        });
+    // check if contentId is existing and unique
+    if (!isUpdate) {
+      if (!input.contentTypeId) {
+        input.contentTypeId = randomUUID();
+      } else {
+        const existingContent = await this.findById(input.contentTypeId);
 
-        if (existingContentType) {
-          errors.push('contentType.contentTypeId.unique');
+        if (existingContent) {
+          errors.push('Type.contentTypeId.unique');
         }
       }
+    }
+
+    // check if contentId is a valid UUID
+    if (!isUUID(input.contentTypeId, 'all')) {
+      errors.push('content.contentId.invalid');
     }
 
     if (!minLength(input.name, 3)) {
       errors.push('contentType.name.required');
     }
 
+    // check if name is unique globally, when no space is provided, or unique in the space
     if (!input.space) {
       const existingContentType = await this.contentTypeModel.findOne({
         contentTypeId: { $ne: input.contentTypeId },
@@ -148,6 +154,7 @@ export class ContentTypeService {
       }
     }
 
+    // check inputs of a block content type
     if (input.isBlockType) {
       if (input.hasSlug) {
         errors.push('contentType.hasSlug.invalid');
@@ -166,6 +173,11 @@ export class ContentTypeService {
       }
     }
 
+    if (!input.fields) {
+      input.fields = [];
+    }
+
+    // check content type fields input
     errors.push(...(await this.validateFieldTypesInput(input.fields)));
 
     if (errors.length > 0) {
@@ -190,7 +202,7 @@ export class ContentTypeService {
       }
 
       if (!field.type) {
-        errors.push('contentType.fields[${i}].type.required');
+        errors.push(`contentType.fields[${i}].type.required`);
       }
 
       if (
@@ -254,14 +266,12 @@ export class ContentTypeService {
                 `contentType.fields[${i}].blocksSettings.possibleBlockTypes.missing`,
               );
             } else {
-              for (
-                let j = 0;
-                j < field.blocksSettings.possibleBlockTypes.length;
-                j++
-              ) {
-                if (
-                  !isUUID(field.blocksSettings.possibleBlockTypes[j], 'all')
-                ) {
+              const possibleBlockTypes =
+                field.blocksSettings.possibleBlockTypes;
+
+              for (let j = 0; j < possibleBlockTypes.length; j++) {
+                // TODO: check if block type exists
+                if (!isUUID(possibleBlockTypes[j], 'all')) {
                   errors.push(
                     `contentType.fields[${i}].blocksSettings.possibleBlockTypes[${j}].invalid`,
                   );
@@ -279,6 +289,7 @@ export class ContentTypeService {
                 `contentType.fields[${i}].blockSettings.blockType.missing`,
               );
             } else {
+              // TODO: check if block type exists
               if (!isUUID(field.blockSettings.blockType, 'all')) {
                 errors.push(
                   `contentType.fields[${i}].blockSettings.blockType.invalid`,

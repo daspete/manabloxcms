@@ -7,6 +7,7 @@ import { SpaceQueryInput } from './space-query.input';
 import { PaginatedSpaces } from './paginated-spaces.type';
 import { isURL, isUUID, minLength } from 'class-validator';
 import { ContentTypeService } from '../cms/entities/content-type/content-type.service';
+import { randomUUID } from 'crypto';
 
 export const buildQueryObject = (query: Array<SpaceQueryInput>) => {
   return query.map((q) => {
@@ -89,12 +90,12 @@ export class SpaceService {
   }
 
   async create(space: SpaceInput): Promise<Space> {
-    await this.validateInput(space);
+    await this.validateAndSanitizeInput(space);
     return this.spaceModel.create(space);
   }
 
   async update(space: SpaceInput): Promise<Space> {
-    await this.validateInput(space, true);
+    await this.validateAndSanitizeInput(space, true);
     const { spaceId, ...dataToUpdate } = space;
 
     await this.spaceModel.updateOne({ spaceId }, { $set: dataToUpdate });
@@ -106,13 +107,13 @@ export class SpaceService {
     return this.spaceModel.findByIdAndDelete(id).exec();
   }
 
-  async validateInput(input: SpaceInput, isUpdate = false) {
+  async validateAndSanitizeInput(input: SpaceInput, isUpdate = false) {
     const errors = [];
 
-    if (!isUUID(input.spaceId, 'all')) {
-      errors.push('space.spaceId.invalid');
-    } else {
-      if (!isUpdate) {
+    if (!isUpdate) {
+      if (!input.spaceId) {
+        input.spaceId = randomUUID();
+      } else {
         const existingSpace = await this.spaceModel.findOne({
           spaceId: input.spaceId,
         });
@@ -121,6 +122,10 @@ export class SpaceService {
           errors.push('space.spaceId.unique');
         }
       }
+    }
+
+    if (!isUUID(input.spaceId, 'all')) {
+      errors.push('space.spaceId.invalid');
     }
 
     if (!minLength(input.name, 3)) {

@@ -3,8 +3,8 @@ import { BlockInput } from '../cms/entities/block/block.input';
 
 @InputType()
 export class SpaceInput {
-  @Field()
-  spaceId: string;
+  @Field({ nullable: true })
+  spaceId?: string;
 
   @Field()
   name: string;
