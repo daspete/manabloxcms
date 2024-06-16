@@ -59,8 +59,10 @@ export default defineNuxtPlugin((nuxtApp) => {
 
                   if (
                     !result?.data?.refreshTokens?.accessToken ||
-                    !result?.data?.refreshTokens.refreshToken
+                    !result?.data?.refreshTokens?.refreshToken
                   ) {
+                    refreshToken.value = null;
+                    accessToken.value = null;
                     observer.error(graphQLError);
                     return;
                   }
@@ -84,6 +86,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
                   return err.forward(err.operation).subscribe(subscriber);
                 } catch (err) {
+                  accessToken.value = null;
+                  refreshToken.value = null;
                   observer.error(err);
                 }
               })();
