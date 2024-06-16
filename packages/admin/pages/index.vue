@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { ContentType, Space } from '~/generated/graphql/graphql';
-import createSpaceMutation from '~/graphql/spaces/create-space.mutation.gql';
-import createContentTypeMutation from '~/graphql/content-types/create-content-type.mutation.gql';
 
 definePageMeta({
   middleware: ['is-authenticated'],
@@ -13,11 +11,17 @@ const {
   loading: spacesLoading,
   refetch: refreshSpaces,
 } = useSpacesQuery();
+const { contentTypes, refetch: refreshContentTypes } = useContentTypesQuery();
 const {
-  contentTypes,
-  loading: contentTypesLoading,
-  refetch: refreshContentTypes,
-} = useContentTypesQuery();
+  create: createSpaceMutation,
+  isCreating: isCreatingSpace,
+  errors: creatSpaceErrors,
+} = useCreateSpaceMutation();
+const {
+  create: createContentTypeMutation,
+  isCreating: isCreatingContentType,
+  errors: contentTypeMutationErrors,
+} = useCreateContentTypeMutation();
 
 const space = ref<Partial<Space>>({
   name: '',
@@ -37,70 +41,49 @@ const contentType = ref<Partial<ContentType>>({
   fields: [],
 });
 
-const isCreatingSpace = ref(false);
-const isCreatingContentType = ref(false);
-
-const contentTypeMutationErrors = ref<string[]>([]);
+const showCreateContentTypeDialog = ref(false);
 
 const createSpace = async () => {
-  isCreatingSpace.value = true;
-
-  const { mutate } = useMutation(createSpaceMutation, {
-    variables: {
-      space: prepareSpaceForMutation(clone(space.value)),
-    },
-  });
-
   try {
-    await mutate();
+    await createSpaceMutation(space.value);
     toast.add({
       severity: 'success',
       summary: 'Success',
       detail: `Space created.`,
       life: 2000,
     });
-
-    refreshSpaces();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    console.error(err);
-  } finally {
-    isCreatingSpace.value = false;
+    await refreshSpaces();
+  } catch (err) {
+    toast.add({
+      severity: 'error',
+      summary: 'Error while creating space',
+      detail:
+        creatSpaceErrors.value.join(', ') ||
+        'Have a look at the errors and try again.',
+      life: 3000,
+    });
   }
 };
 const createContentType = async () => {
-  contentTypeMutationErrors.value = [];
-  isCreatingContentType.value = true;
-
-  const { mutate } = useMutation(createContentTypeMutation, {
-    variables: {
-      contentType: prepareContentTypeForMutation(contentType.value),
-    },
-  });
-
   try {
-    await mutate();
-
+    await createContentTypeMutation(contentType.value);
     toast.add({
       severity: 'success',
       summary: 'Success',
-      detail: `Content type "${contentType.value.name}" created.`,
+      detail: `Content type created.`,
       life: 2000,
     });
-
-    refreshContentTypes();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    contentTypeMutationErrors.value = err.message.split(',');
-
+    await refreshContentTypes();
+    showCreateContentTypeDialog.value = false;
+  } catch (err) {
     toast.add({
       severity: 'error',
       summary: 'Error while creating content type',
-      detail: 'Have a look at the errors and try again.',
+      detail:
+        contentTypeMutationErrors.value.join(', ') ||
+        'Have a look at the errors and try again.',
       life: 3000,
     });
-  } finally {
-    isCreatingContentType.value = false;
   }
 };
 </script>
@@ -128,31 +111,6 @@ const createContentType = async () => {
         </div>
       </Dialog>
     </div>
-    <div v-else-if="!contentTypesLoading && contentTypes.length === 0">
-      <Dialog
-        visible
-        modal
-        header="Create your first content type"
-        :closable="false"
-        style="width: 80%"
-      >
-        <div class="flex flex-col gap-4">
-          <div>Create your first content type here.</div>
-          <div>
-            <ContentTypeEditor :content-type="contentType" />
-          </div>
-          <div class="self-end">
-            <Button
-              type="button"
-              label="Create Content type"
-              :loading="isCreatingContentType"
-              :disabled="isCreatingContentType"
-              @click="createContentType"
-            />
-          </div>
-        </div>
-      </Dialog>
-    </div>
     <div v-else class="mt-8 flex gap-4">
       <Card class="w-1/2">
         <template #title>
@@ -164,13 +122,47 @@ const createContentType = async () => {
               <div class="flex-1">Spaces</div>
               <div>{{ spaces.items.length }}</div>
             </div>
-            <div class="flex gap-2">
+            <div v-if="contentTypes.length > 0" class="flex gap-2">
               <div class="flex-1">Content types</div>
               <div>{{ contentTypes.length }}</div>
+            </div>
+            <div v-else class="flex gap-2 justify-between items-center">
+              <div>No content types found.</div>
+              <Button
+                type="button"
+                label="Create Content type"
+                :loading="showCreateContentTypeDialog"
+                :disabled="showCreateContentTypeDialog"
+                @click="showCreateContentTypeDialog = true"
+              />
             </div>
           </div>
         </template>
       </Card>
     </div>
+
+    <Dialog
+      :visible="showCreateContentTypeDialog"
+      modal
+      header="Create your first content type"
+      :closable="false"
+      style="width: 80%"
+    >
+      <div class="flex flex-col gap-4">
+        <div>Create your first content type here.</div>
+        <div>
+          <ContentTypeEditor :content-type="contentType" />
+        </div>
+        <div class="self-end">
+          <Button
+            type="button"
+            label="Create Content type"
+            :loading="isCreatingContentType"
+            :disabled="isCreatingContentType"
+            @click="createContentType"
+          />
+        </div>
+      </div>
+    </Dialog>
   </div>
 </template>

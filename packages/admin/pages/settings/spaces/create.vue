@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { v4 as uuid4 } from 'uuid';
 import type { Space } from '~/generated/graphql/graphql';
-import createSpaceMutation from '~/graphql/spaces/create-space.mutation.gql';
+
+const {
+  create,
+  isCreating,
+  errors,
+  space: createdSpace,
+} = useCreateSpaceMutation();
 
 const router = useRouter();
 const toast = useToast();
@@ -20,31 +26,26 @@ const space = ref<Partial<Space>>({
   settings: undefined,
 });
 
-const isCreating = ref(false);
-
 const createSpace = async () => {
-  isCreating.value = true;
-
-  const { mutate } = useMutation(createSpaceMutation, {
-    variables: {
-      space: prepareSpaceForMutation(clone(space.value)),
-    },
-  });
-
   try {
-    await mutate();
+    await create(space.value);
+
     toast.add({
       severity: 'success',
       summary: 'Success',
       detail: `Space created.`,
       life: 2000,
     });
-    router.push(`/settings/spaces/${space.value.spaceId}`);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    console.error(err);
-  } finally {
-    isCreating.value = false;
+
+    router.push(`/settings/spaces/${createdSpace.value?.spaceId}`);
+  } catch (err) {
+    toast.add({
+      severity: 'error',
+      summary: 'Error while creating space',
+      detail:
+        errors.value.join(', ') || 'Have a look at the errors and try again.',
+      life: 3000,
+    });
   }
 };
 </script>
@@ -67,6 +68,8 @@ const createSpace = async () => {
           type="button"
           label="Create"
           icon="i-mdi-content-save"
+          :loading="isCreating"
+          :disabled="isCreating"
           @click="createSpace"
         />
       </div>

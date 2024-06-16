@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { useToast } from 'primevue/usetoast';
-import updateSpaceMutation from '~/graphql/spaces/update-space.mutation.gql';
 
+definePageMeta({
+  middleware: ['is-authenticated'],
+});
+
+const { isUpdating, update, errors } = useUpdateSpaceMutation();
 const route = useRoute();
 const toast = useToast();
 
@@ -9,41 +13,25 @@ const { loading: spaceLoading, space } = useSpaceQuery({
   spaceId: route.params.spaceId,
 });
 
-definePageMeta({
-  middleware: ['is-authenticated'],
-});
-
 const isInitializing = computed(() => spaceLoading.value);
 
-const isUpdating = ref(false);
-
 const updateSpace = async () => {
-  isUpdating.value = true;
-
-  const { mutate } = useMutation(updateSpaceMutation, {
-    variables: {
-      space: stripTypename(prepareSpaceForMutation(clone(space.value))),
-    },
-  });
-
   try {
-    await mutate();
+    await update(space.value);
     toast.add({
       severity: 'success',
       summary: 'Success',
       detail: `Space updated.`,
       life: 2000,
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
+  } catch (err) {
     toast.add({
       severity: 'error',
       summary: 'Error while updating space',
-      detail: err.message,
+      detail:
+        errors.value.join(', ') || 'Have a look at the errors and try again.',
       life: 3000,
     });
-  } finally {
-    isUpdating.value = false;
   }
 };
 </script>
@@ -68,6 +56,8 @@ const updateSpace = async () => {
           type="button"
           label="Update"
           icon="i-mdi-content-save"
+          :loading="isUpdating"
+          :disabled="isUpdating"
           @click="updateSpace"
         />
       </div>
