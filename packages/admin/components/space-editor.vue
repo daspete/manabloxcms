@@ -57,7 +57,7 @@ const onSettingsBlockTypeChange = (value: ContentType) => {
       <InputText id="space-url" v-model="space.url" class="w-full" />
     </div>
 
-    <div class="flex gap-2 items-center">
+    <div v-if="blockTypes.length > 0" class="flex gap-2 items-center">
       <div>
         <label for="space-settings-block-type">Settings block type</label>
       </div>

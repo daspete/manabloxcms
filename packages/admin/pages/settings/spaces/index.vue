@@ -92,7 +92,7 @@ const changeLimit = (limit: number) => {
           :loading="loading"
           class="shadow"
         >
-          <template #empty>No content added yet.</template>
+          <template #empty>No spaces added yet.</template>
 
           <Column field="name" header="Name">
             <template #body="{ data }">
