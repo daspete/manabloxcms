@@ -11,7 +11,11 @@ const {
   loading: spacesLoading,
   refetch: refreshSpaces,
 } = useSpacesQuery();
-const { contentTypes, refetch: refreshContentTypes } = useContentTypesQuery();
+const {
+  contentTypes,
+  loading: contentTypesLoading,
+  refetch: refreshContentTypes,
+} = useContentTypesQuery();
 const {
   create: createSpaceMutation,
   isCreating: isCreatingSpace,
@@ -122,11 +126,17 @@ const createContentType = async () => {
               <div class="flex-1">Spaces</div>
               <div>{{ spaces.items.length }}</div>
             </div>
-            <div v-if="contentTypes.length > 0" class="flex gap-2">
+            <div
+              v-if="!contentTypesLoading && contentTypes.length > 0"
+              class="flex gap-2"
+            >
               <div class="flex-1">Content types</div>
               <div>{{ contentTypes.length }}</div>
             </div>
-            <div v-else class="flex gap-2 justify-between items-center">
+            <div
+              v-else-if="!contentTypesLoading"
+              class="flex gap-2 justify-between items-center"
+            >
               <div>No content types found.</div>
               <Button
                 type="button"
@@ -142,10 +152,9 @@ const createContentType = async () => {
     </div>
 
     <Dialog
-      :visible="showCreateContentTypeDialog"
+      v-model:visible="showCreateContentTypeDialog"
       modal
       header="Create your first content type"
-      :closable="false"
       style="width: 80%"
     >
       <div class="flex flex-col gap-4">
@@ -153,7 +162,10 @@ const createContentType = async () => {
         <div>
           <ContentTypeEditor :content-type="contentType" />
         </div>
-        <div class="self-end">
+      </div>
+
+      <template #footer>
+        <div class="mt-8">
           <Button
             type="button"
             label="Create Content type"
@@ -162,7 +174,7 @@ const createContentType = async () => {
             @click="createContentType"
           />
         </div>
-      </div>
+      </template>
     </Dialog>
   </div>
 </template>
