@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import createContentTypeMutation from '~/graphql/content-types/create-content-type.mutation.gql';
 import { useToast } from 'primevue/usetoast';
 import { v4 as uuid4 } from 'uuid';
 import type { ContentType } from '~/generated/graphql/graphql';
+
+const {
+  create,
+  isCreating,
+  errors,
+  contentType: createdContentType,
+} = useCreateContentTypeMutation();
 
 definePageMeta({
   middleware: ['is-authenticated'],
@@ -21,42 +27,28 @@ const contentType = ref<Partial<ContentType>>({
   fields: [],
 });
 
-const isCreating = ref(false);
-const mutationErrors = ref<string[]>([]);
-
 const createContentType = async () => {
-  mutationErrors.value = [];
-  isCreating.value = true;
-
-  const { mutate } = useMutation(createContentTypeMutation, {
-    variables: {
-      contentType: prepareContentTypeForMutation(contentType.value),
-    },
-  });
-
   try {
-    await mutate();
+    await create(contentType.value);
 
     toast.add({
       severity: 'success',
       summary: 'Success',
-      detail: `Content type "${contentType.value.name}" created.`,
+      detail: `Content type created.`,
       life: 2000,
     });
 
-    router.push(`/cms/content-types/${contentType.value.contentTypeId}`);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    mutationErrors.value = err.message.split(',');
-
+    router.push(
+      `/cms/content-types/${createdContentType.value?.contentTypeId}`,
+    );
+  } catch (err) {
     toast.add({
       severity: 'error',
       summary: 'Error while creating content type',
-      detail: 'Have a look at the errors and try again.',
+      detail:
+        errors.value.join(', ') || 'Have a look at the errors and try again.',
       life: 3000,
     });
-  } finally {
-    isCreating.value = false;
   }
 };
 </script>
@@ -81,6 +73,8 @@ const createContentType = async () => {
           type="button"
           label="Create"
           icon="i-mdi-content-save"
+          :loading="isCreating"
+          :disabled="isCreating"
           @click="createContentType"
         />
       </div>
@@ -88,7 +82,7 @@ const createContentType = async () => {
 
     <Card>
       <template #content>
-        <Message v-for="error in mutationErrors" :key="error" severity="error">
+        <Message v-for="error in errors" :key="error" severity="error">
           {{ error }}
         </Message>
         <ContentTypeEditor :content-type="contentType" />

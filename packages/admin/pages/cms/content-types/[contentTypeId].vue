@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useToast } from 'primevue/usetoast';
-import updateContentTypeMutation from '~/graphql/content-types/update-content-type.mutation.gql';
 
 definePageMeta({
   middleware: ['is-authenticated'],
 });
 
+const { isUpdating, update, errors } = useUpdateContentTypeMutation();
 const route = useRoute();
 const toast = useToast();
 
@@ -13,40 +13,23 @@ const { contentType } = useContentTypeQuery({
   contentTypeId: route.params.contentTypeId,
 });
 
-const isUpdating = ref(false);
-const mutationErrors = ref<string[]>([]);
-
 const updateContentType = async () => {
-  mutationErrors.value = [];
-  isUpdating.value = true;
-
-  const { mutate } = useMutation(updateContentTypeMutation, {
-    variables: {
-      contentType: stripTypename(
-        prepareContentTypeForMutation(contentType.value),
-      ),
-    },
-  });
-
   try {
-    await mutate();
+    await update(contentType.value);
     toast.add({
       severity: 'success',
       summary: 'Success',
-      detail: `Content type "${contentType.value.name}" updated.`,
-      life: 3000,
+      detail: `Content type updated.`,
+      life: 2000,
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    mutationErrors.value = err.message.split(',');
+  } catch (err) {
     toast.add({
       severity: 'error',
       summary: 'Error while updating content type',
-      detail: 'Have a look at the errors and try again.',
-      life: 5000,
+      detail:
+        errors.value.join(', ') || 'Have a look at the errors and try again.',
+      life: 3000,
     });
-  } finally {
-    isUpdating.value = false;
   }
 };
 </script>
@@ -71,6 +54,8 @@ const updateContentType = async () => {
           type="button"
           label="Update"
           icon="i-mdi-content-save"
+          :loading="isUpdating"
+          :disabled="isUpdating"
           @click="updateContentType"
         />
       </div>
@@ -78,7 +63,7 @@ const updateContentType = async () => {
 
     <Card>
       <template #content>
-        <Message v-for="error in mutationErrors" :key="error" severity="error">
+        <Message v-for="error in errors" :key="error" severity="error">
           {{ error }}
         </Message>
         <ContentTypeEditor :content-type="contentType" />
