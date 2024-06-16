@@ -40,7 +40,6 @@ export class AuthResolver {
   @UseGuards(RefreshTokenGuard)
   @Mutation(() => AuthTokens)
   async refreshTokens(@RefreshTokenUser() refreshTokenUser: RefreshUser) {
-    console.log('refreshTokenUser', refreshTokenUser);
     if (!refreshTokenUser.user) {
       throw new UnauthorizedException();
     }
