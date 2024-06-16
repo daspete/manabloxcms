@@ -1,0 +1,66 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx:/etc/nginx/templates
+    networks:
+      - manablox-network
+
+  mongodb:
+    image: mongo:7.0
+    hostname: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/db:/data/db
+    networks:
+      - manablox-network
+
+  manablox-admin:
+    image: node:20
+    hostname: manablox-admin
+    depends_on:
+      - manablox-server
+    volumes:
+      - ./packages/admin:/app
+    working_dir: /app
+    env_file:
+      - ./packages/admin/.env
+    networks:
+      - manablox-network
+    command: sh -c 'rm -rf /tmp/nitro/*.sock && yarn && yarn graphql-codegen && yarn build && exec node .output/server/index.mjs'
+
+  manablox-server:
+    image: node:20
+    hostname: manablox-server
+    volumes:
+      - ./packages/server:/app
+    working_dir: /app
+    env_file:
+      - ./packages/server/.env
+    depends_on:
+      - mongodb
+    networks:
+      - manablox-network
+    command: sh -c 'yarn && exec yarn start manablox'
+
+  manablox-files:
+    image: node:20
+    hostname: manablox-files
+    volumes:
+      - ./packages/server:/app
+      - ./data/uploads:/uploads
+    working_dir: /app
+    env_file:
+      - ./packages/server/.env
+    depends_on:
+      - mongodb
+    networks:
+      - manablox-network
+    command: sh -c 'yarn && exec yarn start manablox-files'
+
+networks:
+  manablox-network:
+    driver: bridge
