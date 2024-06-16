@@ -9,6 +9,7 @@ import { isUUID, minLength } from 'class-validator';
 import { ContentTypeService } from '../content-type/content-type.service';
 import { ContentTree } from './content-tree.type';
 import { PublishedContent } from './published-content.model';
+import { randomUUID } from 'crypto';
 
 const buildElemMatchObject = (field) => {
   const elem = {
@@ -173,7 +174,7 @@ export class ContentService {
   }
 
   async create(content: ContentInput): Promise<Content> {
-    await this.validateInput(content);
+    content = await this.validateAndSanitizeInput(content);
 
     const contentType = await this.contentTypeService.findById(content.type);
     if (contentType.hasSlug) {
@@ -187,7 +188,7 @@ export class ContentService {
   }
 
   async update(content: ContentInput): Promise<Content> {
-    await this.validateInput(content, true);
+    content = await this.validateAndSanitizeInput(content, true);
     const { contentId, ...dataToUpdate } = content;
 
     const contentType = await this.contentTypeService.findById(
@@ -352,13 +353,14 @@ export class ContentService {
     );
   }
 
-  async validateInput(input: ContentInput, isUpdate = false) {
+  async validateAndSanitizeInput(input: ContentInput, isUpdate = false) {
     const errors = [];
 
-    if (!isUUID(input.contentId, 'all')) {
-      errors.push('content.contentId.invalid');
-    } else {
-      if (!isUpdate) {
+    // check if contentId is existing and unique
+    if (!isUpdate) {
+      if (!input.contentId) {
+        input.contentId = randomUUID();
+      } else {
         const existingContent = await this.findById(input.contentId);
 
         if (existingContent) {
@@ -367,6 +369,12 @@ export class ContentService {
       }
     }
 
+    // check if contentId is a valid UUID
+    if (!isUUID(input.contentId, 'all')) {
+      errors.push('content.contentId.invalid');
+    }
+
+    // check if content type is existing and valid
     if (!input.type) {
       errors.push('content.type.required');
     } else {
@@ -383,6 +391,7 @@ export class ContentService {
       }
     }
 
+    // check if localizationId is existing and valid
     if (!isUpdate) {
       if (!input.localizationId) {
         errors.push('content.localizationId.required');
@@ -411,6 +420,7 @@ export class ContentService {
       }
     }
 
+    // check if parent is existing and valid
     if (input.parent) {
       if (!isUUID(input.parent, 'all')) {
         errors.push('content.parent.invalid');
@@ -430,5 +440,7 @@ export class ContentService {
     if (errors.length > 0) {
       throw new Error(errors.join(', '));
     }
+
+    return input;
   }
 }

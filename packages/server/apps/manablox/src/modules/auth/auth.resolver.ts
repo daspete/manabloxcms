@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthTokens } from './entities/authtokens.type';
 import { LoginInput } from './entities/login.input';
 import { UserInput } from '../user/entities/user/user.input';
-import { UseGuards } from '@nestjs/common';
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
 import { RefreshTokenGuard } from '../../guards/refresh-token.guard';
 import { RequestUser } from '../../decorators/request-user.decorator';
@@ -40,6 +40,9 @@ export class AuthResolver {
   @UseGuards(RefreshTokenGuard)
   @Mutation(() => AuthTokens)
   async refreshTokens(@RefreshTokenUser() refreshTokenUser: RefreshUser) {
+    if (!refreshTokenUser.user) {
+      throw new UnauthorizedException();
+    }
     return this.authService.refreshTokens(
       refreshTokenUser.user.userId,
       refreshTokenUser.refreshToken,

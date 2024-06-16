@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { UserInput } from './entities/user/user.input';
 import { isEmail, isStrongPassword, isUUID } from 'class-validator';
 import { hash } from 'bcrypt';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UserService {
@@ -33,7 +34,7 @@ export class UserService {
   }
 
   async create(user: UserInput): Promise<User> {
-    await this.validateInput(user);
+    await this.validateAndSanitizeInput(user);
 
     user.password = await hash(user.password, 10);
 
@@ -41,7 +42,7 @@ export class UserService {
   }
 
   async update(user: Partial<UserInput>): Promise<User> {
-    await this.validateInput(user, true);
+    await this.validateAndSanitizeInput(user, true);
     const { userId, ...dataToUpdate } = user;
 
     if (dataToUpdate.password) {
@@ -63,21 +64,24 @@ export class UserService {
       .exec();
   }
 
-  async validateInput(input: Partial<UserInput>, isUpdate = false) {
+  async validateAndSanitizeInput(input: Partial<UserInput>, isUpdate = false) {
     const errors = [];
 
-    if (!isUUID(input.userId, 'all')) {
-      errors.push('user.userId.invalid');
-    } else {
-      if (!isUpdate) {
+    if (!isUpdate) {
+      if (!input.userId) {
+        input.userId = randomUUID();
+      } else {
         const existingUser = await this.userModel
           .findOne({ userId: input.userId })
           .exec();
-
         if (existingUser) {
           errors.push('user.userId.unique');
         }
       }
+    }
+
+    if (!isUUID(input.userId, 'all')) {
+      errors.push('user.userId.invalid');
     }
 
     if (!isEmail(input.email)) {
