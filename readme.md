@@ -17,6 +17,7 @@ Add following host entries to your hosts file:
 
 ``` 
 127.0.0.1 api.manablox.test
+127.0.0.1 api.public.manablox.test
 127.0.0.1 admin.manablox.test
 127.0.0.1 files.manablox.test
 ```
