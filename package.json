@@ -1,0 +1,12 @@
+{
+  "name": "manabloxcms",
+  "license": "MIT",
+  "scripts": {
+    "format": "yarn format:admin && yarn format:server",
+    "lint": "yarn lint:admin && yarn lint:server",
+    "format:admin": "yarn --cwd packages/admin format",
+    "format:server": "yarn --cwd packages/server format",
+    "lint:admin": "yarn --cwd packages/admin lint",
+    "lint:server": "yarn --cwd packages/server lint"
+  }
+}

@@ -48,6 +48,20 @@ services:
       - manablox-network
     command: sh -c 'yarn && exec yarn start:dev manablox'
 
+  manablox-public:
+    image: node:20
+    hostname: manablox-public
+    volumes:
+      - ./packages/server:/app
+    working_dir: /app
+    env_file:
+      - ./packages/server/.env
+    depends_on:
+      - mongodb
+    networks:
+      - manablox-network
+    command: sh -c 'yarn && exec yarn start:dev manablox-public'
+
   manablox-files:
     image: node:20
     hostname: manablox-files
