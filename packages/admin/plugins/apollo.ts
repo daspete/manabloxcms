@@ -101,23 +101,23 @@ export default defineNuxtPlugin((nuxtApp) => {
   });
 
   const cache = new InMemoryCache({
-    typePolicies: {
-      Asset: {
-        keyFields: ['assetId'],
-      },
-      User: {
-        keyFields: ['userId'],
-      },
-      Content: {
-        keyFields: ['contentId'],
-      },
-      ContentType: {
-        keyFields: ['contentTypeId'],
-      },
-      Space: {
-        keyFields: ['spaceId'],
-      },
-    },
+    // typePolicies: {
+    //   Asset: {
+    //     keyFields: ['assetId'],
+    //   },
+    //   User: {
+    //     keyFields: ['userId'],
+    //   },
+    //   Content: {
+    //     keyFields: ['contentId'],
+    //   },
+    //   ContentType: {
+    //     keyFields: ['contentTypeId'],
+    //   },
+    //   Space: {
+    //     keyFields: ['spaceId'],
+    //   },
+    // },
   });
 
   const apolloClient = new ApolloClient({

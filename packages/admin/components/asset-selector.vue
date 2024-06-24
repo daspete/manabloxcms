@@ -79,7 +79,7 @@ const onAssetsUploaded = async (
     >
       <!-- eslint-disable-next-line vue/html-self-closing -->
       <img
-        :src="assetModel.url"
+        :src="getThumbnailUrl(assetModel, { width: 1280, height: 720 })"
         :alt="assetModel.name"
         class="w-full h-full object-cover absolute"
       />
@@ -143,7 +143,7 @@ const onAssetsUploaded = async (
               <!-- eslint-disable-next-line vue/html-self-closing -->
               <img
                 v-if="data.type.startsWith('image')"
-                :src="data.url"
+                :src="getThumbnailUrl(data)"
                 class="aspect-square w-full h-full object-cover"
               />
             </template>
