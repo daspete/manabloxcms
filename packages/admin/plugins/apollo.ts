@@ -100,7 +100,25 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.callHook('apollo:error', err);
   });
 
-  const cache = new InMemoryCache();
+  const cache = new InMemoryCache({
+    // typePolicies: {
+    //   Asset: {
+    //     keyFields: ['assetId'],
+    //   },
+    //   User: {
+    //     keyFields: ['userId'],
+    //   },
+    //   Content: {
+    //     keyFields: ['contentId'],
+    //   },
+    //   ContentType: {
+    //     keyFields: ['contentTypeId'],
+    //   },
+    //   Space: {
+    //     keyFields: ['spaceId'],
+    //   },
+    // },
+  });
 
   const apolloClient = new ApolloClient({
     link: from([errorLink, authLink, httpLink]),
