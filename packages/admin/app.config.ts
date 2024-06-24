@@ -4,15 +4,13 @@ import type {
   BlockItemsFieldTypeSettings,
   BooleanFieldTypeSettings,
   ContentRelationFieldTypeSettings,
+  ContentTypeFieldAdminSettings,
+  ContentTypeFieldSettings,
   DateFieldTypeSettings,
   NumberFieldTypeSettings,
   StringFieldTypeSettings,
   UserRelationFieldTypeSettings,
 } from './generated/graphql/graphql';
-
-type FieldSettings = {
-  isRequired: boolean;
-};
 
 export type ContentConfig = {
   content: {
@@ -23,7 +21,8 @@ export type ContentConfig = {
         default: {
           name: string;
           type: string;
-          fieldSettings: FieldSettings;
+          fieldSettings: ContentTypeFieldSettings;
+          adminSettings: ContentTypeFieldAdminSettings;
           stringSettings: StringFieldTypeSettings;
         };
       };
@@ -33,7 +32,8 @@ export type ContentConfig = {
         default: {
           name: string;
           type: string;
-          fieldSettings: FieldSettings;
+          fieldSettings: ContentTypeFieldSettings;
+          adminSettings: ContentTypeFieldAdminSettings;
           numberSettings: NumberFieldTypeSettings;
         };
       };
@@ -43,7 +43,8 @@ export type ContentConfig = {
         default: {
           name: string;
           type: string;
-          fieldSettings: FieldSettings;
+          fieldSettings: ContentTypeFieldSettings;
+          adminSettings: ContentTypeFieldAdminSettings;
           dateSettings: DateFieldTypeSettings;
         };
       };
@@ -53,7 +54,8 @@ export type ContentConfig = {
         default: {
           name: string;
           type: string;
-          fieldSettings: FieldSettings;
+          fieldSettings: ContentTypeFieldSettings;
+          adminSettings: ContentTypeFieldAdminSettings;
           booleanSettings: BooleanFieldTypeSettings;
         };
       };
@@ -63,7 +65,8 @@ export type ContentConfig = {
         default: {
           name: string;
           type: string;
-          fieldSettings: FieldSettings;
+          fieldSettings: ContentTypeFieldSettings;
+          adminSettings: ContentTypeFieldAdminSettings;
           userSettings: UserRelationFieldTypeSettings;
         };
       };
@@ -73,7 +76,8 @@ export type ContentConfig = {
         default: {
           name: string;
           type: string;
-          fieldSettings: FieldSettings;
+          fieldSettings: ContentTypeFieldSettings;
+          adminSettings: ContentTypeFieldAdminSettings;
           assetSettings: AssetRelationFieldTypeSettings;
         };
       };
@@ -83,7 +87,8 @@ export type ContentConfig = {
         default: {
           name: string;
           type: string;
-          fieldSettings: FieldSettings;
+          fieldSettings: ContentTypeFieldSettings;
+          adminSettings: ContentTypeFieldAdminSettings;
           contentSettings: ContentRelationFieldTypeSettings;
         };
       };
@@ -93,7 +98,8 @@ export type ContentConfig = {
         default: {
           name: string;
           type: string;
-          fieldSettings: FieldSettings;
+          fieldSettings: ContentTypeFieldSettings;
+          adminSettings: ContentTypeFieldAdminSettings;
           blockSettings: Partial<BlockItemFieldTypeSettings>;
         };
       };
@@ -103,7 +109,8 @@ export type ContentConfig = {
         default: {
           name: string;
           type: string;
-          fieldSettings: FieldSettings;
+          fieldSettings: ContentTypeFieldSettings;
+          adminSettings: ContentTypeFieldAdminSettings;
           blocksSettings: Partial<BlockItemsFieldTypeSettings>;
         };
       };
@@ -123,6 +130,10 @@ export default defineAppConfig<ContentConfig>({
           fieldSettings: {
             isRequired: false,
           },
+          adminSettings: {
+            zone: 'main',
+            width: 100,
+          },
           stringSettings: {},
         },
       },
@@ -134,6 +145,10 @@ export default defineAppConfig<ContentConfig>({
           type: 'NumberFieldType',
           fieldSettings: {
             isRequired: false,
+          },
+          adminSettings: {
+            zone: 'main',
+            width: 100,
           },
           numberSettings: {},
         },
@@ -147,6 +162,10 @@ export default defineAppConfig<ContentConfig>({
           fieldSettings: {
             isRequired: false,
           },
+          adminSettings: {
+            zone: 'main',
+            width: 100,
+          },
           booleanSettings: {},
         },
       },
@@ -158,6 +177,10 @@ export default defineAppConfig<ContentConfig>({
           type: 'DateFieldType',
           fieldSettings: {
             isRequired: false,
+          },
+          adminSettings: {
+            zone: 'main',
+            width: 100,
           },
           dateSettings: {},
         },
@@ -171,6 +194,10 @@ export default defineAppConfig<ContentConfig>({
           fieldSettings: {
             isRequired: false,
           },
+          adminSettings: {
+            zone: 'main',
+            width: 100,
+          },
           userSettings: {},
         },
       },
@@ -182,6 +209,10 @@ export default defineAppConfig<ContentConfig>({
           type: 'AssetRelationFieldType',
           fieldSettings: {
             isRequired: false,
+          },
+          adminSettings: {
+            zone: 'main',
+            width: 100,
           },
           assetSettings: {},
         },
@@ -195,6 +226,10 @@ export default defineAppConfig<ContentConfig>({
           fieldSettings: {
             isRequired: false,
           },
+          adminSettings: {
+            zone: 'main',
+            width: 100,
+          },
           contentSettings: {},
         },
       },
@@ -207,6 +242,10 @@ export default defineAppConfig<ContentConfig>({
           fieldSettings: {
             isRequired: false,
           },
+          adminSettings: {
+            zone: 'main',
+            width: 100,
+          },
           blockSettings: {},
         },
       },
@@ -218,6 +257,10 @@ export default defineAppConfig<ContentConfig>({
           type: 'BlockItemsFieldType',
           fieldSettings: {
             isRequired: false,
+          },
+          adminSettings: {
+            zone: 'main',
+            width: 100,
           },
           blocksSettings: {},
         },

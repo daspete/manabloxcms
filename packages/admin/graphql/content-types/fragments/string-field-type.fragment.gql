@@ -5,6 +5,10 @@ fragment StringFieldTypeFields on StringFieldType {
   fieldSettings {
     isRequired
   }
+  adminSettings {
+    zone
+    width
+  }
   stringSettings {
     minCharacters
     maxCharacters

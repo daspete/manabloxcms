@@ -6,6 +6,7 @@ import sizeOf from 'image-size';
 @Injectable()
 export class ManabloxFilesService {
   constructor(private readonly configService: ConfigService) {}
+
   getHello(): string {
     return 'Hello World!';
   }
@@ -80,6 +81,7 @@ export class ManabloxFilesService {
 
     return {
       assetId: crypto.randomUUID(),
+      disk: 'local',
       name: filename,
       filename: `${filename}.${fileExtension}`,
       type: file.mimetype,

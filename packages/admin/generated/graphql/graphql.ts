@@ -38,6 +38,7 @@ export type Asset = {
   name: Scalars['String']['output'];
   size: Scalars['Float']['output'];
   type: Scalars['String']['output'];
+  url?: Maybe<Scalars['String']['output']>;
   width?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -51,6 +52,7 @@ export type AssetRelationField = {
 
 export type AssetRelationFieldType = {
   __typename?: 'AssetRelationFieldType';
+  adminSettings: ContentTypeFieldAdminSettings;
   assetSettings?: Maybe<AssetRelationFieldTypeSettings>;
   fieldId: Scalars['String']['output'];
   fieldSettings: ContentTypeFieldSettings;
@@ -122,6 +124,7 @@ export type BlockItemField = {
 
 export type BlockItemFieldType = {
   __typename?: 'BlockItemFieldType';
+  adminSettings: ContentTypeFieldAdminSettings;
   blockSettings?: Maybe<BlockItemFieldTypeSettings>;
   fieldId: Scalars['String']['output'];
   fieldSettings: ContentTypeFieldSettings;
@@ -148,6 +151,7 @@ export type BlockItemsField = {
 
 export type BlockItemsFieldType = {
   __typename?: 'BlockItemsFieldType';
+  adminSettings: ContentTypeFieldAdminSettings;
   blocksSettings?: Maybe<BlockItemsFieldTypeSettings>;
   fieldId: Scalars['String']['output'];
   fieldSettings: ContentTypeFieldSettings;
@@ -178,6 +182,7 @@ export type BooleanField = {
 
 export type BooleanFieldType = {
   __typename?: 'BooleanFieldType';
+  adminSettings: ContentTypeFieldAdminSettings;
   booleanSettings?: Maybe<BooleanFieldTypeSettings>;
   fieldId: Scalars['String']['output'];
   fieldSettings: ContentTypeFieldSettings;
@@ -279,6 +284,7 @@ export type ContentRelationField = {
 
 export type ContentRelationFieldType = {
   __typename?: 'ContentRelationFieldType';
+  adminSettings: ContentTypeFieldAdminSettings;
   contentSettings?: Maybe<ContentRelationFieldTypeSettings>;
   fieldId: Scalars['String']['output'];
   fieldSettings: ContentTypeFieldSettings;
@@ -315,7 +321,19 @@ export type ContentType = {
   space?: Maybe<Space>;
 };
 
+export type ContentTypeFieldAdminSettings = {
+  __typename?: 'ContentTypeFieldAdminSettings';
+  width?: Maybe<Scalars['Float']['output']>;
+  zone?: Maybe<Scalars['String']['output']>;
+};
+
+export type ContentTypeFieldAdminSettingsInput = {
+  width?: InputMaybe<Scalars['Float']['input']>;
+  zone?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ContentTypeFieldInput = {
+  adminSettings: ContentTypeFieldAdminSettingsInput;
   assetSettings?: InputMaybe<AssetRelationFieldTypeSettingsInput>;
   blockSettings?: InputMaybe<BlockItemFieldTypeSettingsInput>;
   blocksSettings?: InputMaybe<BlockItemsFieldTypeSettingsInput>;
@@ -374,6 +392,7 @@ export type DateField = {
 
 export type DateFieldType = {
   __typename?: 'DateFieldType';
+  adminSettings: ContentTypeFieldAdminSettings;
   dateSettings?: Maybe<DateFieldTypeSettings>;
   fieldId: Scalars['String']['output'];
   fieldSettings: ContentTypeFieldSettings;
@@ -484,6 +503,7 @@ export type NumberField = {
 
 export type NumberFieldType = {
   __typename?: 'NumberFieldType';
+  adminSettings: ContentTypeFieldAdminSettings;
   fieldId: Scalars['String']['output'];
   fieldSettings: ContentTypeFieldSettings;
   name: Scalars['String']['output'];
@@ -607,6 +627,7 @@ export type StringField = {
 
 export type StringFieldType = {
   __typename?: 'StringFieldType';
+  adminSettings: ContentTypeFieldAdminSettings;
   fieldId: Scalars['String']['output'];
   fieldSettings: ContentTypeFieldSettings;
   name: Scalars['String']['output'];
@@ -663,6 +684,7 @@ export type UserRelationField = {
 
 export type UserRelationFieldType = {
   __typename?: 'UserRelationFieldType';
+  adminSettings: ContentTypeFieldAdminSettings;
   fieldId: Scalars['String']['output'];
   fieldSettings: ContentTypeFieldSettings;
   name: Scalars['String']['output'];

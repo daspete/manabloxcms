@@ -6,5 +6,6 @@ fragment AssetRelationFieldFields on AssetRelationField {
     assetId
     name
     type
+    url
   }
 }

@@ -159,18 +159,15 @@ const createContent = async (redirect = true) => {
       </div>
     </div>
 
-    <Card>
-      <template #content>
-        <Message v-for="error in mutationErrors" :key="error" severity="error">
-          {{ error }}
-        </Message>
-        <ContentEditor
-          v-if="contentType.name"
-          :content-type="contentType"
-          :content="content"
-        />
-      </template>
-    </Card>
+    <Message v-for="error in mutationErrors" :key="error" severity="error">
+      {{ error }}
+    </Message>
+
+    <ContentEditor
+      v-if="contentType.name"
+      :content-type="contentType"
+      :content="content"
+    />
 
     <BlockUI :blocked="isCreating" full-screen />
   </div>

@@ -6,5 +6,6 @@ query assets {
     size
     width
     height
+    url
   }
 }

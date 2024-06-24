@@ -5,11 +5,16 @@ fragment AssetRelationFieldTypeFields on AssetRelationFieldType {
   fieldSettings {
     isRequired
   }
+  adminSettings {
+    zone
+    width
+  }
   assetSettings {
     defaultValue {
       assetId
       name
       type
+      url
     }
   }
 }
