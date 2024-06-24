@@ -6,6 +6,10 @@ import {
   ContentTypeFieldSettingsSchema,
 } from '../../content-type-field-settings/content-type-field-settings.model';
 import { Content } from '../../../content/content.model';
+import {
+  ContentTypeFieldAdminSettings,
+  ContentTypeFieldAdminSettingsSchema,
+} from '../../content-type-field-admin-settings/content-type-field-admin-settings.model';
 
 @ObjectType()
 @Schema()
@@ -35,6 +39,10 @@ export class ContentRelationFieldType {
   @Field(() => ContentTypeFieldSettings)
   @Prop({ type: ContentTypeFieldSettingsSchema })
   fieldSettings: ContentTypeFieldSettings;
+
+  @Field(() => ContentTypeFieldAdminSettings)
+  @Prop({ type: ContentTypeFieldAdminSettingsSchema })
+  adminSettings: ContentTypeFieldAdminSettings;
 
   @Field(() => ContentRelationFieldTypeSettings, { nullable: true })
   @Prop({ type: ContentRelationFieldTypeSettingsSchema })

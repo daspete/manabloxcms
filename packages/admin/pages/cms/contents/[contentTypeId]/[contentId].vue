@@ -149,16 +149,12 @@ const updateContent = async () => {
       </div>
     </div>
 
-    <Card>
-      <template #content>
-        <Message v-for="error in mutationErrors" :key="error" severity="error">
-          {{ error }}
-        </Message>
-        <div v-if="!isInitializing">
-          <ContentEditor :content-type="contentType" :content="content" />
-        </div>
-      </template>
-    </Card>
+    <Message v-for="error in mutationErrors" :key="error" severity="error">
+      {{ error }}
+    </Message>
+    <div v-if="!isInitializing">
+      <ContentEditor :content-type="contentType" :content="content" />
+    </div>
 
     <BlockUI :blocked="isUpdating" full-screen />
   </div>

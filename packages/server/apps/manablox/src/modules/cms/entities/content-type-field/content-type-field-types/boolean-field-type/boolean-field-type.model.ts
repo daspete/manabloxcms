@@ -5,6 +5,10 @@ import {
   ContentTypeFieldSettings,
   ContentTypeFieldSettingsSchema,
 } from '../../content-type-field-settings/content-type-field-settings.model';
+import {
+  ContentTypeFieldAdminSettings,
+  ContentTypeFieldAdminSettingsSchema,
+} from '../../content-type-field-admin-settings/content-type-field-admin-settings.model';
 
 @ObjectType()
 @Schema()
@@ -35,6 +39,10 @@ export class BooleanFieldType {
   @Field(() => ContentTypeFieldSettings)
   @Prop({ type: ContentTypeFieldSettingsSchema })
   fieldSettings: ContentTypeFieldSettings;
+
+  @Field(() => ContentTypeFieldAdminSettings)
+  @Prop({ type: ContentTypeFieldAdminSettingsSchema })
+  adminSettings: ContentTypeFieldAdminSettings;
 
   @Field(() => BooleanFieldTypeSettings, { nullable: true })
   @Prop({ type: BooleanFieldTypeSettingsSchema })

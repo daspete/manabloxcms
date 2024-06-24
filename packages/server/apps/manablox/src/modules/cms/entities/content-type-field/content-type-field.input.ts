@@ -9,6 +9,7 @@ import { AssetRelationFieldTypeSettingsInput } from './content-type-field-types/
 import { ContentRelationFieldTypeSettingsInput } from './content-type-field-types/content-relation-field-type/content-relation-field-type-settings.input';
 import { BlockItemFieldTypeSettingsInput } from './content-type-field-types/block-item-field-type/block-item-field-type-settings.input';
 import { BlockItemsFieldTypeSettingsInput } from './content-type-field-types/block-items-field-type/block-items-field-type-settings.input';
+import { ContentTypeFieldAdminSettingsInput } from './content-type-field-admin-settings/content-type-field-admin-settings.input';
 
 @InputType()
 export class ContentTypeFieldInput {
@@ -23,6 +24,9 @@ export class ContentTypeFieldInput {
 
   @Field(() => ContentTypeFieldSettingsInput)
   fieldSettings: ContentTypeFieldSettingsInput;
+
+  @Field(() => ContentTypeFieldAdminSettingsInput)
+  adminSettings: ContentTypeFieldAdminSettingsInput;
 
   @Field({ nullable: true })
   numberSettings?: NumberFieldTypeSettingsInput;

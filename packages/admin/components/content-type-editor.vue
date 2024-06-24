@@ -258,6 +258,24 @@ const confirmFieldDeletion = (
           <div>
             <div class="pt-4 pb-16 px-8 ml-6">
               <component :is="field.type" :field="field" />
+              <div class="flex gap-4 items-center justify-center mt-4">
+                <div class="flex-1">
+                  <label for="field-zone">Field zone</label>
+                  <InputText
+                    id="field-zone"
+                    v-model="field.adminSettings.zone"
+                    class="w-full"
+                  />
+                </div>
+                <div class="flex-1">
+                  <label for="field-width">Field width</label>
+                  <InputNumber
+                    id="field-width"
+                    v-model="field.adminSettings.width"
+                    class="w-full"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </Panel>

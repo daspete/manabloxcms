@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const { assets } = useAssetsQuery();
-
 const props = defineProps({
   fieldType: {
     type: Object,
@@ -20,31 +18,10 @@ if (!props.field.asset) {
 </script>
 
 <template>
-  <div class="flex gap-4 items-center">
+  <div class="flex flex-col">
     <label :for="fieldType.fieldId">{{ fieldType.name }}</label>
-    <Dropdown
-      v-model="field.asset"
-      :options="assets"
-      show-clear
-      filter
-      option-label="name"
-      placeholder="Select asset"
-      class="flex-1"
-    >
-      <template #value="{ value, placeholder }">
-        <div v-if="value" class="flex items-center gap-2">
-          <div>{{ value.type }}</div>
-          <div>{{ value.name }}</div>
-        </div>
-        <div v-else>{{ placeholder }}</div>
-      </template>
-
-      <template #option="{ option }">
-        <div class="flex items-center gap-2">
-          <div>{{ option.type }}</div>
-          <div>{{ option.name }}</div>
-        </div>
-      </template>
-    </Dropdown>
+    <div>
+      <AssetSelector v-model:asset="field.asset" :multiple="false" />
+    </div>
   </div>
 </template>

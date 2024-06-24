@@ -5,6 +5,10 @@ fragment BlockItemFieldTypeFields on BlockItemFieldType {
   fieldSettings {
     isRequired
   }
+  adminSettings {
+    zone
+    width
+  }
   blockSettings {
     blockType {
       contentTypeId
