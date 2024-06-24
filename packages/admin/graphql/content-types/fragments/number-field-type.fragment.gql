@@ -5,6 +5,10 @@ fragment NumberFieldTypeFields on NumberFieldType {
   fieldSettings {
     isRequired
   }
+  adminSettings {
+    zone
+    width
+  }
   numberSettings {
     min
     max

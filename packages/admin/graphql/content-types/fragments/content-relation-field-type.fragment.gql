@@ -5,6 +5,10 @@ fragment ContentRelationFieldTypeFields on ContentRelationFieldType {
   fieldSettings {
     isRequired
   }
+  adminSettings {
+    zone
+    width
+  }
   contentSettings {
     defaultValue {
       contentId

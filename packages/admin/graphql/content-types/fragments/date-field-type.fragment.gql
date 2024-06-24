@@ -5,6 +5,10 @@ fragment DateFieldTypeFields on DateFieldType {
   fieldSettings {
     isRequired
   }
+  adminSettings {
+    zone
+    width
+  }
   dateSettings {
     minDate
     maxDate

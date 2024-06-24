@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       API_URL: 'http://localhost',
+      UPLOAD_ENDPOINT: 'http://localhost',
     },
   },
 

@@ -1,0 +1,5 @@
+mutation deleteAsset($assetId: String!) {
+  deleteAsset(assetId: $assetId) {
+    assetId
+  }
+}

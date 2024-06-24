@@ -5,6 +5,10 @@ fragment BooleanFieldTypeFields on BooleanFieldType {
   fieldSettings {
     isRequired
   }
+  adminSettings {
+    zone
+    width
+  }
   booleanSettings {
     defaultValue
   }

@@ -5,6 +5,10 @@ fragment UserRelationFieldTypeFields on UserRelationFieldType {
   fieldSettings {
     isRequired
   }
+  adminSettings {
+    zone
+    width
+  }
   userSettings {
     defaultValue {
       userId

@@ -33,7 +33,7 @@ export class AssetService {
     return this.assetModel.create(asset);
   }
 
-  async delete(id: string): Promise<Asset> {
-    return this.assetModel.findByIdAndDelete(id).exec();
+  async delete(assetId: string): Promise<Asset> {
+    return this.assetModel.findOneAndDelete({ assetId }).exec();
   }
 }
