@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Asset } from '~/generated/graphql/graphql';
 import deleteAssetMutation from '~/graphql/assets/delete-asset.mutation.gql';
+import { getThumbnailUrl } from '~/utils/get-thumbnail-url';
 
 definePageMeta({
   middleware: ['is-authenticated'],
@@ -76,7 +77,7 @@ const confirmAssetDeletion = (event: MouseEvent, asset: Asset) => {
             <!-- eslint-disable-next-line vue/html-self-closing -->
             <img
               v-if="data.type.startsWith('image')"
-              :src="data.url"
+              :src="getThumbnailUrl(data)"
               class="aspect-square w-full h-full object-cover"
             />
           </template>

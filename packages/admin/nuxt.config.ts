@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     public: {
       API_URL: 'http://localhost',
       UPLOAD_ENDPOINT: 'http://localhost',
+      THUMBNAIL_ENDPOINT: 'http://localhost',
     },
   },
 

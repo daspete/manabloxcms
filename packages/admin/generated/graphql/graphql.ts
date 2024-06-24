@@ -429,6 +429,7 @@ export type Mutation = {
   createContentType: ContentType;
   createSpace: Space;
   createUser: User;
+  deleteAsset: Asset;
   deleteContent: Content;
   deleteContentType: ContentType;
   deleteUser: User;
@@ -455,6 +456,10 @@ export type MutationCreateSpaceArgs = {
 
 export type MutationCreateUserArgs = {
   user: UserInput;
+};
+
+export type MutationDeleteAssetArgs = {
+  assetId: Scalars['String']['input'];
 };
 
 export type MutationDeleteContentArgs = {
