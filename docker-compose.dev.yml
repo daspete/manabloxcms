@@ -6,7 +6,13 @@ services:
     volumes:
       - ./nginx:/etc/nginx/templates
     networks:
-      - manablox-network
+      manablox-network:
+        aliases:
+          - files.manablox.test
+          - admin.manablox.test
+          - api.manablox.test
+          - api.public.manablox.test 
+
 
   mongodb:
     image: mongo:7.0
@@ -76,6 +82,22 @@ services:
     networks:
       - manablox-network
     command: sh -c 'yarn && exec yarn start:dev manablox-files'
+
+  thumbnails:
+    image: ghcr.io/minimalcompact/thumbor:7.7.1
+    hostname: thumbnails
+    volumes:
+      - ./data/uploads:/uploads
+    environment:
+      - THUMBOR_NUM_PROCESSES=2
+      - CORS_ALLOW_ORIGIN=*
+      - AUTO_WEBP=True
+      - RESULT_STORAGE=thumbor.result_storages.file_storage
+      - RESULT_STORAGE_FILE_STORAGE_ROOT_PATH=/uploads/thumbor
+      - RESULT_STORAGE_STORES_UNSAFE=True
+      - STORAGE=thumbor.storages.file_storage
+    networks:
+      - manablox-network
 
 networks:
   manablox-network:
