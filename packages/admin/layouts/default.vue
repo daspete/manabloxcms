@@ -17,7 +17,7 @@ useHead({
       <div class="content flex-1 overflow-hidden">
         <div class="flex h-full">
           <AppTree />
-          <div class="overflow-y-auto flex-1">
+          <div class="overflow-y-auto flex-1 relative">
             <div class="flex w-full justify-center px-4 pb-8">
               <NuxtPage />
             </div>

@@ -25,6 +25,8 @@ const isInitializing = computed(
 const isUpdating = ref(false);
 const mutationErrors = ref<string[]>([]);
 
+const isVisualEditorActive = ref(false);
+
 const updateAndPublishContent = async () => {
   const updateSuccess = await updateContent();
 
@@ -93,6 +95,11 @@ const updateContent = async () => {
     return false;
   }
 };
+
+const onVisualEditorClose = () => {
+  console.log('bla');
+  isVisualEditorActive.value = false;
+};
 </script>
 
 <template>
@@ -105,6 +112,12 @@ const updateContent = async () => {
         <span> Update {{ content.title }} </span>
       </span>
       <div class="flex gap-2">
+        <Button
+          :label="
+            isVisualEditorActive ? 'Close visual editor' : 'Open visual editor'
+          "
+          @click="isVisualEditorActive = !isVisualEditorActive"
+        />
         <NuxtLink to="/cms/contents">
           <Button
             type="button"
@@ -153,7 +166,17 @@ const updateContent = async () => {
       {{ error }}
     </Message>
     <div v-if="!isInitializing">
-      <ContentEditor :content-type="contentType" :content="content" />
+      <ContentEditor
+        v-if="!isVisualEditorActive"
+        :content-type="contentType"
+        :content="content"
+      />
+      <VisualEditor
+        v-if="isVisualEditorActive"
+        :content-type="contentType"
+        :content="content"
+        @on-close="onVisualEditorClose"
+      />
     </div>
 
     <BlockUI :blocked="isUpdating" full-screen />
