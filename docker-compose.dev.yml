@@ -11,8 +11,8 @@ services:
           - files.manablox.test
           - admin.manablox.test
           - api.manablox.test
-          - api.public.manablox.test 
-
+          - api.public.manablox.test
+          - manablox.test
 
   mongodb:
     image: mongo:7.0
@@ -38,7 +38,7 @@ services:
       - ./packages/admin/.env
     networks:
       - manablox-network
-    command: sh -c 'rm -rf /tmp/nitro/*.sock && yarn && yarn graphql-codegen && exec yarn dev'
+    command: sh -c 'rm -rf /tmp/nitro/*.sock && yarn && exec yarn dev'
 
   manablox-server:
     image: node:20
@@ -82,6 +82,20 @@ services:
     networks:
       - manablox-network
     command: sh -c 'yarn && exec yarn start:dev manablox-files'
+
+  manablox-frontend:
+    image: node:20
+    hostname: manablox-frontend
+    volumes:
+      - ./packages/manablox_io-frontend:/app
+    working_dir: /app
+    ports:
+      - 24679:24678
+    env_file:
+      - ./packages/manablox_io-frontend/.env
+    networks:
+      - manablox-network
+    command: sh -c 'rm -rf /tmp/nitro/*.sock && yarn && exec yarn dev'
 
   thumbnails:
     image: ghcr.io/minimalcompact/thumbor:7.7.1

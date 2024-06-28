@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { vDraggable } from 'vue-draggable-plus';
 import { v4 as uuid4 } from 'uuid';
-import type { BlockInput, ContentType } from '~/generated/graphql/graphql';
+import type {
+  BlockInput,
+  BlockItemsFieldType,
+  ContentType,
+} from '~/generated/graphql/graphql';
 
 const confirm = useConfirm();
 
 const props = defineProps({
   fieldType: {
-    type: Object,
+    type: Object as PropType<BlockItemsFieldType>,
     required: true,
   },
   field: {
@@ -26,7 +30,7 @@ const toggleBlockTypeDropdown = (event: Event) => {
 };
 
 const blockSelectionMenuItems =
-  props.fieldType.blocksSettings.possibleBlockTypes.map(
+  props.fieldType.blocksSettings?.possibleBlockTypes.map(
     (blockType: ContentType) => {
       return {
         label: blockType.name,
@@ -46,7 +50,7 @@ const addBlock = (blockType: ContentType) => {
 };
 
 const getBlockType = (contentTypeId: string) => {
-  return props.fieldType.blocksSettings.possibleBlockTypes.find(
+  return props.fieldType.blocksSettings?.possibleBlockTypes.find(
     (blockType: ContentType) => {
       return blockType.contentTypeId === contentTypeId;
     },
@@ -72,7 +76,7 @@ const deleteBlock = async (block: BlockInput) => {
 };
 
 const getFirstStringFieldInBlock = (block: BlockInput) => {
-  const firstStringField = block.fields.find((field) => {
+  const firstStringField = block.fields?.find((field) => {
     return field.type === 'StringField';
   });
 
@@ -91,7 +95,12 @@ const getFirstStringFieldInBlock = (block: BlockInput) => {
         <i :class="collapsed ? 'i-mdi-chevron-down' : 'i-mdi-chevron-up'" />
       </template>
 
-      <div v-if="fieldType.blocksSettings.possibleBlockTypes.length > 1">
+      <div
+        v-if="
+          fieldType.blocksSettings?.possibleBlockTypes.length &&
+          fieldType.blocksSettings.possibleBlockTypes.length > 1
+        "
+      >
         <Button
           type="button"
           label="Add new block"
@@ -110,7 +119,9 @@ const getFirstStringFieldInBlock = (block: BlockInput) => {
         />
       </div>
 
-      <div v-else-if="fieldType.blocksSettings.possibleBlockTypes.length === 1">
+      <div
+        v-else-if="fieldType.blocksSettings?.possibleBlockTypes.length === 1"
+      >
         <Button
           type="button"
           :label="`Add new ${fieldType.blocksSettings.possibleBlockTypes[0].name}`"
