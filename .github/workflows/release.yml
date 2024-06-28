@@ -48,6 +48,7 @@ jobs:
         service:
           - admin
           - manablox_io-frontend
+          - server
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
