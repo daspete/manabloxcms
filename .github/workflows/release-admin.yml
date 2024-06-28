@@ -20,6 +20,7 @@ jobs:
         uses: cycjimmy/semantic-release-action@v3
         id: create-release
         with:
+          working_directory: ./packages/admin
           extra_plugins: |
             @semantic-release/git@10.0.1
             conventional-changelog-conventionalcommits@6.1.0
