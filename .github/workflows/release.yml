@@ -1,4 +1,4 @@
-name: Release production admin
+name: Release production packages
 
 on:
   push:
