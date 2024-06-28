@@ -42,7 +42,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       for (const graphQLError of err.graphQLErrors) {
         switch (graphQLError.extensions?.code) {
           case 'UNAUTHENTICATED':
-          case 'FORBIDDEN':
+          case 'FORBIDDEN': {
             return new Observable<FetchResult>((observer) => {
               (async () => {
                 if (!refreshToken.value) {
@@ -93,6 +93,7 @@ export default defineNuxtPlugin((nuxtApp) => {
               })();
             });
             break;
+          }
         }
       }
     }
@@ -100,25 +101,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.callHook('apollo:error', err);
   });
 
-  const cache = new InMemoryCache({
-    // typePolicies: {
-    //   Asset: {
-    //     keyFields: ['assetId'],
-    //   },
-    //   User: {
-    //     keyFields: ['userId'],
-    //   },
-    //   Content: {
-    //     keyFields: ['contentId'],
-    //   },
-    //   ContentType: {
-    //     keyFields: ['contentTypeId'],
-    //   },
-    //   Space: {
-    //     keyFields: ['spaceId'],
-    //   },
-    // },
-  });
+  const cache = new InMemoryCache({});
 
   const apolloClient = new ApolloClient({
     link: from([errorLink, authLink, httpLink]),

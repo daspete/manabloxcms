@@ -113,7 +113,11 @@ const onChangePagecomponentPosition = (event: {
       :key="pagecomponent.blockId"
       class="group relative hover:outline outline-1 hover:outline-blue-500 min-h-12"
     >
-      <component :is="pagecomponent.type.name" :fields="pagecomponent.fields" />
+      <component
+        :is="`Lazy${pagecomponent.type.name}`"
+        v-if="pagecomponent.type"
+        :fields="pagecomponent.fields"
+      />
 
       <div
         class="absolute top-0 left-0 right-0 bottom-0 bg-blue-500 opacity-0 group-hover:opacity-20 transition-all"
@@ -154,7 +158,7 @@ const onChangePagecomponentPosition = (event: {
                 <i class="i-mdi-chevron-down" />
               </button>
             </div>
-            <div class="bg-blue-500 pl-1 flex gap-2"/>
+            <div class="bg-blue-500 pl-1 flex gap-2" />
           </div>
           <div class="bg-blue-500">a b c</div>
         </div>
