@@ -1,4 +1,4 @@
-name: Release production admin
+name: Release production packages
 
 on:
   push:
@@ -89,6 +89,3 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            VERSION=${{ needs.release.outputs.version }}
-          target: ${{ github.ref_name }}
