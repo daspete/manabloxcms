@@ -6,7 +6,13 @@ services:
     volumes:
       - ./nginx:/etc/nginx/templates
     networks:
-      - manablox-network
+      manablox-network:
+        aliases:
+          - files.manablox.test
+          - admin.manablox.test
+          - api.manablox.test
+          - api.public.manablox.test
+          - manablox.test
 
   mongodb:
     image: mongo:7.0
@@ -30,7 +36,7 @@ services:
       - ./packages/admin/.env
     networks:
       - manablox-network
-    command: sh -c 'rm -rf /tmp/nitro/*.sock && yarn && yarn graphql-codegen && yarn build && exec node .output/server/index.mjs'
+    command: sh -c 'rm -rf /tmp/nitro/*.sock && yarn && yarn build && exec yarn start'
 
   manablox-server:
     image: node:20
@@ -46,6 +52,20 @@ services:
       - manablox-network
     command: sh -c 'yarn && exec yarn start manablox'
 
+  manablox-public:
+    image: node:20
+    hostname: manablox-public
+    volumes:
+      - ./packages/server:/app
+    working_dir: /app
+    env_file:
+      - ./packages/server/.env
+    depends_on:
+      - mongodb
+    networks:
+      - manablox-network
+    command: sh -c 'yarn && exec yarn start manablox-public'
+
   manablox-files:
     image: node:20
     hostname: manablox-files
@@ -60,6 +80,34 @@ services:
     networks:
       - manablox-network
     command: sh -c 'yarn && exec yarn start manablox-files'
+
+  manablox-frontend:
+    image: node:20
+    hostname: manablox-frontend
+    volumes:
+      - ./packages/manablox_io-frontend:/app
+    working_dir: /app
+    env_file:
+      - ./packages/manablox_io-frontend/.env
+    networks:
+      - manablox-network
+    command: sh -c 'rm -rf /tmp/nitro/*.sock && yarn && yarn build && exec yarn start'
+
+  thumbnails:
+    image: ghcr.io/minimalcompact/thumbor:7.7.1
+    hostname: thumbnails
+    volumes:
+      - ./data/uploads:/uploads
+    environment:
+      - THUMBOR_NUM_PROCESSES=2
+      - CORS_ALLOW_ORIGIN=*
+      - AUTO_WEBP=True
+      - RESULT_STORAGE=thumbor.result_storages.file_storage
+      - RESULT_STORAGE_FILE_STORAGE_ROOT_PATH=/uploads/thumbor
+      - RESULT_STORAGE_STORES_UNSAFE=True
+      - STORAGE=thumbor.storages.file_storage
+    networks:
+      - manablox-network
 
 networks:
   manablox-network:
