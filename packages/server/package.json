@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "ls ./apps | xargs -n 1 -P 4 nest build",
     "format": "prettier --write \"apps/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
