@@ -7,7 +7,7 @@ WORKDIR /app
 EXPOSE 3000
 
 ENTRYPOINT ["/etc/entrypoint.sh"]
-COPY ./entrypoint.sh /etc/entrypoint.sh
+COPY --chown=adminuser:adminuser ./entrypoint.sh /etc/entrypoint.sh
 RUN chmod +x /etc/entrypoint.sh
 
 COPY --chown=adminuser:adminuser ./ ./
