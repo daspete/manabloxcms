@@ -1,4 +1,4 @@
-name: Release production manablox frontend
+name: Release production admin
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
         uses: cycjimmy/semantic-release-action@v3
         id: create-release
         with:
-          working_directory: ./packages/manablox_io-frontend
+          working_directory: ./packages/admin
           extra_plugins: |
             @semantic-release/git@10.0.1
             conventional-changelog-conventionalcommits@6.1.0
@@ -37,12 +37,17 @@ jobs:
       channel: ${{ steps.create-release.outputs.new_release_channel }}
       notes: ${{ steps.create-release.outputs.new_release_notes }}
 
-  push-docker-image:
-    name: Create docker image
+  push-docker-images:
+    name: Create docker images
     needs: release
     runs-on: ubuntu-latest
     environment: ${{ needs.release.outputs.channel }}
-    if: ${{ !failure() && !cancelled() }}
+    if: ${{ !failure() && !cancelled() && needs.release.outputs.published == 'true' }}
+    strategy:
+      matrix:
+        service:
+          - admin
+          - manablox_io-frontend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -67,7 +72,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ghcr.io/${{ github.repository }}-manablox-frontend
+            ghcr.io/${{ github.repository }}-${{ matrix.service }}
           flavor: |
             latest=auto
           tags: |
@@ -79,8 +84,11 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./packages/manablox_io-frontend
+          context: ./packages/${{ matrix.service }}
           push: true
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ needs.release.outputs.version }}
+          target: ${{ github.ref_name }}
