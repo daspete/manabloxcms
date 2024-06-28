@@ -1,7 +1,6 @@
 {
   "name": "manablox-admin",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "start": "node .output/server/index.mjs",
