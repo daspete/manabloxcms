@@ -97,7 +97,6 @@ const updateContent = async () => {
 };
 
 const onVisualEditorClose = () => {
-  console.log('bla');
   isVisualEditorActive.value = false;
 };
 </script>
