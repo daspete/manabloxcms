@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Asset } from '~/generated/graphql/graphql';
 
+const { currentSpace } = useCurrentSpace();
+
 defineProps({
   outlined: {
     type: Boolean,
@@ -83,7 +85,8 @@ const uploadFile = async (file: File) => {
   const refreshToken = refreshTokenCookie.value || '';
 
   const response = await $fetch<Asset>(
-    runtimeConfig.public.UPLOAD_ENDPOINT + '/myspace',
+    runtimeConfig.public.UPLOAD_ENDPOINT +
+      `/${currentSpace.value?.spaceId || 'nospace'}`,
     {
       method: 'POST',
       body: formData,
