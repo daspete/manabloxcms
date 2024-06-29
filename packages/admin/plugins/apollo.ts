@@ -1,5 +1,5 @@
 import {
-  ApolloClient,
+  type ApolloClient,
   InMemoryCache,
   Observable,
   createHttpLink,
@@ -103,29 +103,18 @@ export default defineNuxtPlugin((nuxtApp) => {
   });
 
   const cache = new InMemoryCache({
-    // typePolicies: {
-    //   Asset: {
-    //     keyFields: ['assetId'],
-    //   },
-    //   User: {
-    //     keyFields: ['userId'],
-    //   },
-    //   Content: {
-    //     keyFields: ['contentId'],
-    //   },
-    //   ContentType: {
-    //     keyFields: ['contentTypeId'],
-    //   },
-    //   Space: {
-    //     keyFields: ['spaceId'],
-    //   },
-    // },
+
   });
 
-  const apolloClient = new ApolloClient({
-    link: from([errorLink, authLink, httpLink]),
-    cache,
-  });
+  const $apollo = nuxtApp.$apollo as { defaultClient: ApolloClient<unknown> };
 
-  provideApolloClient(apolloClient);
+  $apollo.defaultClient.setLink(from([errorLink, authLink, httpLink]));
+  $apollo.defaultClient.cache = cache;
+
+  // const apolloClient = new ApolloClient({
+  //   link: from([errorLink, authLink, httpLink]),
+  //   cache,
+  // });
+
+  provideApolloClient($apollo.defaultClient);
 });
