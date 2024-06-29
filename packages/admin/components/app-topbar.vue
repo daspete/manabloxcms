@@ -11,15 +11,18 @@ const { me } = useMeQuery();
     <button v-ripple class="bg-primary px-4 text-white" @click="tree.toggle">
       <i class="i-mdi-file-tree" />
     </button>
+
+    <SpaceSelector />
+
     <div class="flex-1" />
     <div class="flex items-center">
       <div class="flex gap-2 items-center">
-        <div>{{ me }}</div>
-        <button @click="disableDarkMode">
+        <div v-if="me">{{ me.email }}</div>
+        <button class="flex items-center" @click="disableDarkMode">
           <i class="i-mdi-weather-sunny dark:text-white" />
         </button>
         <InputSwitch v-model="darkModeEnabled" />
-        <button @click="enableDarkMode">
+        <button class="flex items-center" @click="enableDarkMode">
           <i class="i-mdi-weather-night dark:text-white" />
         </button>
       </div>

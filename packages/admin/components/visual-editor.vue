@@ -7,6 +7,8 @@ import type {
   ContentType,
 } from '~/generated/graphql/graphql';
 
+const { currentSpace } = useCurrentSpace();
+
 const iframe = ref<HTMLIFrameElement | null>(null);
 
 const props = defineProps({
@@ -142,7 +144,7 @@ const postMessageHandler = (event: MessageEvent<MessageData>) => {
 
 <template>
   <div
-    class="w-full h-full bg-white absolute left-0 top-0 flex flex-col justify-stretch"
+    class="w-full h-full bg-surface-50 dark:bg-surface-900 absolute left-0 top-0 flex flex-col justify-stretch"
   >
     <div class="flex justify-end shadow w-full">
       <div class="px-4 py-2">
@@ -154,7 +156,7 @@ const postMessageHandler = (event: MessageEvent<MessageData>) => {
       <div class="flex-1">
         <iframe
           id="contentpreview"
-          src="http://manablox.test/preview"
+          :src="`${currentSpace?.url}/preview`"
           sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-top-navigation"
           class="w-full h-full"
         />

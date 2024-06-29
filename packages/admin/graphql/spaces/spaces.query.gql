@@ -8,6 +8,7 @@ query spaces($query: [SpaceQueryInput!], $limit: Int, $page: Int) {
       name
       technicalName
       description
+      url
     }
   }
 }

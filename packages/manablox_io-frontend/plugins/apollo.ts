@@ -1,5 +1,5 @@
 import {
-  ApolloClient,
+  type ApolloClient,
   InMemoryCache,
   Observable,
   createHttpLink,
@@ -103,10 +103,10 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const cache = new InMemoryCache({});
 
-  const apolloClient = new ApolloClient({
-    link: from([errorLink, authLink, httpLink]),
-    cache,
-  });
+  const $apollo = nuxtApp.$apollo as { defaultClient: ApolloClient<unknown> };
 
-  provideApolloClient(apolloClient);
+  $apollo.defaultClient.setLink(from([errorLink, authLink, httpLink]));
+  $apollo.defaultClient.cache = cache;
+
+  provideApolloClient($apollo.defaultClient);
 });
