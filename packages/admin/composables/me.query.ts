@@ -20,9 +20,9 @@ export const useMeQuery = () => {
           if (result.partial) return;
 
           if (result.error) {
-            console.log('error', result.error.message);
             reject(result.error);
           } else {
+            me.value = clone(result.data?.me);
             resolve(result.data?.me);
           }
         });

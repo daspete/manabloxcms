@@ -17,8 +17,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   const accessToken = useCookie('accesstoken');
   const refreshToken = useCookie('refreshtoken');
 
-  console.log('apollo url', runtimeConfig.public.API_URL);
-
   const httpLink = createHttpLink({
     uri: runtimeConfig.public.API_URL,
   });
@@ -102,19 +100,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.callHook('apollo:error', err);
   });
 
-  const cache = new InMemoryCache({
-
-  });
+  const cache = new InMemoryCache({});
 
   const $apollo = nuxtApp.$apollo as { defaultClient: ApolloClient<unknown> };
 
   $apollo.defaultClient.setLink(from([errorLink, authLink, httpLink]));
   $apollo.defaultClient.cache = cache;
-
-  // const apolloClient = new ApolloClient({
-  //   link: from([errorLink, authLink, httpLink]),
-  //   cache,
-  // });
 
   provideApolloClient($apollo.defaultClient);
 });
