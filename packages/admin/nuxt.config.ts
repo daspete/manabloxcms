@@ -8,9 +8,9 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      API_URL: 'http://localhost',
-      UPLOAD_ENDPOINT: 'http://localhost',
-      THUMBNAIL_ENDPOINT: 'http://localhost',
+      API_URL: '',
+      UPLOAD_ENDPOINT: '',
+      THUMBNAIL_ENDPOINT: '',
     },
   },
 
@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   apollo: {
     clients: {
       default: {
-        httpEndpoint: 'http://localhost',
+        httpEndpoint: '',
         defaultOptions: {
           query: {
             fetchPolicy: 'network-only',
