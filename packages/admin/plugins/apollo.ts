@@ -17,6 +17,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   const accessToken = useCookie('accesstoken');
   const refreshToken = useCookie('refreshtoken');
 
+  console.log('apollo url', runtimeConfig.public.API_URL);
+
   const httpLink = createHttpLink({
     uri: runtimeConfig.public.API_URL,
   });
