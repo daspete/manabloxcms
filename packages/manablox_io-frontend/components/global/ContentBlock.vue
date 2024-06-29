@@ -23,5 +23,8 @@ const content = computed(() => {
 </script>
 
 <template>
-  <div>{{ headline }} {{ content }}</div>
+  <div>
+    <h2>{{ headline }}</h2>
+    <div v-html="content" />
+  </div>
 </template>

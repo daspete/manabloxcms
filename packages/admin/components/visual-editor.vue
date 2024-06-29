@@ -144,7 +144,7 @@ const postMessageHandler = (event: MessageEvent<MessageData>) => {
 
 <template>
   <div
-    class="w-full h-full bg-white absolute left-0 top-0 flex flex-col justify-stretch"
+    class="w-full h-full bg-surface-50 dark:bg-surface-900 absolute left-0 top-0 flex flex-col justify-stretch"
   >
     <div class="flex justify-end shadow w-full">
       <div class="px-4 py-2">
