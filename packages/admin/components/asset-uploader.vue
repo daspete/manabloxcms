@@ -130,7 +130,7 @@ const uploadFile = async (file: File) => {
               multiple
               class="opacity-0 w-1 h-1 overflow-hidden absolute"
               @change="onFileChange"
-            >
+            />
 
             <label for="fileinput" class="cursor-pointer w-full">
               <div class="flex flex-col gap-2 items-center">

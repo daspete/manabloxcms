@@ -12,6 +12,8 @@ const route = useRoute();
 const router = useRouter();
 const toast = useToast();
 
+const { emit } = useGlobalEventBus();
+
 const { contentType } = useContentTypeQuery({
   contentTypeId: route.params.contentTypeId,
 });
@@ -47,6 +49,12 @@ const createAndPublishContent = async () => {
 
   try {
     await mutate();
+
+    emit('content:created', {
+      parentId: content.value.parent?.contentId,
+      contentId: content.value.contentId,
+    });
+
     router.push(
       `/cms/contents/${content.value.type?.contentTypeId}/${content.value.contentId}`,
     );
@@ -75,6 +83,12 @@ const createContent = async (redirect = true) => {
 
   try {
     await mutate();
+
+    emit('content:created', {
+      parentId: content.value.parent?.contentId,
+      contentId: content.value.contentId,
+    });
+
     toast.add({
       severity: 'success',
       summary: 'Success',

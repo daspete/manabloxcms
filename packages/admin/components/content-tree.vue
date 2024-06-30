@@ -28,6 +28,64 @@ const { loading, contentTree, refetch } = useContentTreeQuery({
   parentId: props.parent || null,
 });
 
+const { on } = useGlobalEventBus();
+
+on('content:created', (payload) => {
+  const parentId = payload.parentId || null;
+  const contentId = payload.contentId;
+
+  if (!contentId) return;
+
+  const child = props.children.find((item) => item.contentId === contentId);
+
+  if (child) {
+    refetch({
+      parentId: props.parent || null,
+    });
+
+    return;
+  }
+
+  if (props.parent === null && parentId === null) {
+    refetch({
+      parentId: null,
+    });
+
+    return;
+  }
+
+  if (parentId === props.parent) {
+    refetch({
+      parentId: props.parent || null,
+    });
+
+    return;
+  }
+
+  for (let i = 0; i < props.children.length; i++) {
+    if (props.children[i].contentId === parentId) {
+      refetch({
+        parentId: props.parent || null,
+      });
+
+      return;
+    }
+  }
+});
+on('content:updated', (payload) => {
+  const contentId = payload.contentId;
+
+  if (!contentId) return;
+
+  const child = props.children.find((item) => item.contentId === contentId);
+
+  if (!child) return;
+
+  refetch({
+    parentId: props.parent || null,
+  });
+});
+
 const openTreeContents = ref<Array<string>>([]);
 
 const toggleOpen = (contentId: string) => {

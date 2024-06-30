@@ -10,6 +10,8 @@ definePageMeta({
 const route = useRoute();
 const toast = useToast();
 
+const { emit } = useGlobalEventBus();
+
 const { loading: contentTypeLoading, contentType } = useContentTypeQuery({
   contentTypeId: route.params.contentTypeId,
 });
@@ -43,6 +45,11 @@ const updateAndPublishContent = async () => {
   try {
     await mutate();
 
+    emit('content:updated', {
+      parentId: content.value.parent?.contentId,
+      contentId: content.value.contentId,
+    });
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     mutationErrors.value = err.message.split(',');
@@ -69,6 +76,12 @@ const updateContent = async () => {
 
   try {
     await mutate();
+
+    emit('content:updated', {
+      parentId: content.value.parent?.contentId,
+      contentId: content.value.contentId,
+    });
+
     toast.add({
       severity: 'success',
       summary: 'Success',
