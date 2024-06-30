@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { v4 as uuid4 } from 'uuid';
 import type { Content } from '~/generated/graphql/graphql';
-import createContentMutation from '~/graphql/contents/create-content.mutation.gql';
-import publishContentMutation from '~/graphql/contents/publish-content.mutation.gql';
+
+const { create, isCreating, errors } = useCreateContentMutation();
+
+const {
+  publish,
+  isPublishing,
+  errors: publishErrors,
+} = usePublishContentMutation();
 
 definePageMeta({
   middleware: ['is-authenticated'],
@@ -11,8 +17,6 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();
-
-const { emit } = useGlobalEventBus();
 
 const { contentType } = useContentTypeQuery({
   contentTypeId: route.params.contentTypeId,
@@ -31,36 +35,26 @@ const content = ref<Partial<Content>>({
   fields: [],
 });
 
-const isCreating = ref(false);
-const mutationErrors = ref<string[]>([]);
-
 const createAndPublishContent = async () => {
-  const createSuccess = await createContent(false);
-
+  // const createSuccess = await createContent(false);
+  const createSuccess = await createContent(false, false);
   if (!createSuccess) return;
 
-  isCreating.value = true;
-
-  const { mutate } = useMutation(publishContentMutation, {
-    variables: {
-      contentId: content.value.contentId,
-    },
-  });
-
   try {
-    await mutate();
+    if (!content.value.contentId) return;
+    await publish(content.value.contentId);
 
-    emit('content:created', {
-      parentId: content.value.parent?.contentId,
-      contentId: content.value.contentId,
+    toast.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: `Content published.`,
+      life: 2000,
     });
 
     router.push(
       `/cms/contents/${content.value.type?.contentTypeId}/${content.value.contentId}`,
     );
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    mutationErrors.value = err.message.split(',');
+  } catch (err) {
     toast.add({
       severity: 'error',
       summary: 'Error while publishing content',
@@ -68,35 +62,20 @@ const createAndPublishContent = async () => {
       life: 3000,
     });
   }
-
-  isCreating.value = false;
 };
 
-const createContent = async (redirect = true) => {
-  isCreating.value = true;
-
-  const { mutate } = useMutation(createContentMutation, {
-    variables: {
-      content: prepareContentForMutation(clone(content.value)),
-    },
-  });
-
+const createContent = async (redirect = true, showToast = true) => {
   try {
-    await mutate();
+    await create(content.value);
 
-    emit('content:created', {
-      parentId: content.value.parent?.contentId,
-      contentId: content.value.contentId,
-    });
-
-    toast.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: `Content created.`,
-      life: 2000,
-    });
-
-    isCreating.value = false;
+    if (showToast) {
+      toast.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: `Content created.`,
+        life: 2000,
+      });
+    }
 
     if (redirect) {
       router.push(
@@ -105,18 +84,13 @@ const createContent = async (redirect = true) => {
     } else {
       return true;
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    mutationErrors.value = err.message.split(',');
+  } catch (err) {
     toast.add({
       severity: 'error',
-      summary: 'Error while updating content',
+      summary: 'Error while creating content',
       detail: 'Have a look at the errors and try again.',
       life: 3000,
     });
-
-    isCreating.value = false;
     return false;
   }
 };
@@ -173,7 +147,11 @@ const createContent = async (redirect = true) => {
       </div>
     </div>
 
-    <Message v-for="error in mutationErrors" :key="error" severity="error">
+    <Message v-for="error in errors" :key="error" severity="error">
+      {{ error }}
+    </Message>
+
+    <Message v-for="error in publishErrors" :key="error" severity="error">
       {{ error }}
     </Message>
 
@@ -183,6 +161,6 @@ const createContent = async (redirect = true) => {
       :content="content"
     />
 
-    <BlockUI :blocked="isCreating" full-screen />
+    <BlockUI :blocked="isCreating || isPublishing" full-screen />
   </div>
 </template>
