@@ -12,5 +12,8 @@ declare module '#app' {
     'content:created': (contentCreatedParams: ContentHookParams) => HookResult;
     'content:updated': (contentUpdatedParams: ContentHookParams) => HookResult;
     'content:deleted': (contentCreatedParams: ContentHookParams) => HookResult;
+    'content:published': (
+      contentPublishedParams: ContentHookParams,
+    ) => HookResult;
   }
 }
