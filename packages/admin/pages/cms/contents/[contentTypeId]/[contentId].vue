@@ -118,9 +118,9 @@ const onVisualEditorClose = () => {
   <div class="container pt-8">
     <div class="flex justify-between mb-8 items-center">
       <span class="text-2xl font-bold dark:text-white flex items-center gap-2">
-        <span v-if="contentType.icon" class="flex items-center"
-          ><i :class="contentType.icon"
-        /></span>
+        <span v-if="contentType.icon" class="flex items-center">
+          <i :class="contentType.icon" />
+        </span>
         <span> Update {{ content.title }} </span>
       </span>
       <div class="flex gap-2">
@@ -145,11 +145,7 @@ const onVisualEditorClose = () => {
           type="button"
           label="Update"
           icon="i-mdi-content-save"
-          @click="
-            () => {
-              updateAndPublishContent();
-            }
-          "
+          @click="updateAndPublishContent"
         />
         <SplitButton
           v-else
