@@ -21,6 +21,6 @@ const image = computed(() => {
 
 <template>
   <div>
-    <img v-if="image" :src="image.url" >
+    <img v-if="image" :src="image.url" />
   </div>
 </template>
