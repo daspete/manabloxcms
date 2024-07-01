@@ -66,7 +66,7 @@ const login = async () => {
           B
         </div>
       </div>
-      <div class="font-bold uppercase">Login</div>
+      <div class="font-bold uppercase">CMS Login</div>
     </div>
 
     <div class="flex flex-col gap-2">
@@ -80,7 +80,6 @@ const login = async () => {
 
       <Button
         label="Sign in"
-        icon="i-mdi-lock"
         :loading="isLoading"
         :disabled="!loginData.email || !loginData.password"
         @click="login"

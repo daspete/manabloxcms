@@ -1,13 +1,21 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="flex h-screen w-screen items-center">
-    <div class="self-stretch w-1/2 shadow-xl shadow-black">
-      <img src="/images/auth.jpg" class="w-full h-full object-cover" />
+  <div class="h-screen w-screen items-center">
+    <img src="/images/auth.jpg" class="w-full h-full object-cover" />
+
+    <div class="w-full h-full absolute top-0 left-0">
+      <div class="container h-full">
+        <div class="flex justify-end h-full w-full">
+          <div
+            class="px-4 flex justify-center bg-white/70 backdrop-blur w-[350px] shadow-white/80 shadow-xl"
+          >
+            <NuxtPage />
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="flex-1 px-4 flex justify-center">
-      <NuxtPage />
-    </div>
+
     <Toast position="top-center" />
   </div>
 </template>

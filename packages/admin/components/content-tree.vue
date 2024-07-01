@@ -22,13 +22,12 @@ const props = defineProps({
   },
 });
 
+const { on } = useGlobalEventBus();
 const toast = useToast();
 const confirm = useConfirm();
 const { loading, contentTree, refetch } = useContentTreeQuery({
   parentId: props.parent || null,
 });
-
-const { on } = useGlobalEventBus();
 
 on('content:created', (payload) => {
   const parentId = payload.parentId || null;
@@ -88,6 +87,9 @@ on('content:updated', (payload) => {
 
 const openTreeContents = ref<Array<string>>([]);
 
+const isOpen = (contentId: string) => {
+  return openTreeContents.value.includes(contentId);
+};
 const toggleOpen = (contentId: string) => {
   const index = openTreeContents.value.indexOf(contentId);
   if (index === -1) {
@@ -98,11 +100,6 @@ const toggleOpen = (contentId: string) => {
 };
 
 const menuOverlays = ref<Array<OverlayPanel>>([]);
-
-const isOpen = (contentId: string) => {
-  return openTreeContents.value.includes(contentId);
-};
-
 const toggleMenuOverlay = (event: MouseEvent, index: number) => {
   menuOverlays.value[index].toggle(event);
 };
@@ -114,7 +111,6 @@ const treeMenuTypes = computed(() => {
 });
 
 const isDeleting = ref(false);
-
 const deleteContent = async (content: Partial<Content>) => {
   isDeleting.value = true;
 
@@ -146,7 +142,6 @@ const deleteContent = async (content: Partial<Content>) => {
     isDeleting.value = false;
   }
 };
-
 const confirmContentDeletion = (event: MouseEvent, content: Content) => {
   confirm.require({
     target: event.currentTarget as HTMLElement,
