@@ -6,6 +6,8 @@ import { ContentTypeInput } from './content-type.input';
 import { isUUID, minLength } from 'class-validator';
 import { ContentTypeFieldInput } from '../content-type-field/content-type-field.input';
 import { randomUUID } from 'crypto';
+import { ContentTypeQueryInput } from './content-type-query.input';
+import { PaginatedContentTypes } from './paginated-content-types.type';
 
 @Injectable()
 export class ContentTypeService {
@@ -14,9 +16,47 @@ export class ContentTypeService {
     private readonly contentTypeModel: Model<ContentType>,
   ) {}
 
+  buildQuery(query: ContentTypeQueryInput[]): Record<string, any> {
+    const filter = {};
+
+    for (let i = 0; i < query.length; i++) {
+      const filterKeys = Object.keys(query[i]);
+
+      for (let j = 0; j < filterKeys.length; j++) {
+        const filterKey = filterKeys[j];
+        const filterValue = query[i][filterKey];
+        filter[filterKey] = filterValue;
+      }
+    }
+
+    return filter;
+  }
+
   async findAll(): Promise<ContentType[]> {
     const items = await this.contentTypeModel.find().exec();
     return items.map((item) => item.toJSON());
+  }
+
+  async findPaginated(
+    query: ContentTypeQueryInput[],
+    limit: number,
+    page: number,
+  ): Promise<PaginatedContentTypes> {
+    const filter = this.buildQuery(query);
+
+    const total = await this.contentTypeModel.countDocuments(filter).exec();
+    const items = await this.contentTypeModel
+      .find(filter)
+      .limit(limit)
+      .skip((page - 1) * limit)
+      .exec();
+
+    return {
+      total,
+      page,
+      limit,
+      items: items.map((item) => item.toJSON()),
+    };
   }
 
   async find(query: any): Promise<ContentType[]> {
@@ -36,6 +76,10 @@ export class ContentTypeService {
       .exec();
     if (!contentType) return null;
     return contentType.toJSON();
+  }
+
+  async filter(query: ContentTypeQueryInput[]): Promise<ContentType[]> {
+    return this.find(this.buildQuery(query));
   }
 
   async create(contentType: ContentTypeInput): Promise<ContentType> {

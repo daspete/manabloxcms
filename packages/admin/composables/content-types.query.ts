@@ -1,8 +1,13 @@
-import type { ContentType } from '~/generated/graphql/graphql';
+import type { PaginatedContentTypes } from '~/generated/graphql/graphql';
 import contentTypesQuery from '~/graphql/content-types/content-types.query.gql';
 
 export const useContentTypesQuery = (variables = {}) => {
-  const contentTypes = ref<Array<ContentType>>([]);
+  const contentTypes = ref<PaginatedContentTypes>({
+    total: 0,
+    page: 0,
+    limit: 0,
+    items: [],
+  });
   const loading = ref(true);
 
   const refetch = async (_variables = {}) => {

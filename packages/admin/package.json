@@ -7,6 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "codegen": "yarn graphql-codegen",
     "postinstall": "nuxt prepare",
     "typecheck": "nuxt typecheck",
     "format": "prettier --write --list-different .",
@@ -41,5 +42,5 @@
     "typescript": "^5.4.5",
     "prettier": "^3.2.5"
   },
-  "version": "1.6.0"
+  "version": "1.7.1"
 }

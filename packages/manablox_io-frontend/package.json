@@ -9,6 +9,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "codegen": "yarn graphql-codegen",
     "postinstall": "nuxt prepare",
     "typecheck": "nuxt typecheck",
     "format": "prettier --write --list-different .",
