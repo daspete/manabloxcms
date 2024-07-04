@@ -382,6 +382,12 @@ export type ContentTypeInput = {
   space?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type ContentTypeQueryInput = {
+  isBlockType?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  space?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type DateField = {
   __typename?: 'DateField';
   date: Scalars['DateTime']['output'];
@@ -531,6 +537,14 @@ export type NumberFieldTypeSettingsInput = {
   precision?: InputMaybe<Scalars['Float']['input']>;
 };
 
+export type PaginatedContentTypes = {
+  __typename?: 'PaginatedContentTypes';
+  items: Array<ContentType>;
+  limit: Scalars['Float']['output'];
+  page: Scalars['Float']['output'];
+  total: Scalars['Float']['output'];
+};
+
 export type PaginatedContents = {
   __typename?: 'PaginatedContents';
   items: Array<Content>;
@@ -553,8 +567,9 @@ export type Query = {
   content: Content;
   contentTree: Array<ContentTree>;
   contentType: ContentType;
-  contentTypes: Array<ContentType>;
+  contentTypes: PaginatedContentTypes;
   contents: PaginatedContents;
+  filterContentTypes: Array<ContentType>;
   logout: Scalars['Boolean']['output'];
   me: User;
   signIn: AuthTokens;
@@ -575,10 +590,20 @@ export type QueryContentTypeArgs = {
   contentTypeId: Scalars['String']['input'];
 };
 
+export type QueryContentTypesArgs = {
+  limit?: Scalars['Float']['input'];
+  page?: Scalars['Float']['input'];
+  query?: InputMaybe<Array<ContentTypeQueryInput>>;
+};
+
 export type QueryContentsArgs = {
   limit?: Scalars['Int']['input'];
   page?: Scalars['Int']['input'];
   query?: InputMaybe<Array<ContentQueryInput>>;
+};
+
+export type QueryFilterContentTypesArgs = {
+  query?: InputMaybe<Array<ContentTypeQueryInput>>;
 };
 
 export type QuerySignInArgs = {

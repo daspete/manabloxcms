@@ -1,32 +1,33 @@
 <script setup lang="ts">
+import type { PageState } from 'primevue/paginator';
 import { useConfirm } from 'primevue/useconfirm';
 import type { ContentType } from '~/generated/graphql/graphql';
-import deleteContentTypeMutation from '~/graphql/content-types/delete-content-type.mutation.gql';
 
 definePageMeta({
   middleware: ['is-authenticated'],
 });
 
-const { loading, contentTypes, refetch } = useContentTypesQuery();
-// const router = useRouter();
+const variables = ref<{ page: number; limit: number }>({
+  page: 1,
+  limit: 10,
+});
+
+const { loading, contentTypes, refetch } = useContentTypesQuery(
+  variables.value,
+);
+const { isDeleting, remove } = useDeleteContentTypeMutation();
+
 const confirm = useConfirm();
 const toast = useToast();
 
-const isDeleting = ref(false);
-
-// const onContentTypeSelect = (event: any) => {
-//   router.push(`/cms/content-types/${event.data.name}`);
-// };
+const possiblePageLimits = [10, 20, 50, 100];
 
 const deleteContentType = async (contentType: Partial<ContentType>) => {
-  isDeleting.value = true;
-
-  const { mutate } = await useMutation(deleteContentTypeMutation, {
-    variables: { contentTypeId: contentType.contentTypeId },
-  });
+  if (!contentType.contentTypeId) return;
 
   try {
-    await mutate();
+    await remove(contentType.contentTypeId);
+
     toast.add({
       severity: 'success',
       summary: 'Success',
@@ -42,8 +43,6 @@ const deleteContentType = async (contentType: Partial<ContentType>) => {
       detail: err.message,
       life: 3000,
     });
-  } finally {
-    isDeleting.value = false;
   }
 };
 
@@ -63,6 +62,17 @@ const confirmContentTypeDeletion = (
     reject: () => {},
   });
 };
+
+const changePage = (event: PageState) => {
+  variables.value.page = event.page + 1;
+  refetch(variables.value);
+};
+
+const changeLimit = (limit: number) => {
+  variables.value.limit = limit;
+  variables.value.page = 1;
+  refetch(variables.value);
+};
 </script>
 
 <template>
@@ -77,29 +87,13 @@ const confirmContentTypeDeletion = (
     <div>
       <div class="shadow">
         <DataTable
-          :value="contentTypes"
-          paginator
-          :rows="10"
+          :total-records="contentTypes.total"
+          :value="contentTypes.items"
           striped-rows
-          :loading="loading"
           removable-sort
-          :rows-per-page-options="[5, 10, 20, 50]"
-          paginator-template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
-          current-page-report-template="{first} to {last} of {totalRecords}"
+          :loading="loading"
+          class="shadow"
         >
-          <template #paginatorstart>
-            <Button
-              type="button"
-              label="Reload"
-              icon="i-mdi-reload"
-              rounded
-              size="small"
-              @click="refetch"
-            />
-          </template>
-
-          <template #paginatorend />
-
           <template #empty>No content types added yet.</template>
 
           <Column field="name" header="Name" sortable>
@@ -145,6 +139,16 @@ const confirmContentTypeDeletion = (
             </template>
           </Column>
         </DataTable>
+
+        <Paginator
+          v-if="contentTypes.total > variables.limit"
+          :total-records="contentTypes.total"
+          :rows="10"
+          :rows-per-page-options="possiblePageLimits"
+          class="shadow"
+          @page="changePage"
+          @update:rows="changeLimit"
+        />
       </div>
     </div>
 

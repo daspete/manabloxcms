@@ -1,19 +1,28 @@
-query contentTypes {
-  contentTypes {
-    contentTypeId
-    name
-    isBlockType
-    isPublishable
-    canBeVisibleInMenu
-    isVisibleInTree
-
-    icon
-
-    space {
-      spaceId
+query contentTypes(
+  $query: [ContentTypeQueryInput!]
+  $limit: Float!
+  $page: Float!
+) {
+  contentTypes(query: $query, limit: $limit, page: $page) {
+    total
+    limit
+    page
+    items {
+      contentTypeId
       name
-      technicalName
-      description
+      isBlockType
+      isPublishable
+      canBeVisibleInMenu
+      isVisibleInTree
+
+      icon
+
+      space {
+        spaceId
+        name
+        technicalName
+        description
+      }
     }
   }
 }
