@@ -11,6 +11,8 @@ import { ContentTypeService } from './content-type.service';
 import { ContentTypeInput } from './content-type.input';
 import { Space } from '../../../space/space.model';
 import { SpaceService } from '../../../space/space.service';
+import { ContentTypeQueryInput } from './content-type-query.input';
+import { PaginatedContentTypes } from './paginated-content-types.type';
 
 @Resolver(() => ContentType)
 export class ContentTypeResolver {
@@ -20,8 +22,27 @@ export class ContentTypeResolver {
   ) {}
 
   @Query(() => [ContentType])
-  async contentTypes() {
-    return this.contentTypeService.findAll();
+  async filterContentTypes(
+    @Args('query', {
+      type: () => [ContentTypeQueryInput],
+      nullable: true,
+    })
+    query: ContentTypeQueryInput[] = [],
+  ) {
+    return this.contentTypeService.filter(query);
+  }
+
+  @Query(() => PaginatedContentTypes)
+  async contentTypes(
+    @Args('query', {
+      type: () => [ContentTypeQueryInput],
+      nullable: true,
+    })
+    query: ContentTypeQueryInput[] = [],
+    @Args('limit', { type: () => Number, defaultValue: 10 }) limit: number,
+    @Args('page', { type: () => Number, defaultValue: 1 }) page: number,
+  ) {
+    return this.contentTypeService.findPaginated(query, limit, page);
   }
 
   @Query(() => ContentType)
