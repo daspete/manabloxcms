@@ -1,0 +1,6 @@
+fragment BooleanFieldFields on BooleanField {
+  type
+  fieldId
+  name
+  boolean
+}

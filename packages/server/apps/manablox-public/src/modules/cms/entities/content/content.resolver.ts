@@ -1,5 +1,6 @@
 import {
   Args,
+  Directive,
   Int,
   Parent,
   Query,
@@ -39,6 +40,7 @@ export class ContentResolver {
   }
 
   @Query(() => Content, { nullable: true })
+  @Directive('@cacheControl(maxAge: 1)')
   async contentByPermalink(
     @Args('permalink', { type: () => String }) permalink: string,
   ) {

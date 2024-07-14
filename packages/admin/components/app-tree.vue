@@ -1,6 +1,12 @@
 <script setup lang="ts">
 const { isOpen } = useTree();
-const { contentTypes } = useContentTypesQuery();
+
+const variables = ref<{ page: number; limit: number }>({
+  page: 1,
+  limit: 1000,
+});
+
+const { contentTypes } = useContentTypesQuery(variables.value);
 
 const isTreeVisible = ref(true);
 
@@ -30,7 +36,10 @@ const refreshTree = async () => {
       <div class="flex-1 overflow-hidden">
         <ScrollPanel class="w-full h-full px-2">
           <div class="border-b">
-            <ContentTree v-if="isTreeVisible" :content-types="contentTypes" />
+            <ContentTree
+              v-if="isTreeVisible"
+              :content-types="contentTypes.items"
+            />
           </div>
         </ScrollPanel>
       </div>

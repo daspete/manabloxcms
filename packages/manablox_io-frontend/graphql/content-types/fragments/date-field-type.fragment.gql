@@ -1,0 +1,19 @@
+fragment DateFieldTypeFields on DateFieldType {
+  name
+  type
+  fieldId
+  fieldSettings {
+    isRequired
+  }
+  adminSettings {
+    zone
+    width
+  }
+  dateSettings {
+    minDate
+    maxDate
+    excludedDates
+    possibleDates
+    defaultValue
+  }
+}

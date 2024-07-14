@@ -1,0 +1,21 @@
+fragment StringFieldTypeFields on StringFieldType {
+  name
+  type
+  fieldId
+  fieldSettings {
+    isRequired
+  }
+  adminSettings {
+    zone
+    width
+  }
+  stringSettings {
+    minCharacters
+    maxCharacters
+    defaultValue
+    regex
+    isRichText
+    isCodeBlock
+    isTextArea
+  }
+}

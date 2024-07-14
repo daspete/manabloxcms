@@ -8,6 +8,7 @@ export class AssetRelationFieldResolver {
 
   @ResolveField()
   async asset(@Parent() parent: AssetRelationField) {
+    if (!parent.asset) return null;
     return this.assetService.findById(parent.asset);
   }
 }

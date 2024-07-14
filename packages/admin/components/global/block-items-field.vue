@@ -82,6 +82,11 @@ const getFirstStringFieldInBlock = (block: BlockInput) => {
 
   return firstStringField?.string || '';
 };
+
+const togglePanel = (panelId: string) => {
+  const panel = document.getElementById(panelId);
+  panel?.click();
+};
 </script>
 
 <template>
@@ -150,19 +155,23 @@ const getFirstStringFieldInBlock = (block: BlockInput) => {
             toggleable
             collapsed
           >
-            <template #header>
+            <template #header="{ id }">
               <div class="flex items-center gap-2">
                 <div class="drag-handle">
                   <button class="flex items-center">
                     <i class="i-mdi-menu" />
                   </button>
                 </div>
-                <div class="flex-1 flex gap-2 items-center">
+                <div
+                  class="flex-1 flex gap-2 items-center cursor-pointer"
+                  @click="togglePanel(id)"
+                >
                   <span
                     v-if="getBlockType(block.type)?.icon"
                     class="flex items-center"
-                    ><i :class="getBlockType(block.type)?.icon"
-                  /></span>
+                  >
+                    <i :class="getBlockType(block.type)?.icon" />
+                  </span>
                   <span>
                     {{ getBlockType(block.type)?.name }}
                     <span class="ml-2 text-xs">

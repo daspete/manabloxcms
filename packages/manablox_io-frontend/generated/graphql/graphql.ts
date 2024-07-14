@@ -38,6 +38,7 @@ export type Asset = {
   name: Scalars['String']['output'];
   size: Scalars['Float']['output'];
   type: Scalars['String']['output'];
+  url?: Maybe<Scalars['String']['output']>;
   width?: Maybe<Scalars['Float']['output']>;
 };
 

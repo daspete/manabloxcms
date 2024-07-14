@@ -11,8 +11,8 @@ async function bootstrap() {
 
   app.enableCors({
     origin: process.env.CORS_DOMAINS
-      ? process.env.CORS_DOMAINS.split(',')
-      : ['http://admin.manablox.test'],
+      ? process.env.PUBLIC_API_CORS_DOMAINS.split(',')
+      : ['http://manablox.test'],
   });
 
   // app.use(

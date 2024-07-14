@@ -21,9 +21,9 @@ export class Content {
   @Prop()
   contentId: string;
 
-  @Field(() => ContentType)
+  @Field(() => ContentType, { nullable: true })
   @Prop()
-  type: string;
+  type?: string;
 
   @Field()
   @Prop()
@@ -35,7 +35,7 @@ export class Content {
 
   @Field(() => Content, { nullable: true })
   @Prop({ nullable: true })
-  parent: string;
+  parent?: string;
 
   @Field()
   @Prop()

@@ -12,25 +12,19 @@ export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
   async findAll(): Promise<User[]> {
-    const items = await this.userModel.find().exec();
-    return items.map((item) => item.toJSON());
+    return this.userModel.find().lean();
   }
 
   async find(query: any): Promise<User[]> {
-    const items = await this.userModel.find(query).exec();
-    return items.map((item) => item.toJSON());
+    return this.userModel.find(query).lean();
   }
 
   async findById(userId: string): Promise<User> {
-    const user = await this.userModel.findOne({ userId }).exec();
-    if (!user) return null;
-    return user.toJSON();
+    return this.userModel.findOne({ userId }).lean();
   }
 
   async findOne(query: any): Promise<User> {
-    const user = await this.userModel.findOne(query).exec();
-    if (!user) return null;
-    return user.toJSON();
+    return this.userModel.findOne(query).lean();
   }
 
   async create(user: UserInput): Promise<User> {

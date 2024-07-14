@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const { contentTypes } = useContentTypesQuery();
+const { contentTypes } = useContentTypesQuery({
+  page: 1,
+  limit: 1000,
+});
 
 const props = defineProps({
   field: {
@@ -13,7 +16,9 @@ if (!props.field.blocksSettings) {
 }
 
 const blockTypes = computed(() =>
-  contentTypes.value.filter((contentType) => contentType.isBlockType === true),
+  contentTypes.value.items.filter(
+    (contentType) => contentType.isBlockType === true,
+  ),
 );
 </script>
 
