@@ -1,0 +1,31 @@
+fragment BlockItemsFieldTypeFields on BlockItemsFieldType {
+  name
+  type
+  fieldId
+  fieldSettings {
+    isRequired
+  }
+  adminSettings {
+    zone
+    width
+  }
+  blocksSettings {
+    possibleBlockTypes {
+      contentTypeId
+      name
+      isBlockType
+      isPublishable
+      canBeVisibleInMenu
+      isVisibleInTree
+
+      icon
+
+      space {
+        spaceId
+        name
+        technicalName
+        description
+      }
+    }
+  }
+}

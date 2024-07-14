@@ -13,6 +13,9 @@ export class Asset {
   @Prop()
   assetId: string;
 
+  @Prop()
+  disk: string;
+
   @Field()
   @Prop()
   name: string;

@@ -20,8 +20,6 @@ const { isDeleting, remove } = useDeleteContentTypeMutation();
 const confirm = useConfirm();
 const toast = useToast();
 
-const possiblePageLimits = [10, 20, 50, 100];
-
 const deleteContentType = async (contentType: Partial<ContentType>) => {
   if (!contentType.contentTypeId) return;
 
@@ -143,8 +141,7 @@ const changeLimit = (limit: number) => {
         <Paginator
           v-if="contentTypes.total > variables.limit"
           :total-records="contentTypes.total"
-          :rows="10"
-          :rows-per-page-options="possiblePageLimits"
+          :rows="variables.limit"
           class="shadow"
           @page="changePage"
           @update:rows="changeLimit"

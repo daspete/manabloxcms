@@ -19,8 +19,6 @@ const toast = useToast();
 
 const isDeleting = ref(false);
 
-const possiblePageLimits = [10, 20, 50, 100];
-
 const createContentOfType = (contentType: ContentType) => {
   router.push(`/cms/contents/create/null/${contentType.contentTypeId}`);
 };
@@ -151,8 +149,7 @@ const changeLimit = (limit: number) => {
         <Paginator
           v-if="contents.total > variables.limit"
           :total-records="contents.total"
-          :rows="10"
-          :rows-per-page-options="possiblePageLimits"
+          :rows="variables.limit"
           class="shadow"
           @page="changePage"
           @update:rows="changeLimit"

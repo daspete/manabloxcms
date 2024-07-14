@@ -15,7 +15,10 @@ const {
   contentTypes,
   loading: contentTypesLoading,
   refetch: refreshContentTypes,
-} = useContentTypesQuery();
+} = useContentTypesQuery({
+  page: 1,
+  limit: 1000,
+});
 const {
   create: createSpaceMutation,
   isCreating: isCreatingSpace,
@@ -127,11 +130,11 @@ const createContentType = async () => {
               <div>{{ spaces.items.length }}</div>
             </div>
             <div
-              v-if="!contentTypesLoading && contentTypes.length > 0"
+              v-if="!contentTypesLoading && contentTypes.items.length > 0"
               class="flex gap-2"
             >
               <div class="flex-1">Content types</div>
-              <div>{{ contentTypes.length }}</div>
+              <div>{{ contentTypes.items.length }}</div>
             </div>
             <div
               v-else-if="!contentTypesLoading"

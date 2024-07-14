@@ -38,6 +38,7 @@ export type Asset = {
   name: Scalars['String']['output'];
   size: Scalars['Float']['output'];
   type: Scalars['String']['output'];
+  url?: Maybe<Scalars['String']['output']>;
   width?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -167,7 +168,7 @@ export type Content = {
   permalink?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
   title: Scalars['String']['output'];
-  type: ContentType;
+  type?: Maybe<ContentType>;
 };
 
 export type ContentFieldsArgs = {

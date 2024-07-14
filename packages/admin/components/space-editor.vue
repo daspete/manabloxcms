@@ -2,7 +2,12 @@
 import type { ContentType, Space } from '~/generated/graphql/graphql';
 import { v4 as uuid4 } from 'uuid';
 
-const { contentTypes } = useContentTypesQuery();
+const variables = ref<{ page: number; limit: number }>({
+  page: 1,
+  limit: 1000,
+});
+
+const { contentTypes } = useContentTypesQuery(variables.value);
 
 const props = defineProps({
   space: {
@@ -12,7 +17,9 @@ const props = defineProps({
 });
 
 const blockTypes = computed(() =>
-  contentTypes.value.filter((contentType) => contentType.isBlockType === true),
+  contentTypes.value.items?.filter(
+    (contentType) => contentType.isBlockType === true,
+  ),
 );
 
 const onSettingsBlockTypeChange = (value: ContentType) => {

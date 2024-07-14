@@ -120,21 +120,14 @@ export class ContentService {
   }
 
   async find(query: any): Promise<Content[]> {
-    const items = await this.contentModel.find(query).exec();
-    return items.map((item) => item.toJSON());
+    return this.contentModel.find(query).lean();
   }
 
   async findOne(query: any): Promise<Content> {
-    const content = await this.contentModel.findOne(query).exec();
-    if (!content) return null;
-    return content.toJSON();
+    return this.contentModel.findOne(query).lean();
   }
 
   async findById(contentId: string): Promise<Content> {
-    const content = await this.contentModel
-      .findOne({ contentId: contentId })
-      .exec();
-    if (!content) return null;
-    return content.toJSON();
+    return this.contentModel.findOne({ contentId: contentId }).lean();
   }
 }

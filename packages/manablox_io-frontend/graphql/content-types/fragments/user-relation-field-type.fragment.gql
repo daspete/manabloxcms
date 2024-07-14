@@ -1,0 +1,21 @@
+fragment UserRelationFieldTypeFields on UserRelationFieldType {
+  name
+  type
+  fieldId
+  fieldSettings {
+    isRequired
+  }
+  adminSettings {
+    zone
+    width
+  }
+  userSettings {
+    defaultValue {
+      userId
+      gender
+      firstname
+      lastname
+      email
+    }
+  }
+}
