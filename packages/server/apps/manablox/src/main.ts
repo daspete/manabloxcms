@@ -10,7 +10,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors({
-    origin: process.env.CORS_DOMAINS
+    origin: process.env.API_CORS_DOMAINS
       ? process.env.API_CORS_DOMAINS.split(',')
       : ['http://admin.manablox.test'],
   });
