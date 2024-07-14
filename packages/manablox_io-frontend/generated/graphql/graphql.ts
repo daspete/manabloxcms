@@ -168,7 +168,7 @@ export type Content = {
   permalink?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
   title: Scalars['String']['output'];
-  type: ContentType;
+  type?: Maybe<ContentType>;
 };
 
 export type ContentFieldsArgs = {
