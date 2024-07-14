@@ -9,6 +9,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SpaceModule } from './modules/space/space.module';
 import { ConfigModule } from '@nestjs/config';
 
+import responseCachePlugin from '@apollo/server-plugin-response-cache';
+import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheControl';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -18,6 +20,10 @@ import { ConfigModule } from '@nestjs/config';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
+      plugins: [
+        ApolloServerPluginCacheControl({ defaultMaxAge: 1 }),
+        responseCachePlugin(),
+      ],
     }),
     AssetModule,
     CmsModule,

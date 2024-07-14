@@ -1,0 +1,12 @@
+fragment UserRelationFieldFields on UserRelationField {
+  name
+  fieldId
+  type
+  user {
+    userId
+    gender
+    firstname
+    lastname
+    email
+  }
+}

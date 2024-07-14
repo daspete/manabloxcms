@@ -1,0 +1,6 @@
+fragment StringFieldFields on StringField {
+  type
+  fieldId
+  name
+  string
+}

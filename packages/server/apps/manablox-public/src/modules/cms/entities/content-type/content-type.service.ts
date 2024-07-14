@@ -11,26 +11,20 @@ export class ContentTypeService {
   ) {}
 
   async findAll(): Promise<ContentType[]> {
-    const items = await this.contentTypeModel.find().exec();
-    return items.map((item) => item.toJSON());
+    return this.contentTypeModel.find().lean();
   }
 
   async find(query: any): Promise<ContentType[]> {
-    const items = await this.contentTypeModel.find(query).exec();
-    return items.map((item) => item.toJSON());
+    return this.contentTypeModel.find(query).lean();
   }
 
   async findOne(query: any): Promise<ContentType> {
-    const contentType = await this.contentTypeModel.findOne(query).exec();
-    if (!contentType) return null;
-    return contentType.toJSON();
+    return this.contentTypeModel.findOne(query).lean();
   }
 
   async findById(contentTypeId: string): Promise<ContentType> {
-    const contentType = await this.contentTypeModel
+    return this.contentTypeModel
       .findOne({ contentTypeId: contentTypeId })
-      .exec();
-    if (!contentType) return null;
-    return contentType.toJSON();
+      .lean();
   }
 }

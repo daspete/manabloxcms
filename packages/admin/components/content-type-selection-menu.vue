@@ -1,5 +1,10 @@
 <script setup lang="ts">
-const { loading, contentTypes } = useContentTypesQuery();
+const variables = ref<{ page: number; limit: number }>({
+  page: 1,
+  limit: 1000,
+});
+
+const { loading, contentTypes } = useContentTypesQuery(variables.value);
 
 const props = defineProps({
   showBlockTypes: {
@@ -8,7 +13,23 @@ const props = defineProps({
   },
 });
 
-defineEmits(['select']);
+const emit = defineEmits(['select']);
+
+const contentTypeItems = computed(() =>
+  contentTypes.value.items
+    .filter((contentType) => {
+      if (props.showBlockTypes) {
+        return true;
+      }
+
+      return !contentType.isBlockType;
+    })
+    .map((contentType) => ({
+      label: contentType.name,
+      icon: contentType.icon || undefined,
+      command: () => emit('select', contentType),
+    })),
+);
 
 const contentTypeSelectionMenu = ref();
 const toggleContentTypeSelectionMenu = (event: MouseEvent) => {
@@ -31,21 +52,7 @@ const toggleContentTypeSelectionMenu = (event: MouseEvent) => {
       id="content-type-selection-menu"
       ref="contentTypeSelectionMenu"
       :popup="true"
-      :model="
-        contentTypes
-          .filter((contentType) => {
-            if (props.showBlockTypes) {
-              return true;
-            }
-
-            return !contentType.isBlockType;
-          })
-          .map((contentType) => ({
-            label: contentType.name,
-            icon: contentType.icon || undefined,
-            command: () => $emit('select', contentType),
-          }))
-      "
+      :model="contentTypeItems"
     />
   </div>
 </template>

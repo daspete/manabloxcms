@@ -1,0 +1,6 @@
+fragment NumberFieldFields on NumberField {
+  type
+  fieldId
+  name
+  number
+}

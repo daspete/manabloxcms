@@ -1,0 +1,11 @@
+fragment AssetRelationFieldFields on AssetRelationField {
+  name
+  fieldId
+  type
+  asset {
+    assetId
+    name
+    type
+    url
+  }
+}

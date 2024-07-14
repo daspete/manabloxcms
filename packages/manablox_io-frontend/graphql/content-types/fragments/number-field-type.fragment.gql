@@ -1,0 +1,18 @@
+fragment NumberFieldTypeFields on NumberFieldType {
+  name
+  type
+  fieldId
+  fieldSettings {
+    isRequired
+  }
+  adminSettings {
+    zone
+    width
+  }
+  numberSettings {
+    min
+    max
+    precision
+    defaultValue
+  }
+}
